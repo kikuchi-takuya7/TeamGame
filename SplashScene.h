@@ -13,9 +13,13 @@ public:
 	void Update() override;
 	void Draw() override;
 	void Release() override;
+	void Imgui_Window() override;
 
 private:
+
+	HANDLE hFile_;        //ファイルのハンドル
 	int hPict_;
 	int alpha_;
 	bool alphaFlag_;
+	
 };

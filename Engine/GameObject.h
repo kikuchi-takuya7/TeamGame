@@ -6,12 +6,9 @@
 #include "SphereCollider.h"
 #include "BoxCollider.h"
 #include "Transform.h"
-
-
-
+#include "Imgui/Imgui.h"
 
 using namespace DirectX;
-
 
 //-----------------------------------------------------------
 //全てのゲームオブジェクト（シーンも含めて）が継承するインターフェース
@@ -21,7 +18,6 @@ using namespace DirectX;
 class GameObject
 {
 protected:
-	
 	//位置や向きなどを管理するオブジェクト
 	Transform				transform_;
 
@@ -41,15 +37,17 @@ public:
 	virtual ~GameObject();
 
 	//各オブジェクトで必ず作る関数
-	virtual void Initialize(void) = 0;
-	virtual void Update(void) = 0;
-	virtual void Draw() = 0;
-	virtual void Release(void) = 0;
+	virtual void Initialize(void) {}
+	virtual void Update(void) {}
+	virtual void Draw() {}
+	virtual void Release(void) {}
+	virtual void Imgui_Window() {}
 
 	//自分の該当関数を読んだ後、子供の関数も呼ぶ
 	void UpdateSub();
 	void DrawSub();
 	void ReleaseSub();
+	void Imgui_WindowSub();
 
 
 	////ローカル行列の取得（このオブジェクトの行列）
@@ -60,7 +58,30 @@ public:
 	//戻値：ワールド行列
 	XMMATRIX GetWorldMatrix();
 
+	/// <summary>
+	/// 呼び出されたオブジェクトのtransformを変更できるスライダーを表示
+	/// </summary>
+	/// <param name="posmin">posの最小値</param>
+	/// <param name="posmax">posの最大値</param>
+	/// <param name="rot">rotの最大値</param>
+	/// <param name="scl">sclの最大値</param>
+	/// <param name="s">表示する名前（Player,positionみたいな）</param>
+	void Setting_Transform(float posmin, float posmax, float rot, float scl, std::string s);
 
+
+	/// <summary>
+	/// 呼び出されたオブジェクトのtransformを保存する関数
+	/// </summary>
+	/// <param name="hFile">クラスで作成したファイルのやつ</param>
+	/// <param name="fileName">セーブするファイルの名前（もしかしたら同じファイル名だと上書きされちゃうから気を付けて）</param>
+	void Save_Transform_File(HANDLE hFile, LPCSTR fileName);
+
+	/// <summary>
+	/// 呼び出されたオブジェクトのtransformをロードする関数
+	/// </summary>
+	/// <param name="hFile">クラスで作成したファイルのやつ</param>
+	/// <param name="fileName">ロードするファイルの名前</param>
+	void Load_Transform_File(HANDLE hFile, LPCSTR fileName);
 
 	//各フラグの制御
 	bool IsDead();			// 削除するかどうか
@@ -87,6 +108,66 @@ public:
 	//引数：name	検索する名前
 	//戻値：見つけたオブジェクトのアドレス（見つからなければnullptr）
 	GameObject* FindChildObject(const std::string& name);
+
+	/// <summary>
+	/// クラス名で検索できるもの
+	/// </summary>
+	template<class C>
+	C* FindGameObject() {
+		auto list = GetChildList();
+		for (GameObject* obj : *list) {
+			C* ret = dynamic_cast<C*>(obj);
+			if (ret != nullptr) {
+				return ret;
+			}
+		}
+		return nullptr;
+	}
+
+	template<class C>
+	std::list<C*> FindGameObjects() {
+		std::list<C*> rets;
+		auto list = GetChildList();
+		for (GameObject* obj : *list) {
+			C* ret = dynamic_cast<C*>(obj);
+			if (ret != nullptr) {
+				rets.push_back(ret);
+			}
+		}
+		return rets;
+	}
+
+	/// <summary>
+	/// クラス名で検索できるもの
+	/// </summary>
+	template<class C>
+	C* FindGameObject(const std::string& tag) {
+		auto list = GetChildList();
+		for (GameObject* obj : *list) {
+			C* ret = dynamic_cast<C*>(obj);
+			if (ret != nullptr) {
+				if (obj->GetObjectName() == tag) {
+					return ret;
+				}
+			}
+		}
+		return nullptr;
+	}
+
+	template<class C>
+	std::list<C*> FindGameObjects(const std::string& tag) {
+		std::list<C*> rets;
+		auto list = GetChildList();
+		for (GameObject* obj : *list) {
+			C* ret = dynamic_cast<C*>(obj);
+			if (ret != nullptr) {
+				if (obj->GetObjectName() == tag) {
+					rets.push_back(ret);
+				}
+			}
+		}
+		return rets;
+	}
 
 	//名前でオブジェクトを検索（対象は全体）
 	//引数：検索する名前
@@ -172,6 +253,7 @@ private:
 
 	//子オブジェクトリスト
 	std::list<GameObject*> childList_;
+
 };
 
 

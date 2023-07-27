@@ -2,6 +2,7 @@
 #include "Direct3D.h"
 #include "Global.h"
 #include "Transform.h"
+#include "../Engine/Imgui/imgui.h"
 
 //‰æ–Ê‚Ì•`‰æ‚ÉŠÖ‚·‚éˆ—
 namespace Direct3D
@@ -391,6 +392,9 @@ namespace Direct3D
 
 		//”wŒi‚ÌF
 		float clearColor[4] = { 0.1f, 0.2f, 0.2f, 1.0f };//R,G,B,A
+		
+		
+		pContext_->OMSetRenderTargets(1, &pRenderTargetView_, nullptr);
 
 		//‰æ–Ê‚ðƒNƒŠƒA
 		pContext_->ClearRenderTargetView(pRenderTargetView_, clearColor);

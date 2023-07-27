@@ -1,6 +1,9 @@
 #include "Input.h"
 #include "Global.h"
 
+#include "Imgui/imgui.h"
+#include "Imgui/imgui_internal.h"
+
 namespace Input
 {
 	//ウィンドウハンドル
@@ -59,9 +62,23 @@ namespace Input
 		pKeyDevice_->GetDeviceState(sizeof(keyState_), &keyState_);
 
 		//マウス
-		pMouseDevice_->Acquire();
-		memcpy(&prevMouseState_, &mouseState_, sizeof(mouseState_));
-		pMouseDevice_->GetDeviceState(sizeof(mouseState_), &mouseState_);
+		bool flag = true;
+		//imguiのウィンドウ上でゲーム画面にマウス入力がいかないようにする
+		ImGuiContext& g = *GImGui;
+		for (int i = 1; i != g.Windows.Size; i++) {//0にはimguiの初期ウィンドウ？みたいなのが入ってるため1から
+			ImGuiWindow* window = g.Windows[i];
+			ImVec2 windowPos = window->Pos;
+			ImVec2 windowSize = window->Size;
+			ImVec2 mousePos = ImGui::GetMousePos();
+			if (mousePos.x > windowPos.x && mousePos.y > windowPos.y && mousePos.x < windowPos.x + windowSize.x && mousePos.y < windowPos.y + windowSize.y) {
+				flag = false;
+			}
+		}
+		if (flag == true) {
+			pMouseDevice_->Acquire();
+			memcpy(&prevMouseState_, &mouseState_, sizeof(mouseState_));
+			pMouseDevice_->GetDeviceState(sizeof(mouseState_), &mouseState_);
+		}
 
 		//コントローラー
 		for (int i = 0; i < MAX_PAD_NUM; i++)

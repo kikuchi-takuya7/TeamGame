@@ -12,7 +12,7 @@
 
 
 //コンストラクタ
-SceneManager::SceneManager(GameObject * parent)
+SceneManager::SceneManager(GameObject* parent)
 	: GameObject(parent, "SceneManager")
 {
 }

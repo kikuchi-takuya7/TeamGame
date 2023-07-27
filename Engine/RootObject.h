@@ -23,5 +23,7 @@ public:
 
 	//ŠJ•ú
 	void Release() override;
+
+	void Imgui_Window() override;
 };
 

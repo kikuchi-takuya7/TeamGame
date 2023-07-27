@@ -17,11 +17,7 @@ GameObject::GameObject(GameObject * parent) :
 
 //コンストラクタ（標準）
 GameObject::GameObject(GameObject * parent, const std::string& name)
-	: pParent_(parent),
-
-
-
-	objectName_(name)
+	: pParent_(parent),objectName_(name)
 {
 	childList_.clear();
 	state_ = { 0, 1, 1, 0 };
@@ -354,6 +350,17 @@ void GameObject::ReleaseSub()
 	Release();
 }
 
+void GameObject::Imgui_WindowSub()
+{
+
+	Imgui_Window();
+
+	for (auto it = childList_.begin(); it != childList_.end(); it++)
+	{
+		(*it)->Imgui_WindowSub();
+	}
+}
+
 
 
 
@@ -369,4 +376,149 @@ XMMATRIX GameObject::GetWorldMatrix(void)
 	return transform_.GetWorldMatrix();
 }
 
+void GameObject::Setting_Transform(float posmin, float posmax, float rot, float scl, std::string str)
+{
 
+	float* p[] = { &transform_.position_.x ,&transform_.position_.y, &transform_.position_.z };
+	float* r[] = { &transform_.rotate_.x ,&transform_.rotate_.y, &transform_.rotate_.z };
+	float s = transform_.scale_.x;
+
+	std::string tmp = str;
+	tmp = str + "sPosition";
+	char* c = new char[tmp.size() + 1];
+	strcpy_s(c, tmp.size() + 1, tmp.c_str());
+	ImGui::SliderFloat3(c, *p, posmin, posmax);
+
+	tmp = str + "sRotate";
+	strcpy_s(c, tmp.size() + 1, tmp.c_str());
+	ImGui::SliderFloat3(c, *r, 0.0f, rot);
+
+	tmp = str + "sScale";
+	strcpy_s(c, tmp.size() + 1, tmp.c_str());
+	ImGui::SliderFloat(c, &s, 0.0f, scl);
+	//ImGui::SliderFloat("float", &f, 0.0f, 1.0f);
+
+	transform_.scale_.x = s;
+	transform_.scale_.y = s;
+	transform_.scale_.z = s;
+
+
+	delete[] c;
+
+}
+
+void GameObject::Save_Transform_File(HANDLE hFile, LPCSTR fileName)
+{
+	hFile = CreateFile(
+		fileName,                 //ファイル名
+		GENERIC_WRITE,           //アクセスモード（書き込み用）
+		0,                      //共有（なし）
+		NULL,                   //セキュリティ属性（継承しない）
+		CREATE_ALWAYS,           //作成方法
+		FILE_ATTRIBUTE_NORMAL,  //属性とフラグ（設定なし）
+		NULL);                  //拡張属性（なし
+
+
+	float* save[] = { &transform_.position_.x, &transform_.position_.y, &transform_.position_.z,
+					  &transform_.rotate_.x, &transform_.rotate_.y, &transform_.rotate_.z,
+					  &transform_.scale_.x };
+
+	const int size = sizeof(save) / sizeof(save[0]);
+
+	std::string s[size];
+
+	for (int i = 0; i < size; i++) {
+		s[i] = std::to_string(*save[i]) + " ";
+	}
+
+	DWORD dwBytes = 0;  //書き込み位置
+
+	for (int i = 0; i < size; i++) {
+
+		WriteFile(
+			hFile,                   //ファイルハンドル
+			s[i].c_str(),                  //保存するデータ（文字列）
+			(DWORD)strlen(s[i].c_str()),   //書き込む文字数
+			&dwBytes,                //書き込んだサイズを入れる変数
+			NULL);                   //オーバーラップド構造体（今回は使わない）
+
+	}
+
+	CloseHandle(hFile);
+}
+
+void GameObject::Load_Transform_File(HANDLE hFile, LPCSTR fileName)
+{
+	hFile = CreateFile(
+		fileName,                 //ファイル名
+		GENERIC_READ,           //アクセスモード（書き込み用）
+		0,                      //共有（なし）
+		NULL,                   //セキュリティ属性（継承しない）
+		OPEN_ALWAYS,           //作成方法
+		FILE_ATTRIBUTE_NORMAL,  //属性とフラグ（設定なし）
+		NULL);
+
+	//ファイルのサイズを取得
+	DWORD fileSize = GetFileSize(hFile, NULL);
+
+	//ファイルのサイズ分メモリを確保
+	char* data;
+	data = new char[fileSize];
+
+	DWORD dwBytes = 0; //読み込み位置
+
+	ReadFile(
+		hFile,     //ファイルハンドル
+		data,      //データを入れる変数
+		fileSize,  //読み込むサイズ
+		&dwBytes,  //読み込んだサイズ
+		NULL);     //オーバーラップド構造体（今回は使わない）
+
+	//ここでファイルサイズ文繰り返して、空白が出たらそれまでの値をポジションなりに入れるとかがよさそう
+	//最初はchar型のtmpに入れといて後でstringに入れなおすとかでもよさそう
+	char* tmp = new char[fileSize];
+	int c = 0, sw = 0;
+	for (DWORD i = 0; i < fileSize; i++) {
+
+		if (data[i] == ' ') {
+			switch (sw)
+			{
+			case 0:
+				transform_.position_.x = std::stof(tmp);
+				break;
+			case 1:
+				transform_.position_.y = std::stof(tmp);
+				break;
+			case 2:
+				transform_.position_.z = std::stof(tmp);
+				break;
+			case 3:
+				transform_.rotate_.x = std::stof(tmp);
+				break;
+			case 4:
+				transform_.rotate_.y = std::stof(tmp);
+				break;
+			case 5:
+				transform_.rotate_.z = std::stof(tmp);
+				break;
+			case 6:
+				transform_.scale_.x = std::stof(tmp);
+				transform_.scale_.y = std::stof(tmp);
+				transform_.scale_.z = std::stof(tmp);
+				break;
+
+			default:
+				break;
+			}
+			sw++;
+			c = 0;
+			continue;
+		}
+		tmp[c] = data[i];
+		c++;
+	}
+	delete[] tmp;
+	delete[] data;
+
+	CloseHandle(hFile);
+}

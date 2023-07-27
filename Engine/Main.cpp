@@ -1,10 +1,4 @@
-
-//
 //　最終更新日：2023/04/06
-//
-
-
-
 #include <Windows.h>
 #include <stdlib.h>
 #include <assert.h>
@@ -18,17 +12,18 @@
 #include "Input.h"
 #include "Audio.h"
 #include "VFX.h"
+#include "Imgui/imgui.h"
+#include "Imgui/imgui_impl_win32.h"
+#include "Imgui/imgui_impl_dx11.h"
 
 #pragma comment(lib,"Winmm.lib")
 
 //定数宣言
 const char* WIN_CLASS_NAME = "SampleGame";	//ウィンドウクラス名
 
-
 //プロトタイプ宣言
 HWND InitApp(HINSTANCE hInstance, int screenWidth, int screenHeight, int nCmdShow);
 LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
-
 
 // エントリーポイント
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
@@ -46,11 +41,11 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	int fpsLimit = GetPrivateProfileInt("GAME", "Fps", 60, ".\\setup.ini");				//FPS（画面更新速度）
 	int isDrawFps = GetPrivateProfileInt("DEBUG", "ViewFps", 0, ".\\setup.ini");		//キャプションに現在のFPSを表示するかどうか
 
-
-
-
 	//ウィンドウを作成
 	HWND hWnd = InitApp(hInstance, screenWidth, screenHeight, nCmdShow);
+
+	char path[] = "D:\project\imgui-master\examples\example_win32_directx11\Debug\example_win32_directx11.exe";
+	//system(path);
 
 	//Direct3D準備
 	Direct3D::Initialize(hWnd, screenWidth, screenHeight);
@@ -64,12 +59,24 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	//オーディオ（効果音）の準備
 	Audio::Initialize();
 
+	// Setup Dear ImGui context
+	IMGUI_CHECKVERSION();
+	ImGui::CreateContext();
+	ImGuiIO& io = ImGui::GetIO(); (void)io;
+	io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls
+	io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
+	//io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;         // Enable Multi-Viewport / Platform Windows
+
+
+	ImGui::StyleColorsDark();
+
+	ImGui_ImplWin32_Init(hWnd);
+	ImGui_ImplDX11_Init(Direct3D::pDevice_, Direct3D::pContext_);
 
 	//ルートオブジェクト準備
 	//すべてのゲームオブジェクトの親となるオブジェクト
 	RootObject* pRootObject = new RootObject;
 	pRootObject->Initialize();
-
 
 	//メッセージループ（何か起きるのを待つ）
 	MSG msg;
@@ -86,6 +93,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		//メッセージなし（ここでゲームの処理）
 		else
 		{
+
 			//時間計測
 			timeBeginPeriod(1);	//時間計測の制度を上げる
 			static int FPS = 0;								//画面更新回数のカウンタ
@@ -116,8 +124,10 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 				lastUpdateTime = nowTime;	//現在の時間（最後に画面を更新した時間）を覚えておく
 				FPS++;						//画面更新回数をカウントする
 
-
-
+				//imguiのinitialize見たいな
+				ImGui_ImplDX11_NewFrame();
+				ImGui_ImplWin32_NewFrame();
+				ImGui::NewFrame();
 
 				//入力（キーボード、マウス、コントローラー）情報を更新
 				Input::Update();
@@ -131,23 +141,27 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 				//エフェクトの更新
 				VFX::Update();
-
-
+				
 				//このフレームの描画開始
-				Direct3D::BeginDraw();
-
+				Direct3D::BeginDraw();//ここで画面を消してその隙に画面を描画する
+				
 				//全オブジェクトを描画
 				//ルートオブジェクトのDrawを呼んだあと、自動的に子、孫のUpdateが呼ばれる
 				pRootObject->DrawSub();
 
+				//Imguiウィンドウの表示
+				pRootObject->Imgui_WindowSub();
+
+				ImGui::Render();
+				ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
+
 				//エフェクトの描画
 				VFX::Draw();
 
+				
+
 				//描画終了
-				Direct3D::EndDraw();
-
-
-
+				Direct3D::EndDraw();//描画処理の交換
 				
 				//ちょっと休ませる
 				Sleep(1);
@@ -156,7 +170,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		}
 	}
 
-	
+	ImGui_ImplDX11_Shutdown();
+	ImGui_ImplWin32_Shutdown();
+	ImGui::DestroyContext();
 
 	//いろいろ解放
 	VFX::Release();
@@ -219,10 +235,17 @@ HWND InitApp(HINSTANCE hInstance, int screenWidth, int screenHeight, int nCmdSho
 	return hWnd;
 }
 
+// Forward declare message handler from imgui_impl_win32.cpp
+extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
 //ウィンドウプロシージャ（何かあった時によばれる関数）
 LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
+
+	//imguiウィンドウのマウス操作を可能にする
+	if (ImGui_ImplWin32_WndProcHandler(hWnd, msg, wParam, lParam))
+		return true;
+
 	switch (msg)
 	{
 	//ウィンドウを閉じた

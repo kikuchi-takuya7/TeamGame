@@ -36,6 +36,9 @@
     <Filter Include="TitleScene">
       <UniqueIdentifier>{71fcb781-3831-4bd9-835d-4c1d83080d87}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01Engine\Imgui">
+      <UniqueIdentifier>{43280253-d2ff-4b35-a197-653b26e4f47e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine\BoxCollider.cpp">
@@ -125,6 +128,27 @@
     </ClCompile>
     <ClCompile Include="TitleScene.cpp">
       <Filter>TitleScene</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\テスト対策\kikuchi-takuya7\briyard\Engine\Imgui\imgui.cpp">
+      <Filter>01Engine\Imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\テスト対策\kikuchi-takuya7\briyard\Engine\Imgui\imgui_demo.cpp">
+      <Filter>01Engine\Imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\テスト対策\kikuchi-takuya7\briyard\Engine\Imgui\imgui_draw.cpp">
+      <Filter>01Engine\Imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\テスト対策\kikuchi-takuya7\briyard\Engine\Imgui\imgui_impl_dx11.cpp">
+      <Filter>01Engine\Imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\テスト対策\kikuchi-takuya7\briyard\Engine\Imgui\imgui_impl_win32.cpp">
+      <Filter>01Engine\Imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\テスト対策\kikuchi-takuya7\briyard\Engine\Imgui\imgui_tables.cpp">
+      <Filter>01Engine\Imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\テスト対策\kikuchi-takuya7\briyard\Engine\Imgui\imgui_widgets.cpp">
+      <Filter>01Engine\Imgui</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -216,6 +240,30 @@
     <ClInclude Include="TitleScene.h">
       <Filter>TitleScene</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\テスト対策\kikuchi-takuya7\briyard\Engine\Imgui\imconfig.h">
+      <Filter>01Engine\Imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\テスト対策\kikuchi-takuya7\briyard\Engine\Imgui\imgui.h">
+      <Filter>01Engine\Imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\テスト対策\kikuchi-takuya7\briyard\Engine\Imgui\imgui_impl_dx11.h">
+      <Filter>01Engine\Imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\テスト対策\kikuchi-takuya7\briyard\Engine\Imgui\imgui_impl_win32.h">
+      <Filter>01Engine\Imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\テスト対策\kikuchi-takuya7\briyard\Engine\Imgui\imgui_internal.h">
+      <Filter>01Engine\Imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\テスト対策\kikuchi-takuya7\briyard\Engine\Imgui\imstb_rectpack.h">
+      <Filter>01Engine\Imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\テスト対策\kikuchi-takuya7\briyard\Engine\Imgui\imstb_textedit.h">
+      <Filter>01Engine\Imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\テスト対策\kikuchi-takuya7\briyard\Engine\Imgui\imstb_truetype.h">
+      <Filter>01Engine\Imgui</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Assets\Shader\Simple2D.hlsl">
@@ -230,5 +278,10 @@
     <FxCompile Include="Assets\Shader\BillBoard.hlsl">
       <Filter>02Shader</Filter>
     </FxCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\テスト対策\kikuchi-takuya7\briyard\Engine\Imgui\.editorconfig">
+      <Filter>01Engine\Imgui</Filter>
+    </None>
   </ItemGroup>
 </Project>
