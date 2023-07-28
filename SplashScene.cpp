@@ -45,11 +45,11 @@ void SplashScene::Initialize()
 		&dwBytes,  //読み込んだサイズ
 		NULL);     //オーバーラップド構造体（今回は使わない）
 
-	//ここでファイルサイズ文繰り返して、空白が出たらそれまでの値をポジションなりに入れるとかがよさそう
-	//最初はchar型のtmpに入れといて後でstringに入れなおすとかでもよさそう
+
 	char* tmp = new char[fileSize];
 	int c = 0, sw = 0;
 
+	//新しくロードするデータを増やしたい場合はcaseを一つ増やしてその変数にtmpの内容をstofなりで入れればいい
 	for (DWORD i = 0; i < fileSize; i++) {
 
 		if (data[i] == ' ') {
@@ -166,6 +166,8 @@ void SplashScene::Imgui_Window()
 			NULL);                  //拡張属性（なし
 
 		float tmp = alpha_;
+
+		//新しく変数をセーブしたい場合はここの後ろに変数を＆を付けて入れるだけ。ロードも忘れずに
 		float* save[] = { &transform_.position_.x, &transform_.position_.y, &transform_.position_.z,
 						  &transform_.rotate_.x, &transform_.rotate_.y, &transform_.rotate_.z,
 						  &transform_.scale_.x , &tmp};
