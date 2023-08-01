@@ -93,7 +93,7 @@
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
-      <AdditionalIncludeDirectories>C:\Program Files\Autodesk\FBX\FBX SDK\2020.3.2\include;D:\project\kikuchi-takuya7\Team-Game\Engine\Imgui;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Program Files\Autodesk\FBX\FBX SDK\2020.3.2\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>C:\Program Files\Autodesk\FBX\FBX SDK\2020.3.2\lib\vs2019\x64\debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
@@ -129,13 +129,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\テスト対策\kikuchi-takuya7\briyard\Engine\Imgui\imgui.cpp" />
-    <ClCompile Include="..\..\テスト対策\kikuchi-takuya7\briyard\Engine\Imgui\imgui_demo.cpp" />
-    <ClCompile Include="..\..\テスト対策\kikuchi-takuya7\briyard\Engine\Imgui\imgui_draw.cpp" />
-    <ClCompile Include="..\..\テスト対策\kikuchi-takuya7\briyard\Engine\Imgui\imgui_impl_dx11.cpp" />
-    <ClCompile Include="..\..\テスト対策\kikuchi-takuya7\briyard\Engine\Imgui\imgui_impl_win32.cpp" />
-    <ClCompile Include="..\..\テスト対策\kikuchi-takuya7\briyard\Engine\Imgui\imgui_tables.cpp" />
-    <ClCompile Include="..\..\テスト対策\kikuchi-takuya7\briyard\Engine\Imgui\imgui_widgets.cpp" />
     <ClCompile Include="Engine\Audio.cpp" />
     <ClCompile Include="Engine\BillBoard.cpp" />
     <ClCompile Include="Engine\BoxCollider.cpp" />
@@ -148,6 +141,13 @@
     <ClCompile Include="Engine\FbxParts.cpp" />
     <ClCompile Include="Engine\GameObject.cpp" />
     <ClCompile Include="Engine\Image.cpp" />
+    <ClCompile Include="Engine\Imgui\imgui.cpp" />
+    <ClCompile Include="Engine\Imgui\imgui_demo.cpp" />
+    <ClCompile Include="Engine\Imgui\imgui_draw.cpp" />
+    <ClCompile Include="Engine\Imgui\imgui_impl_dx11.cpp" />
+    <ClCompile Include="Engine\Imgui\imgui_impl_win32.cpp" />
+    <ClCompile Include="Engine\Imgui\imgui_tables.cpp" />
+    <ClCompile Include="Engine\Imgui\imgui_widgets.cpp" />
     <ClCompile Include="Engine\Input.cpp" />
     <ClCompile Include="Engine\Main.cpp" />
     <ClCompile Include="Engine\Model.cpp" />
@@ -168,14 +168,6 @@
     <ClCompile Include="TitleScene.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\テスト対策\kikuchi-takuya7\briyard\Engine\Imgui\imconfig.h" />
-    <ClInclude Include="..\..\テスト対策\kikuchi-takuya7\briyard\Engine\Imgui\imgui.h" />
-    <ClInclude Include="..\..\テスト対策\kikuchi-takuya7\briyard\Engine\Imgui\imgui_impl_dx11.h" />
-    <ClInclude Include="..\..\テスト対策\kikuchi-takuya7\briyard\Engine\Imgui\imgui_impl_win32.h" />
-    <ClInclude Include="..\..\テスト対策\kikuchi-takuya7\briyard\Engine\Imgui\imgui_internal.h" />
-    <ClInclude Include="..\..\テスト対策\kikuchi-takuya7\briyard\Engine\Imgui\imstb_rectpack.h" />
-    <ClInclude Include="..\..\テスト対策\kikuchi-takuya7\briyard\Engine\Imgui\imstb_textedit.h" />
-    <ClInclude Include="..\..\テスト対策\kikuchi-takuya7\briyard\Engine\Imgui\imstb_truetype.h" />
     <ClInclude Include="Engine\Audio.h" />
     <ClInclude Include="Engine\BillBoard.h" />
     <ClInclude Include="Engine\BoxCollider.h" />
@@ -189,6 +181,14 @@
     <ClInclude Include="Engine\GameObject.h" />
     <ClInclude Include="Engine\Global.h" />
     <ClInclude Include="Engine\Image.h" />
+    <ClInclude Include="Engine\Imgui\imconfig.h" />
+    <ClInclude Include="Engine\Imgui\imgui.h" />
+    <ClInclude Include="Engine\Imgui\imgui_impl_dx11.h" />
+    <ClInclude Include="Engine\Imgui\imgui_impl_win32.h" />
+    <ClInclude Include="Engine\Imgui\imgui_internal.h" />
+    <ClInclude Include="Engine\Imgui\imstb_rectpack.h" />
+    <ClInclude Include="Engine\Imgui\imstb_textedit.h" />
+    <ClInclude Include="Engine\Imgui\imstb_truetype.h" />
     <ClInclude Include="Engine\Input.h" />
     <ClInclude Include="Engine\Model.h" />
     <ClInclude Include="Engine\VFX.h" />
@@ -227,7 +227,7 @@
     </FxCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\テスト対策\kikuchi-takuya7\briyard\Engine\Imgui\.editorconfig" />
+    <None Include="Engine\Imgui\.editorconfig" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

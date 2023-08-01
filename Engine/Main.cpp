@@ -44,7 +44,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	//ウィンドウを作成
 	HWND hWnd = InitApp(hInstance, screenWidth, screenHeight, nCmdShow);
 
-	char path[] = "D:\project\imgui-master\examples\example_win32_directx11\Debug\example_win32_directx11.exe";
+	//char path[] = "D:\project\imgui-master\examples\example_win32_directx11\Debug\example_win32_directx11.exe";
 	//system(path);
 
 	//Direct3D準備
