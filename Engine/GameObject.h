@@ -66,7 +66,7 @@ public:
 	/// <param name="rot">rotの最大値</param>
 	/// <param name="scl">sclの最大値</param>
 	/// <param name="s">表示する名前（Player,positionみたいな）</param>
-	void Setting_Transform(float posmin, float posmax, float rot, float scl, std::string s);
+	void Setting_Transform(Transform &_transform, float posmin, float posmax, float rot, float scl, std::string s);
 
 
 	/// <summary>
@@ -74,7 +74,7 @@ public:
 	/// </summary>
 	/// <param name="hFile">クラスで作成したファイルのやつ</param>
 	/// <param name="fileName">セーブするファイルの名前（もしかしたら同じファイル名だと上書きされちゃうから気を付けて）</param>
-	void Save_Transform_File(HANDLE hFile, LPCSTR fileName);
+	void Save_Transform_File(Transform _transform, HANDLE hFile, LPCSTR fileName);
 
 	/// <summary>
 	/// 呼び出されたオブジェクトのtransformをロードする関数

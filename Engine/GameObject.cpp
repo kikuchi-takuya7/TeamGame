@@ -376,12 +376,12 @@ XMMATRIX GameObject::GetWorldMatrix(void)
 	return transform_.GetWorldMatrix();
 }
 
-void GameObject::Setting_Transform(float posmin, float posmax, float rot, float scl, std::string str)
+void GameObject::Setting_Transform(Transform &_transform, float posmin, float posmax, float rot, float scl, std::string str)
 {
 
-	float* p[] = { &transform_.position_.x ,&transform_.position_.y, &transform_.position_.z };
-	float* r[] = { &transform_.rotate_.x ,&transform_.rotate_.y, &transform_.rotate_.z };
-	float s = transform_.scale_.x;
+	float* p[] = { &_transform.position_.x ,&_transform.position_.y, &_transform.position_.z };
+	float* r[] = { &_transform.rotate_.x ,&_transform.rotate_.y, &_transform.rotate_.z };
+	float s = _transform.scale_.x;
 
 	std::string tmp = str;
 	tmp = str + "sPosition";
@@ -398,16 +398,16 @@ void GameObject::Setting_Transform(float posmin, float posmax, float rot, float 
 	ImGui::SliderFloat(c, &s, 0.0f, scl);
 	//ImGui::SliderFloat("float", &f, 0.0f, 1.0f);
 
-	transform_.scale_.x = s;
-	transform_.scale_.y = s;
-	transform_.scale_.z = s;
+	_transform.scale_.x = s;
+	_transform.scale_.y = s;
+	_transform.scale_.z = s;
 
 
 	delete[] c;
 
 }
 
-void GameObject::Save_Transform_File(HANDLE hFile, LPCSTR fileName)
+void GameObject::Save_Transform_File(Transform _transform, HANDLE hFile, LPCSTR fileName)
 {
 	hFile = CreateFile(
 		fileName,                 //ファイル名
@@ -419,9 +419,9 @@ void GameObject::Save_Transform_File(HANDLE hFile, LPCSTR fileName)
 		NULL);                  //拡張属性（なし
 
 
-	float* save[] = { &transform_.position_.x, &transform_.position_.y, &transform_.position_.z,
-					  &transform_.rotate_.x, &transform_.rotate_.y, &transform_.rotate_.z,
-					  &transform_.scale_.x };
+	float* save[] = { &_transform.position_.x, &_transform.position_.y, &_transform.position_.z,
+					  &_transform.rotate_.x, &_transform.rotate_.y, &_transform.rotate_.z,
+					  &_transform.scale_.x };
 
 	const int size = sizeof(save) / sizeof(save[0]);
 

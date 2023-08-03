@@ -146,7 +146,7 @@ void SplashScene::Imgui_Window()
 	if (ImGui::CollapsingHeader("Splash"))
 	{
 
-		Setting_Transform(-1.0f, 1.0f, 365.0f, 5.0f, "Splash");
+		Setting_Transform(transform_, -1.0f, 1.0f, 365.0f, 5.0f, "Splash");
 		ImGui::SliderInt("alpha", &alpha_, 0, 255);
 	}
 	ImGui::End();

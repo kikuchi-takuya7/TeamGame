@@ -21,5 +21,5 @@ private:
 	int hPict_;
 	int alpha_;
 	bool alphaFlag_;
-	
+
 };
