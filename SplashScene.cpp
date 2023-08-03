@@ -7,7 +7,7 @@ const LPCSTR fileName = "SaveFile\\SplashSaveData";
 
 //コンストラクタ
 SplashScene::SplashScene(GameObject* parent)
-	: GameObject(parent, "SplashScene"), hPict_(-1), alpha_(255), alphaFlag_(false)
+	: GameObject(parent, "SplashScene"), hdenshi_logo_(-1), hsos_logo_(-1), alpha_(255), alphaFlag_(false)
 {
 }
 
@@ -96,9 +96,14 @@ void SplashScene::Initialize()
 
 	CloseHandle(hFile_);
 
-	//画像データのロード
-	hPict_ = Image::Load("Test.png");
-	assert(hPict_ >= 0);
+
+
+	//sos画像データのロード
+	hsos_logo_ = Image::Load("sos_logo.png");
+	assert(hsos_logo_ >= 0);
+	//東北電子画像データのロード
+	hdenshi_logo_ = Image::Load("Tohokudenshi_logo.png");
+	assert(hdenshi_logo_ >= 0);
 }
 
 //更新
@@ -121,7 +126,8 @@ void SplashScene::Update()
 	}
 #endif
 
-	Image::SetAlpha(hPict_, alpha_);
+	Image::SetAlpha(hsos_logo_, alpha_);
+	Image::SetAlpha(hdenshi_logo_, alpha_);
 
 
 }
@@ -129,8 +135,13 @@ void SplashScene::Update()
 //描画
 void SplashScene::Draw()
 {
-	Image::SetTransform(hPict_, transform_);
-	Image::Draw(hPict_);
+	Image::SetTransform(hsos_logo_, transform_);
+	Image::Draw(hsos_logo_);
+
+	Image::SetTransform(hdenshi_logo_, transform_);
+	Image::Draw(hdenshi_logo_);
+
+	
 
 	
 }
