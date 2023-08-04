@@ -210,28 +210,26 @@ void SplashScene::Imgui_Window()
 
 		//新しく変数をセーブしたい場合はここの後ろに変数を＆を付けて入れるだけ。ロードも忘れずに
 		//sosロゴ用のセーブは書いたから、同じように東北電子用のロゴのセーブもする。ロードの順番と同じになるように注意
-		float* SosSave[] = { &sos_Trans_.position_.x, &sos_Trans_.position_.y, &sos_Trans_.position_.z,
+		float* save[] = { &sos_Trans_.position_.x, &sos_Trans_.position_.y, &sos_Trans_.position_.z,
 						  &sos_Trans_.rotate_.x, &sos_Trans_.rotate_.y, &sos_Trans_.rotate_.z,
-						  &sos_Trans_.scale_.x , &tmp};
+						  &sos_Trans_.scale_.x ,
+						  &Denshi_Trams_.position_.x,& Denshi_Trams_.position_.y,& Denshi_Trams_.position_.z,
+						  &Denshi_Trams_.rotate_.x,& Denshi_Trams_.rotate_.y,& Denshi_Trams_.rotate_.z,
+						  &Denshi_Trams_.scale_.x, &tmp};
 
-		float* DensiSave[] = { &Denshi_Trams_.position_.x, &Denshi_Trams_.position_.y, &Denshi_Trams_.position_.z,
-						  & Denshi_Trams_.rotate_.x, & Denshi_Trams_.rotate_.y, & Denshi_Trams_.rotate_.z,
-						  & Denshi_Trams_.scale_.x , &tmp };
-		const int Sosize = sizeof(SosSave) / sizeof(SosSave[0]);
-		const int Desize = sizeof(DensiSave) / sizeof(DensiSave[0]);
+		const int size = sizeof(save) / sizeof(save[0]);
 		
-		std::string s[Sosize];
-		std::string d[Desize];
+		std::string s[size];
 		
 
-		for (int i = 0; i < Sosize; i++) {
-			s[i] = std::to_string(*SosSave[i]) + " ";
+		for (int i = 0; i < size; i++) {
+			s[i] = std::to_string(*save[i]) + " ";
 		}
 
 		
 		DWORD dwBytes = 0;  //書き込み位置
 
-		for (int i = 0; i < Sosize; i++) {
+		for (int i = 0; i < size; i++) {
 
 			WriteFile(
 				hFile_,                   //ファイルハンドル
