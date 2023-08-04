@@ -123,9 +123,6 @@
     <ClCompile Include="GameOverScene.cpp">
       <Filter>Others</Filter>
     </ClCompile>
-    <ClCompile Include="SplashScene.cpp">
-      <Filter>Others</Filter>
-    </ClCompile>
     <ClCompile Include="TitleScene.cpp">
       <Filter>TitleScene</Filter>
     </ClCompile>
@@ -149,6 +146,9 @@
     </ClCompile>
     <ClCompile Include="Engine\Imgui\imgui_widgets.cpp">
       <Filter>01Engine\Imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="SplashScene.cpp">
+      <Filter>Others</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

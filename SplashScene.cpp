@@ -56,28 +56,29 @@ void SplashScene::Initialize()
 			switch (sw)
 			{
 			case 0:
-				transform_.position_.x = std::stof(tmp);
+				sos_Trans_.position_.x = std::stof(tmp);
 				break;
 			case 1:
-				transform_.position_.y = std::stof(tmp);
+				sos_Trans_.position_.y = std::stof(tmp);
 				break;
 			case 2:
-				transform_.position_.z = std::stof(tmp);
+				sos_Trans_.position_.z = std::stof(tmp);
 				break;
 			case 3:
-				transform_.rotate_.x = std::stof(tmp);
+				sos_Trans_.rotate_.x = std::stof(tmp);
 				break;
 			case 4:
-				transform_.rotate_.y = std::stof(tmp);
+				sos_Trans_.rotate_.y = std::stof(tmp);
 				break;
 			case 5:
-				transform_.rotate_.z = std::stof(tmp);
+				sos_Trans_.rotate_.z = std::stof(tmp);
 				break;
 			case 6:
-				transform_.scale_.x = std::stof(tmp);
-				transform_.scale_.y = std::stof(tmp);
-				transform_.scale_.z = std::stof(tmp);
+				sos_Trans_.scale_.x = std::stof(tmp);
+				sos_Trans_.scale_.y = std::stof(tmp);
+				sos_Trans_.scale_.z = std::stof(tmp);
 				break;
+				//東北電子ロゴ用のロードするコードを描く。上に書いたように書けば行けるはず
 			case 7:
 				alpha_ = std::stoi(tmp);
 				break;
@@ -97,7 +98,7 @@ void SplashScene::Initialize()
 	CloseHandle(hFile_);
 
 	//クラス変数に宣言 
-	Transform rogTransform_;
+	//Transform rogTransform_;
 
 	//Setting_Transform(rogTransform_, );//-0.413,0,0,0,1.0f,255
 	
@@ -138,10 +139,10 @@ void SplashScene::Update()
 //描画
 void SplashScene::Draw()
 {
-	Image::SetTransform(hsos_logo_, transform_);
+	Image::SetTransform(hsos_logo_, sos_Trans_);
 	Image::Draw(hsos_logo_);
 
-	Image::SetTransform(hdenshi_logo_, transform_);
+	Image::SetTransform(hdenshi_logo_, transform_);//東北電子ロゴ用のTransform変数に変える
 	Image::Draw(hdenshi_logo_);
 
 	
@@ -160,7 +161,9 @@ void SplashScene::Imgui_Window()
 	if (ImGui::CollapsingHeader("Splash"))
 	{
 
-		Setting_Transform(transform_, -1.0f, 1.0f, 365.0f, 5.0f, "Splash");
+		Setting_Transform(sos_Trans_, -1.0f, 1.0f, 365.0f, 5.0f, "SOS");
+		//ここに東北電子ロゴ用のSetting_Transformを描く
+		
 		ImGui::SliderInt("alpha", &alpha_, 0, 255);
 	}
 	ImGui::End();
@@ -182,9 +185,10 @@ void SplashScene::Imgui_Window()
 		float tmp = alpha_;
 
 		//新しく変数をセーブしたい場合はここの後ろに変数を＆を付けて入れるだけ。ロードも忘れずに
-		float* save[] = { &transform_.position_.x, &transform_.position_.y, &transform_.position_.z,
-						  &transform_.rotate_.x, &transform_.rotate_.y, &transform_.rotate_.z,
-						  &transform_.scale_.x , &tmp};
+		//sosロゴ用のセーブは書いたから、同じように東北電子用のロゴのセーブもする。ロードの順番と同じになるように注意
+		float* save[] = { &sos_Trans_.position_.x, &sos_Trans_.position_.y, &sos_Trans_.position_.z,
+						  &sos_Trans_.rotate_.x, &sos_Trans_.rotate_.y, &sos_Trans_.rotate_.z,
+						  &sos_Trans_.scale_.x , &tmp};
 		
 		const int size = sizeof(save) / sizeof(save[0]);
 		
