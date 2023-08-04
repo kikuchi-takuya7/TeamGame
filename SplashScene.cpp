@@ -80,6 +80,29 @@ void SplashScene::Initialize()
 				break;
 				//東北電子ロゴ用のロードするコードを描く。上に書いたように書けば行けるはず
 			case 7:
+				Denshi_Trams_.position_.x = std::stof(tmp);
+				break;
+			case 8:
+				Denshi_Trams_.position_.y = std::stof(tmp);
+				break;
+			case 9:
+				Denshi_Trams_.position_.z = std::stof(tmp);
+				break;
+			case 10:
+				Denshi_Trams_.rotate_.x = std::stof(tmp);
+				break;
+			case 11:
+				Denshi_Trams_.rotate_.y = std::stof(tmp);
+				break;
+			case 12:
+				Denshi_Trams_.rotate_.z = std::stof(tmp);
+				break;
+			case 13:
+				Denshi_Trams_.scale_.x = std::stof(tmp);
+				Denshi_Trams_.scale_.y = std::stof(tmp);
+				Denshi_Trams_.scale_.z = std::stof(tmp);
+				break;
+			case 14:
 				alpha_ = std::stoi(tmp);
 				break;
 			default:
@@ -142,7 +165,7 @@ void SplashScene::Draw()
 	Image::SetTransform(hsos_logo_, sos_Trans_);
 	Image::Draw(hsos_logo_);
 
-	Image::SetTransform(hdenshi_logo_, transform_);//東北電子ロゴ用のTransform変数に変える
+	Image::SetTransform(hdenshi_logo_, Denshi_Trams_);//東北電子ロゴ用のTransform変数に変える
 	Image::Draw(hdenshi_logo_);
 
 	
@@ -163,7 +186,8 @@ void SplashScene::Imgui_Window()
 
 		Setting_Transform(sos_Trans_, -1.0f, 1.0f, 365.0f, 5.0f, "SOS");
 		//ここに東北電子ロゴ用のSetting_Transformを描く
-		
+		Setting_Transform(Denshi_Trams_, -1.0f, 1.0f, 365.0f, 5.0f, "DENSHI");
+
 		ImGui::SliderInt("alpha", &alpha_, 0, 255);
 	}
 	ImGui::End();
@@ -186,21 +210,28 @@ void SplashScene::Imgui_Window()
 
 		//新しく変数をセーブしたい場合はここの後ろに変数を＆を付けて入れるだけ。ロードも忘れずに
 		//sosロゴ用のセーブは書いたから、同じように東北電子用のロゴのセーブもする。ロードの順番と同じになるように注意
-		float* save[] = { &sos_Trans_.position_.x, &sos_Trans_.position_.y, &sos_Trans_.position_.z,
+		float* SosSave[] = { &sos_Trans_.position_.x, &sos_Trans_.position_.y, &sos_Trans_.position_.z,
 						  &sos_Trans_.rotate_.x, &sos_Trans_.rotate_.y, &sos_Trans_.rotate_.z,
 						  &sos_Trans_.scale_.x , &tmp};
-		
-		const int size = sizeof(save) / sizeof(save[0]);
-		
-		std::string s[size];
 
-		for (int i = 0; i < size; i++) {
-			s[i] = std::to_string(*save[i]) + " ";
+		float* DensiSave[] = { &Denshi_Trams_.position_.x, &Denshi_Trams_.position_.y, &Denshi_Trams_.position_.z,
+						  & Denshi_Trams_.rotate_.x, & Denshi_Trams_.rotate_.y, & Denshi_Trams_.rotate_.z,
+						  & Denshi_Trams_.scale_.x , &tmp };
+		const int Sosize = sizeof(SosSave) / sizeof(SosSave[0]);
+		const int Desize = sizeof(DensiSave) / sizeof(DensiSave[0]);
+		
+		std::string s[Sosize];
+		std::string d[Desize];
+		
+
+		for (int i = 0; i < Sosize; i++) {
+			s[i] = std::to_string(*SosSave[i]) + " ";
 		}
 
+		
 		DWORD dwBytes = 0;  //書き込み位置
 
-		for (int i = 0; i < size; i++) {
+		for (int i = 0; i < Sosize; i++) {
 
 			WriteFile(
 				hFile_,                   //ファイルハンドル
@@ -210,6 +241,8 @@ void SplashScene::Imgui_Window()
 				NULL);                   //オーバーラップド構造体（今回は使わない）
 
 		}
+
+		
 
 		CloseHandle(hFile_);
 
