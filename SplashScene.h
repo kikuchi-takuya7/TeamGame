@@ -14,13 +14,16 @@ public:
 	void Draw() override;
 	void Release() override;
 	void Imgui_Window() override;
+	
 
 private:
 
-	HANDLE hFile_;        //ファイルのハンドル
 	int hsos_logo_; //sosロゴ画像番号
 	int hdenshi_logo_; //東北電子ロゴ画像番号
+
+	HANDLE hFile_;        //ファイルのハンドル
 	int alpha_;
 	bool alphaFlag_;
 	
 };
+

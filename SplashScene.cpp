@@ -96,6 +96,13 @@ void SplashScene::Initialize()
 
 	CloseHandle(hFile_);
 
+	//クラス変数に宣言 
+	Transform rogTransform_;
+
+	//Setting_Transform(rogTransform_, );//-0.413,0,0,0,1.0f,255
+	//void Setting_Transform(Transform & _transform, float posmin, float posmax, float rot, float scl, std::string s);
+
+
 
 
 	//sos画像データのロード
@@ -157,7 +164,7 @@ void SplashScene::Imgui_Window()
 	if (ImGui::CollapsingHeader("Splash"))
 	{
 
-		Setting_Transform(-1.0f, 1.0f, 365.0f, 5.0f, "Splash");
+		Setting_Transform(transform_, -1.0f, 1.0f, 365.0f, 5.0f, "Splash");
 		ImGui::SliderInt("alpha", &alpha_, 0, 255);
 	}
 	ImGui::End();
