@@ -100,11 +100,7 @@ void SplashScene::Initialize()
 	Transform rogTransform_;
 
 	//Setting_Transform(rogTransform_, );//-0.413,0,0,0,1.0f,255
-	//void Setting_Transform(Transform & _transform, float posmin, float posmax, float rot, float scl, std::string s);
-
-
-
-
+	
 	//sos画像データのロード
 	hsos_logo_ = Image::Load("sos_logo.png");
 	assert(hsos_logo_ >= 0);

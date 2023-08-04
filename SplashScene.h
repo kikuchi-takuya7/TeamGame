@@ -15,7 +15,7 @@ public:
 	void Release() override;
 	void Imgui_Window() override;
 	
-
+	
 private:
 
 	int hsos_logo_; //sosƒƒS‰æ‘œ”Ô†
@@ -26,4 +26,5 @@ private:
 	bool alphaFlag_;
 	
 };
+
 
