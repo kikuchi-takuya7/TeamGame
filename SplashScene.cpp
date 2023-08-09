@@ -137,8 +137,7 @@ void SplashScene::Initialize()
 void SplashScene::Update()
 {
 
-#if 0
-	if (alpha_ >= 300)//‚¿‚å‚Á‚Æ‚¾‚¯’·‚­Žc‚é
+	if (alpha_ >= 450)//‚¿‚å‚Á‚Æ‚¾‚¯’·‚­Žc‚é
 		alphaFlag_ = true;
 
 	if(alphaFlag_ == false)
@@ -151,7 +150,6 @@ void SplashScene::Update()
 		SceneManager* pSceneManager = (SceneManager*)FindObject("SceneManager");
 		pSceneManager->ChangeScene(SCENE_ID_TITLE);
 	}
-#endif
 
 	Image::SetAlpha(hsos_logo_, alpha_);
 	Image::SetAlpha(hdenshi_logo_, alpha_);

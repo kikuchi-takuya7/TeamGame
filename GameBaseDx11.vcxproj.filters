@@ -123,6 +123,9 @@
     <ClCompile Include="GameOverScene.cpp">
       <Filter>Others</Filter>
     </ClCompile>
+    <ClCompile Include="SplashScene.cpp">
+      <Filter>Others</Filter>
+    </ClCompile>
     <ClCompile Include="TitleScene.cpp">
       <Filter>TitleScene</Filter>
     </ClCompile>
@@ -146,9 +149,6 @@
     </ClCompile>
     <ClCompile Include="Engine\Imgui\imgui_widgets.cpp">
       <Filter>01Engine\Imgui</Filter>
-    </ClCompile>
-    <ClCompile Include="SplashScene.cpp">
-      <Filter>Others</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -222,9 +222,6 @@
       <Filter>01Engine\ResourceManager</Filter>
     </ClInclude>
     <ClInclude Include="Option.h" />
-    <ClInclude Include="MainGameScene.h">
-      <Filter>MainGame</Filter>
-    </ClInclude>
     <ClInclude Include="SelectScene.h">
       <Filter>SelectScene</Filter>
     </ClInclude>
@@ -263,6 +260,9 @@
     </ClInclude>
     <ClInclude Include="Engine\Imgui\imstb_truetype.h">
       <Filter>01Engine\Imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="MainGameScene.h">
+      <Filter>Others</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
