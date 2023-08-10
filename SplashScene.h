@@ -27,6 +27,10 @@ private:
 	HANDLE hFile_;        //ファイルのハンドル
 	int alpha_;
 	bool alphaFlag_;
+	bool countDown_;
+	float limitTmp_;//一年生が決める何秒とどまるかってやつ
+	int limit_;//フレームに変換する
+	int time_;
 	
 };
 

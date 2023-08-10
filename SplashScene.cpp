@@ -7,7 +7,7 @@ const LPCSTR fileName = "SaveFile\\SplashSaveData";
 
 //コンストラクタ
 SplashScene::SplashScene(GameObject* parent)
-	: GameObject(parent, "SplashScene"), hdenshi_logo_(-1), hsos_logo_(-1), alpha_(255), alphaFlag_(false)
+	: GameObject(parent, "SplashScene"), hdenshi_logo_(-1), hsos_logo_(-1), alpha_(0), alphaFlag_(false), countDown_(false), limitTmp_(2.0), limit_(0), time_(0)
 {
 }
 
@@ -105,6 +105,9 @@ void SplashScene::Initialize()
 			case 14:
 				alpha_ = std::stoi(tmp);
 				break;
+			case 15:
+				limitTmp_ = std::stoi(tmp);
+				break;
 			default:
 				break;
 			}
@@ -131,20 +134,34 @@ void SplashScene::Initialize()
 	//東北電子画像データのロード
 	hdenshi_logo_ = Image::Load("Tohokudenshi_logo.png");
 	assert(hdenshi_logo_ >= 0);
+
+	limit_ = limitTmp_ * 60 + 1;//時間をフレームに
+
+	Leave();
 }
 
 //更新
 void SplashScene::Update()
 {
+	//一年生がいじりやすいようにしたけど実際にゲームプレイするときはここはコメントアウトしないとだめ
+	if(!IsEntered())
+		return;
 
-	if (alpha_ >= 450)//ちょっとだけ長く残る
-		alphaFlag_ = true;
-
-	if(alphaFlag_ == false)
+	if (alphaFlag_ == false) {
 		alpha_ += 3;
+	}
+	else {
+		time_++;
+	}
 
-	if (alphaFlag_ == true)
+	if (alpha_ >= 255) {
+		alpha_ = 255;
+		alphaFlag_ = true;
+	}
+
+	if (time_ >= limit_)
 		alpha_ -= 3;
+
 
 	if (alpha_ < 0) {
 		SceneManager* pSceneManager = (SceneManager*)FindObject("SceneManager");
@@ -186,7 +203,16 @@ void SplashScene::Imgui_Window()
 		//ここに東北電子ロゴ用のSetting_Transformを描く
 		Setting_Transform(Denshi_Trams_, -1.0f, 1.0f, 365.0f, 5.0f, "DENSHI");
 
-		ImGui::SliderInt("alpha", &alpha_, 0, 255);
+		ImGui::SliderInt("Startalpha", &alpha_, 0, 255);
+
+		ImGui::SliderFloat("StaySecond", &limitTmp_, 0, 5);
+
+		if (ImGui::Button("Start")) {
+			Initialize();
+			Enter();
+		}
+			
+			//updateStop_ = false;
 	}
 	ImGui::End();
 
@@ -213,7 +239,7 @@ void SplashScene::Imgui_Window()
 						  &sos_Trans_.scale_.x ,
 						  &Denshi_Trams_.position_.x,& Denshi_Trams_.position_.y,& Denshi_Trams_.position_.z,
 						  &Denshi_Trams_.rotate_.x,& Denshi_Trams_.rotate_.y,& Denshi_Trams_.rotate_.z,
-						  &Denshi_Trams_.scale_.x, &tmp};
+						  &Denshi_Trams_.scale_.x, &tmp, &limitTmp_};
 
 		const int size = sizeof(save) / sizeof(save[0]);
 		
