@@ -25,5 +25,8 @@ public:
 	void Release() override;
 
 	void Imgui_Window() override;
+
+private:
+	bool conf_;
 };
 
