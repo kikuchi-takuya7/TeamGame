@@ -25,7 +25,7 @@ protected:
 	std::string				objectName_;
 
 	//衝突判定リスト
-	std::list<Collider*>	colliderList_;	
+	std::list<Collider*>	colliderList_;
 
 public:
 	//コンストラクタ
@@ -66,7 +66,7 @@ public:
 	/// <param name="rot">rotの最大値</param>
 	/// <param name="scl">sclの最大値</param>
 	/// <param name="s">表示する名前（Player,positionみたいな）</param>
-	void Setting_Transform(Transform &_transform, float posmin, float posmax, float rot, float scl, std::string s);
+	void Setting_Transform(Transform& _transform, float posmin, float posmax, float rot, float scl, std::string s);
 
 
 	/// <summary>
@@ -192,7 +192,7 @@ public:
 
 
 	//コライダー（衝突判定）を追加する
-	void AddCollider(Collider * collider);
+	void AddCollider(Collider* collider);
 
 	//何かと衝突した場合に呼ばれる（オーバーライド用）
 	//引数：pTarget	衝突した相手
@@ -216,13 +216,13 @@ public:
 	XMFLOAT3 GetPosition() { return transform_.position_; }
 	XMFLOAT3 GetRotate() { return transform_.rotate_; }
 	XMFLOAT3 GetScale() { return transform_.scale_; }
-	XMFLOAT3 GetWorldPosition() { return Transform::Float3Add(GetParent()->transform_.position_ , transform_.position_); }
+	XMFLOAT3 GetWorldPosition() { return Transform::Float3Add(GetParent()->transform_.position_, transform_.position_); }
 	XMFLOAT3 GetWorldRotate() { return Transform::Float3Add(GetParent()->transform_.rotate_, transform_.rotate_); }
 	XMFLOAT3 GetWorldScale() { return Transform::Float3Add(GetParent()->transform_.scale_, transform_.scale_); }
 	void SetPosition(XMFLOAT3 position) { transform_.position_ = position; }
-	void SetPosition(float x, float y, float z) { SetPosition(XMFLOAT3( x, y, z )); }
+	void SetPosition(float x, float y, float z) { SetPosition(XMFLOAT3(x, y, z)); }
 	void SetRotate(XMFLOAT3 rotate) { transform_.rotate_ = rotate; }
-	void SetRotate(float x, float y, float z) { SetRotate(XMFLOAT3( x, y, z )); }
+	void SetRotate(float x, float y, float z) { SetRotate(XMFLOAT3(x, y, z)); }
 	void SetRotateX(float x) { SetRotate(x, transform_.rotate_.y, transform_.rotate_.z); }
 	void SetRotateY(float y) { SetRotate(transform_.rotate_.x, y, transform_.rotate_.z); }
 	void SetRotateZ(float z) { SetRotate(transform_.rotate_.x, transform_.rotate_.y, z); }
@@ -269,4 +269,3 @@ T* Instantiate(GameObject* pParent)
 	pNewObject->Initialize();
 	return pNewObject;
 }
-

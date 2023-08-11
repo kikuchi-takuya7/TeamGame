@@ -7,7 +7,7 @@ const LPCSTR fileName = "SaveFile\\SplashSaveData";
 
 //コンストラクタ
 SplashScene::SplashScene(GameObject* parent)
-	: GameObject(parent, "SplashScene"), hPict_(-1), alpha_(255), alphaFlag_(false)
+	: GameObject(parent, "SplashScene"), hdenshi_logo_(-1), hsos_logo_(-1), alpha_(0), alphaFlag_(false), countDown_(false), limitTmp_(2.0), limit_(0), time_(0)
 {
 }
 
@@ -56,30 +56,57 @@ void SplashScene::Initialize()
 			switch (sw)
 			{
 			case 0:
-				transform_.position_.x = std::stof(tmp);
+				sos_Trans_.position_.x = std::stof(tmp);
 				break;
 			case 1:
-				transform_.position_.y = std::stof(tmp);
+				sos_Trans_.position_.y = std::stof(tmp);
 				break;
 			case 2:
-				transform_.position_.z = std::stof(tmp);
+				sos_Trans_.position_.z = std::stof(tmp);
 				break;
 			case 3:
-				transform_.rotate_.x = std::stof(tmp);
+				sos_Trans_.rotate_.x = std::stof(tmp);
 				break;
 			case 4:
-				transform_.rotate_.y = std::stof(tmp);
+				sos_Trans_.rotate_.y = std::stof(tmp);
 				break;
 			case 5:
-				transform_.rotate_.z = std::stof(tmp);
+				sos_Trans_.rotate_.z = std::stof(tmp);
 				break;
 			case 6:
-				transform_.scale_.x = std::stof(tmp);
-				transform_.scale_.y = std::stof(tmp);
-				transform_.scale_.z = std::stof(tmp);
+				sos_Trans_.scale_.x = std::stof(tmp);
+				sos_Trans_.scale_.y = std::stof(tmp);
+				sos_Trans_.scale_.z = std::stof(tmp);
 				break;
+				//東北電子ロゴ用のロードするコードを描く。上に書いたように書けば行けるはず
 			case 7:
+				Denshi_Trams_.position_.x = std::stof(tmp);
+				break;
+			case 8:
+				Denshi_Trams_.position_.y = std::stof(tmp);
+				break;
+			case 9:
+				Denshi_Trams_.position_.z = std::stof(tmp);
+				break;
+			case 10:
+				Denshi_Trams_.rotate_.x = std::stof(tmp);
+				break;
+			case 11:
+				Denshi_Trams_.rotate_.y = std::stof(tmp);
+				break;
+			case 12:
+				Denshi_Trams_.rotate_.z = std::stof(tmp);
+				break;
+			case 13:
+				Denshi_Trams_.scale_.x = std::stof(tmp);
+				Denshi_Trams_.scale_.y = std::stof(tmp);
+				Denshi_Trams_.scale_.z = std::stof(tmp);
+				break;
+			case 14:
 				alpha_ = std::stoi(tmp);
+				break;
+			case 15:
+				limitTmp_ = std::stoi(tmp);
 				break;
 			default:
 				break;
@@ -96,32 +123,53 @@ void SplashScene::Initialize()
 
 	CloseHandle(hFile_);
 
-	//画像データのロード
-	hPict_ = Image::Load("Test.png");
-	assert(hPict_ >= 0);
+	//クラス変数に宣言 
+	//Transform rogTransform_;
+
+	//Setting_Transform(rogTransform_, );//-0.413,0,0,0,1.0f,255
+	
+	//sos画像データのロード
+	hsos_logo_ = Image::Load("sos_logo.png");
+	assert(hsos_logo_ >= 0);
+	//東北電子画像データのロード
+	hdenshi_logo_ = Image::Load("Tohokudenshi_logo.png");
+	assert(hdenshi_logo_ >= 0);
+
+	limit_ = limitTmp_ * 60 + 1;//時間をフレームに
+
+	Leave();
 }
 
 //更新
 void SplashScene::Update()
 {
+	//一年生がいじりやすいようにしたけど実際にゲームプレイするときはここはコメントアウトしないとだめ
+	if(!IsEntered())
+		return;
 
-#if 0
-	if (alpha_ >= 300)//ちょっとだけ長く残る
-		alphaFlag_ = true;
-
-	if(alphaFlag_ == false)
+	if (alphaFlag_ == false) {
 		alpha_ += 3;
+	}
+	else {
+		time_++;
+	}
 
-	if (alphaFlag_ == true)
+	if (alpha_ >= 255) {
+		alpha_ = 255;
+		alphaFlag_ = true;
+	}
+
+	if (time_ >= limit_)
 		alpha_ -= 3;
+
 
 	if (alpha_ < 0) {
 		SceneManager* pSceneManager = (SceneManager*)FindObject("SceneManager");
 		pSceneManager->ChangeScene(SCENE_ID_TITLE);
 	}
-#endif
 
-	Image::SetAlpha(hPict_, alpha_);
+	Image::SetAlpha(hsos_logo_, alpha_);
+	Image::SetAlpha(hdenshi_logo_, alpha_);
 
 
 }
@@ -129,8 +177,13 @@ void SplashScene::Update()
 //描画
 void SplashScene::Draw()
 {
-	Image::SetTransform(hPict_, transform_);
-	Image::Draw(hPict_);
+	Image::SetTransform(hsos_logo_, sos_Trans_);
+	Image::Draw(hsos_logo_);
+
+	Image::SetTransform(hdenshi_logo_, Denshi_Trams_);//東北電子ロゴ用のTransform変数に変える
+	Image::Draw(hdenshi_logo_);
+
+	
 
 	
 }
@@ -146,8 +199,20 @@ void SplashScene::Imgui_Window()
 	if (ImGui::CollapsingHeader("Splash"))
 	{
 
-		Setting_Transform(transform_, -1.0f, 1.0f, 365.0f, 5.0f, "Splash");
-		ImGui::SliderInt("alpha", &alpha_, 0, 255);
+		Setting_Transform(sos_Trans_, -1.0f, 1.0f, 365.0f, 5.0f, "SOS");
+		//ここに東北電子ロゴ用のSetting_Transformを描く
+		Setting_Transform(Denshi_Trams_, -1.0f, 1.0f, 365.0f, 5.0f, "DENSHI");
+
+		ImGui::SliderInt("Startalpha", &alpha_, 0, 255);
+
+		ImGui::SliderFloat("StaySecond", &limitTmp_, 0, 5);
+
+		if (ImGui::Button("Start")) {
+			Initialize();
+			Enter();
+		}
+			
+			//updateStop_ = false;
 	}
 	ImGui::End();
 
@@ -168,18 +233,24 @@ void SplashScene::Imgui_Window()
 		float tmp = alpha_;
 
 		//新しく変数をセーブしたい場合はここの後ろに変数を＆を付けて入れるだけ。ロードも忘れずに
-		float* save[] = { &transform_.position_.x, &transform_.position_.y, &transform_.position_.z,
-						  &transform_.rotate_.x, &transform_.rotate_.y, &transform_.rotate_.z,
-						  &transform_.scale_.x , &tmp};
-		
+		//sosロゴ用のセーブは書いたから、同じように東北電子用のロゴのセーブもする。ロードの順番と同じになるように注意
+		float* save[] = { &sos_Trans_.position_.x, &sos_Trans_.position_.y, &sos_Trans_.position_.z,
+						  &sos_Trans_.rotate_.x, &sos_Trans_.rotate_.y, &sos_Trans_.rotate_.z,
+						  &sos_Trans_.scale_.x ,
+						  &Denshi_Trams_.position_.x,& Denshi_Trams_.position_.y,& Denshi_Trams_.position_.z,
+						  &Denshi_Trams_.rotate_.x,& Denshi_Trams_.rotate_.y,& Denshi_Trams_.rotate_.z,
+						  &Denshi_Trams_.scale_.x, &tmp, &limitTmp_};
+
 		const int size = sizeof(save) / sizeof(save[0]);
 		
 		std::string s[size];
+		
 
 		for (int i = 0; i < size; i++) {
 			s[i] = std::to_string(*save[i]) + " ";
 		}
 
+		
 		DWORD dwBytes = 0;  //書き込み位置
 
 		for (int i = 0; i < size; i++) {
@@ -192,6 +263,8 @@ void SplashScene::Imgui_Window()
 				NULL);                   //オーバーラップド構造体（今回は使わない）
 
 		}
+
+		
 
 		CloseHandle(hFile_);
 
