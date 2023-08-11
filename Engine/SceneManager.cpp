@@ -23,7 +23,7 @@ void SceneManager::Initialize()
 	//最初のシーンを準備
 	currentSceneID_ = SCENE_ID_SPLASH;
 	nextSceneID_ = currentSceneID_;
-	Instantiate<SplashScene>(this);
+	Instantiate<TitleScene>(this);
 }
 
 //更新

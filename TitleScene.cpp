@@ -3,7 +3,7 @@
 
 //コンストラクタ
 TitleScene::TitleScene(GameObject* parent)
-	: GameObject(parent, "TitleScene"), hPict_(-1)
+	: GameObject(parent, "TitleScene"), hhaikei_(-1)
 {
 }
 
@@ -16,8 +16,8 @@ TitleScene::~TitleScene()
 void TitleScene::Initialize()
 {
 	//画像データのロード
-	hPict_ = Image::Load("Test.png");
-	assert(hPict_ >= 0);
+	hhaikei_ = Image::Load("haikei.png");
+	assert(hhaikei_ >= 0);
 }
 
 //更新
@@ -28,8 +28,8 @@ void TitleScene::Update()
 //描画
 void TitleScene::Draw()
 {
-	Image::SetTransform(hPict_, transform_);
-	Image::Draw(hPict_);
+	Image::SetTransform(hhaikei_, transform_);
+	Image::Draw(hhaikei_);
 }
 
 //開放

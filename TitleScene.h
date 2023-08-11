@@ -14,5 +14,5 @@ public:
 	void Release() override;
 
 private:
-	int hPict_;
+	int hhaikei_;
 };
