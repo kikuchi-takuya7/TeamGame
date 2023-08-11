@@ -106,7 +106,7 @@ void SplashScene::Initialize()
 				alpha_ = std::stoi(tmp);
 				break;
 			case 15:
-				limitTmp_ = std::stoi(tmp);
+				limitTmp_ = std::stof(tmp);
 				break;
 			default:
 				break;
