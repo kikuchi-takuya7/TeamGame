@@ -208,7 +208,7 @@ void SplashScene::Imgui_Window()
 		ImGui::SliderFloat("StaySecond", &limitTmp_, 0, 5);
 
 		if (ImGui::Button("Start")) {
-			Initialize();
+			//Initialize();
 			Enter();
 		}
 			
