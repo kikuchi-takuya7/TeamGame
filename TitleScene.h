@@ -14,5 +14,7 @@ public:
 	void Release() override;
 
 private:
-	int hhaikei_;
+	int hhaikei_; //‰æ‘œ”Ô†(”wŒi)
+	int hKumo_;  //‰æ‘œ”Ô†(‰_)
+	int hMoji_;  //‰æ‘œ”Ô†(•¶š)
 };
