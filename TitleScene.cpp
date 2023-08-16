@@ -111,6 +111,7 @@ void TitleScene::Initialize()
 //更新
 void TitleScene::Update()
 {
+	//STARTの点滅を管理
 	if (!startFlag_) {
 		ChangeAlpha();
 	}
@@ -124,6 +125,7 @@ void TitleScene::Update()
 	mouse.x -= 480;
 	mouse.y -= 570;
 
+	//マウスの初期位置が左上で色々ややこしかったので、クリック処理はごり押しで追加
 	if (mouse.x > 0 && mouse.y > 0 && mouse.x < 300 && mouse.y < 200 && startFlag_ == false) {
 		alpha_ = 255;
 		if (Input::IsMouseButtonDown(0)) {
@@ -164,7 +166,7 @@ void TitleScene::Imgui_Window()
 	ImGui::Begin("DataWindow");
 	if (ImGui::CollapsingHeader("Title"))
 	{
-		Setting_Transform(start_Transform_, -1, 1, 0, 10, "Title");
+		//Setting_Transform(start_Transform_, -1, 1, 0, 10, "Title");
 		
 	}
 	ImGui::End();
