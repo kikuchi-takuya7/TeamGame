@@ -22,7 +22,6 @@ private:
 	float KumoXPosition_; // 雲のX座標
 
 	Transform moji_Transform_;
-	float mojiYOffset_;
 
 	HANDLE hFile_;        //ファイルのハンドル
 

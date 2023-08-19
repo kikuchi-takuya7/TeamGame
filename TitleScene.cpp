@@ -107,6 +107,8 @@ void TitleScene::Initialize()
 	hMoji_ = Image::Load("Moji.png");
 	assert(hMoji_ >= 0);
 
+	moji_Transform_.position_.y = 0.0f;
+
 	hStart_ = Image::Load("Start.png");
 	assert(hStart_ >= 0);
 
@@ -125,6 +127,26 @@ void TitleScene::Update()
 
 	// Kumo画像の描画位置を更新
 	kumo_Transform_.position_.x = KumoXPosition_;
+
+	// 画像の上下移動速度を設定（適宜調整）
+	float mojiMoveSpeed = 0.001f;
+
+	// 画像のY座標を更新
+	moji_Transform_.position_.y += mojiMoveSpeed;
+
+	// 上限Y座標と下限Y座標の範囲を設定
+	float upperLimitY = 0.1f;
+	float lowerLimitY = 0.0f;
+
+	// Y座標が上限または上限を超えたら反転して逆向きに移動させる
+	if (moji_Transform_.position_.y >= upperLimitY) {
+		moji_Transform_.position_.y = upperLimitY; // 上限を超えないように制限
+		mojiMoveSpeed -= mojiMoveSpeed; // 移動速度を逆転させる
+	}
+	else if (moji_Transform_.position_.y <= lowerLimitY) {
+		moji_Transform_.position_.y = lowerLimitY; // 下限を超えないように制限
+		mojiMoveSpeed -= mojiMoveSpeed; // 移動速度を逆転させる
+	}
 
 	//STARTの点滅を管理
 	if (!startFlag_) {
@@ -149,6 +171,8 @@ void TitleScene::Update()
 		}
 	}
 
+	
+
 	Image::SetAlpha(hBrackStart_, alpha_);
 }
 
@@ -162,7 +186,7 @@ void TitleScene::Draw()
 	Image::SetTransform(hKumo_, kumo_Transform_);
 	Image::Draw(hKumo_);
 
-	Image::SetTransform(hMoji_, transform_);
+	Image::SetTransform(hMoji_, moji_Transform_);
 	Image::Draw(hMoji_);
 
 	Image::SetTransform(hStart_, start_Transform_);
