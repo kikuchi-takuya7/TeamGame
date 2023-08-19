@@ -92,13 +92,19 @@ void TitleScene::Initialize()
 
 	CloseHandle(hFile_);
 
+	
 
 	//背景画像のロード
 	hhaikei_ = Image::Load("haikei.png");
 	assert(hhaikei_ >= 0);
 
+	hKumo_ = Image::Load("Kumo.png");
+	assert(hKumo_ >= 0);
+
+	KumoXPosition_ = 0.0f; // Kumo画像の初期位置
+
 	//画像のロード
-	hMoji_ = Image::Load("kumotomozi.png");
+	hMoji_ = Image::Load("Moji.png");
 	assert(hMoji_ >= 0);
 
 	hStart_ = Image::Load("Start.png");
@@ -111,6 +117,15 @@ void TitleScene::Initialize()
 //更新
 void TitleScene::Update()
 {
+	// Kumo画像の移動速度を設定（適宜調整）
+	float kumoMoveSpeed = 0.003f;
+
+	// Kumo画像のX座標を更新
+	KumoXPosition_ += kumoMoveSpeed;
+
+	// Kumo画像の描画位置を更新
+	kumo_Transform_.position_.x = KumoXPosition_;
+
 	//STARTの点滅を管理
 	if (!startFlag_) {
 		ChangeAlpha();
@@ -135,7 +150,6 @@ void TitleScene::Update()
 	}
 
 	Image::SetAlpha(hBrackStart_, alpha_);
-
 }
 
 //描画
@@ -145,7 +159,10 @@ void TitleScene::Draw()
 	Image::SetTransform(hhaikei_, transform_);
 	Image::Draw(hhaikei_);
 
-	Image::SetTransform(hKumo_, transform_);
+	Image::SetTransform(hKumo_, kumo_Transform_);
+	Image::Draw(hKumo_);
+
+	Image::SetTransform(hMoji_, transform_);
 	Image::Draw(hMoji_);
 
 	Image::SetTransform(hStart_, start_Transform_);

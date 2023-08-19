@@ -15,9 +15,14 @@ public:
 	void Imgui_Window() override;
 
 private:
+	Transform kumo_Transform_;//Kumoの位置を調整するための変数
 	int hhaikei_; //画像番号(背景)
 	int hKumo_;  //画像番号(雲)
 	int hMoji_;  //画像番号(文字)
+	float KumoXPosition_; // 雲のX座標
+
+	Transform moji_Transform_;
+	float mojiYOffset_;
 
 	HANDLE hFile_;        //ファイルのハンドル
 
