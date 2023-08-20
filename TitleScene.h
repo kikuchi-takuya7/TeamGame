@@ -22,6 +22,8 @@ private:
 	float KumoXPosition_; // 雲のX座標
 
 	Transform moji_Transform_;
+	bool mojiMovingUp_;     // Moji画像が上に移動中かどうかのフラグ
+	float mojiMoveSpeed_;   // Moji画像の上下移動速度
 
 	HANDLE hFile_;        //ファイルのハンドル
 

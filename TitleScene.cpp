@@ -109,6 +109,9 @@ void TitleScene::Initialize()
 
 	moji_Transform_.position_.y = 0.0f;
 
+	mojiMovingUp_ = true;       // 最初は上に移動
+	mojiMoveSpeed_ = 0.001f;    // 移動速度を適宜調整
+
 	hStart_ = Image::Load("Start.png");
 	assert(hStart_ >= 0);
 
@@ -128,24 +131,20 @@ void TitleScene::Update()
 	// Kumo画像の描画位置を更新
 	kumo_Transform_.position_.x = KumoXPosition_;
 
-	// 画像の上下移動速度を設定（適宜調整）
-	float mojiMoveSpeed = 0.001f;
-
-	// 画像のY座標を更新
-	moji_Transform_.position_.y += mojiMoveSpeed;
-
-	// 上限Y座標と下限Y座標の範囲を設定
-	float upperLimitY = 0.1f;
-	float lowerLimitY = 0.0f;
-
-	// Y座標が上限または上限を超えたら反転して逆向きに移動させる
-	if (moji_Transform_.position_.y >= upperLimitY) {
-		moji_Transform_.position_.y = upperLimitY; // 上限を超えないように制限
-		mojiMoveSpeed -= mojiMoveSpeed; // 移動速度を逆転させる
+	// Moji画像の位置を更新
+	if (mojiMovingUp_) {
+		moji_Transform_.position_.y += mojiMoveSpeed_;
 	}
-	else if (moji_Transform_.position_.y <= lowerLimitY) {
-		moji_Transform_.position_.y = lowerLimitY; // 下限を超えないように制限
-		mojiMoveSpeed -= mojiMoveSpeed; // 移動速度を逆転させる
+	else {
+		moji_Transform_.position_.y -= mojiMoveSpeed_;
+	}
+
+	// 一定の範囲で反転させる
+	if (moji_Transform_.position_.y > 0.1f) {
+		mojiMovingUp_ = false;
+	}
+	else if (moji_Transform_.position_.y < -0.1f) {
+		mojiMovingUp_ = true;
 	}
 
 	//STARTの点滅を管理
