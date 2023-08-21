@@ -101,7 +101,10 @@ void TitleScene::Initialize()
 	hKumo_ = Image::Load("Kumo.png");
 	assert(hKumo_ >= 0);
 
-	KumoXPosition_ = 0.0f; // Kumo画像の初期位置
+	kumo_Transform_.position_.y = 0.0f;
+
+	kumoMovingUp_ = true;       //最初は上に移動
+	kumoMoveSpeed_ = 0.001f;    //移動速度
 
 	//画像のロード
 	hMoji_ = Image::Load("Moji.png");
@@ -110,7 +113,7 @@ void TitleScene::Initialize()
 	moji_Transform_.position_.y = 0.0f;
 
 	mojiMovingUp_ = true;       // 最初は上に移動
-	mojiMoveSpeed_ = 0.001f;    // 移動速度を適宜調整
+	mojiMoveSpeed_ = 0.001f;    // 移動速度
 
 	hStart_ = Image::Load("Start.png");
 	assert(hStart_ >= 0);
@@ -122,16 +125,23 @@ void TitleScene::Initialize()
 //更新
 void TitleScene::Update()
 {
-	// Kumo画像の移動速度を設定（適宜調整）
-	float kumoMoveSpeed = 0.003f;
+	//kumoの位置を更新
+	if (kumoMovingUp_) {
+		kumo_Transform_.position_.y += kumoMoveSpeed_;
+	}
+	else {
+		kumo_Transform_.position_.y -= kumoMoveSpeed_;
+	}
+	
+	//一定の範囲で反転させる
+	if (kumo_Transform_.position_.y > 0.1f) {
+		kumoMovingUp_ = false;
+	}
+	else if (kumo_Transform_.position_.y < -0.1f) {
+		kumoMovingUp_ = true;
+	}
 
-	// Kumo画像のX座標を更新
-	KumoXPosition_ += kumoMoveSpeed;
-
-	// Kumo画像の描画位置を更新
-	kumo_Transform_.position_.x = KumoXPosition_;
-
-	// Moji画像の位置を更新
+	// mojiの位置を更新
 	if (mojiMovingUp_) {
 		moji_Transform_.position_.y += mojiMoveSpeed_;
 	}
