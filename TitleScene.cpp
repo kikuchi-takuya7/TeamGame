@@ -182,7 +182,8 @@ void TitleScene::Update()
 
 	
 
-	Image::SetAlpha(hBrackStart_, alpha_);
+	Image::SetAlpha(hStart_, alpha_);
+
 }
 
 //•`‰æ
@@ -202,7 +203,7 @@ void TitleScene::Draw()
 	Image::Draw(hStart_);
 
 	Image::SetTransform(hBrackStart_, start_Transform_);
-	Image::Draw(hBrackStart_);
+	//Image::Draw(hBrackStart_);
 
 }
 
