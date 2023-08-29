@@ -101,7 +101,7 @@ void TitleScene::Initialize()
 	hKumo_ = Image::Load("Kumo.png");
 	assert(hKumo_ >= 0);
 
-	kumo_Transform_.position_.y = 0.0f;
+	kumo_Transform_.position_.y = 0.1f;
 
 	kumoMovingUp_ = true;       //Å‰‚Íã‚ÉˆÚ“®
 	kumoMoveSpeed_ = 0.001f;    //ˆÚ“®‘¬“x
@@ -110,7 +110,9 @@ void TitleScene::Initialize()
 	hMoji_ = Image::Load("Moji.png");
 	assert(hMoji_ >= 0);
 
-	moji_Transform_.position_.y = 0.0f;
+	moji_Transform_.position_.y = 0.15f;
+	moji_Transform_.scale_.x -= 0.25f;
+	moji_Transform_.scale_.y -= 0.25f;
 
 	mojiMovingUp_ = true;       // Å‰‚Íã‚ÉˆÚ“®
 	mojiMoveSpeed_ = 0.001f;    // ˆÚ“®‘¬“x
@@ -150,10 +152,10 @@ void TitleScene::Update()
 	}
 
 	// ˆê’è‚Ì”ÍˆÍ‚Å”½“]‚³‚¹‚é
-	if (moji_Transform_.position_.y > 0.1f) {
+	if (moji_Transform_.position_.y > 0.15f) {
 		mojiMovingUp_ = false;
 	}
-	else if (moji_Transform_.position_.y < -0.1f) {
+	else if (moji_Transform_.position_.y < -0.05f) {
 		mojiMovingUp_ = true;
 	}
 
