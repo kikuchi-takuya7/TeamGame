@@ -6,6 +6,7 @@
 #include "../MainGameScene.h"
 #include "../GameClearScene.h"
 #include "../GameOverScene.h"
+#include "MapEditor/MapEditorScene.h"
 #include "Model.h"
 #include "Image.h"
 #include "Audio.h"
@@ -21,9 +22,9 @@ SceneManager::SceneManager(GameObject* parent)
 void SceneManager::Initialize()
 {
 	//最初のシーンを準備
-	currentSceneID_ = SCENE_ID_SPLASH;
+	currentSceneID_ = SCENE_ID_MAPEDITOR;
 	nextSceneID_ = currentSceneID_;
-	Instantiate<SplashScene>(this);
+	Instantiate<MapEditorScene>(this);
 }
 
 //更新
@@ -49,6 +50,7 @@ void SceneManager::Update()
 		case SCENE_ID_MAIN: Instantiate<MainGameScene>(this); break;
 		case SCENE_ID_GAMECLEAR: Instantiate<GameClearScene>(this); break;
 		case SCENE_ID_GAMEOVER: Instantiate<GameOverScene>(this); break;
+		case SCENE_ID_MAPEDITOR: Instantiate<MapEditorScene>(this); break;
 		}
 		Audio::Initialize();
 		currentSceneID_ = nextSceneID_;
