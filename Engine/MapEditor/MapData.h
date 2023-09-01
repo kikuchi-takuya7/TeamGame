@@ -25,6 +25,7 @@ public:
 
 	void Imgui_Window() override;
 
+	int GetModelHandle() { return hModel_[0]; }
 private:
 
 	std::vector<int> hModel_;

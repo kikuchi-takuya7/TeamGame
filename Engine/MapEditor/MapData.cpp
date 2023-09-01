@@ -40,6 +40,15 @@ void MapData::Update()
 //•`‰æ
 void MapData::Draw()
 {
+    for (int x = 0; x < 15; x++) {
+        for (int z = 0; z < 15; z++) {
+            Transform blockTrans;
+            blockTrans.position_.z = z;
+            blockTrans.position_.x = x;
+            Model::SetTransform(hModel_[0], blockTrans);
+            Model::Draw(hModel_[0]);
+        }
+    }
 }
 
 //ŠJ•ú
