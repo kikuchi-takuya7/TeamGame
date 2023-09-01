@@ -144,8 +144,8 @@ void SplashScene::Initialize()
 void SplashScene::Update()
 {
 	//一年生がいじりやすいようにしたけど実際にゲームプレイするときはここはコメントアウトしないとだめ
-	if(!IsEntered())
-		return;
+	/*if(!IsEntered())
+		return;*/
 
 	if (alphaFlag_ == false) {
 		alpha_ += 3;
