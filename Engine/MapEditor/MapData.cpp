@@ -1,5 +1,6 @@
 #include "MapData.h"
 #include "../Model.h"
+#include "../Input.h"
 #include <vector>
 #include <string>
 #include <stdexcept>
@@ -35,6 +36,14 @@ void MapData::Initialize()
 //更新
 void MapData::Update()
 {
+    XMFLOAT3 mousePos = Input::GetMousePosition();
+
+    //左クリックされた
+    if (Input::IsMouseButtonDown(0))
+    {
+
+        //何らかの処理
+    }
 }
 
 //描画
@@ -49,6 +58,15 @@ void MapData::Draw()
             Model::Draw(hModel_[0]);
         }
     }
+    Transform objPos;
+    objPos.position_ = Input::GetMousePosition();
+
+    if (changeModel_ == 99)
+        return;
+
+    Model::SetTransform(hModel_[changeModel_], objPos);
+    Model::Draw(hModel_[changeModel_]);
+
 }
 
 //開放
@@ -65,7 +83,7 @@ void MapData::Imgui_Window()
             for (int i = 0; i < fileName_.size(); i++) {
                 ImGui::RadioButton(fileName_.at(i).c_str(), &changeModel_, i);
             }
-
+            ImGui::RadioButton("stay", &changeModel_, 99);
             ImGui::TreePop();
         }
     }

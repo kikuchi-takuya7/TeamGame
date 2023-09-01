@@ -3,6 +3,12 @@
 #include <vector>
 
 
+enum FBXPATTERN {
+	TESTFLOOR,
+	TESTWALL,
+	PATTERN_END
+};
+
 //■■シーンを管理するクラス
 class MapData : public GameObject
 {
@@ -31,4 +37,7 @@ private:
 	std::vector<int> hModel_;
 	std::vector<std::string> fileName_;
 	int changeModel_;
+
+	//作成したオブジェクトリスト
+	std::list<GameObject*> objectList_;
 };

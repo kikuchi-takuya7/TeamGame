@@ -99,20 +99,20 @@ void Controller::Update()
     vCam = XMVector3TransformCoord(vCam, rotX * rotY);
     Camera::SetPosition(pos + vCam);
 
-    MapData* pMapData = (MapData*)FindObject("MapData");    //ステージオブジェクトを探す
-    int hGroundModel = pMapData->GetModelHandle();    //モデル番号を取得
+    //MapData* pMapData = (MapData*)FindObject("MapData");    //ステージオブジェクトを探す
+    //int hGroundModel = pMapData->GetModelHandle();    //モデル番号を取得
 
-    RayCastData data;
-    data.start = Camera::GetMousePos();   //レイの発射位置　カメラから座標とか取りたいから
-    data.dir = Camera::GetTarget();       //レイの方向
-    Model::RayCast(hGroundModel, &data); //レイを発射
+    //RayCastData data;
+    //data.start = Input::GetMousePosition();   //レイの発射位置　カメラから座標とか取りたいから
+    //data.dir = XMFLOAT3(0,0,-1);       //レイの方向
+    //Model::RayCast(hGroundModel, &data); //レイを発射
 
-    //レイが当たったら
-    if (data.hit)
-    {
-        //その分位置を下げる
-        transform_.position_.y -= data.dist;
-    }
+    ////レイが当たったら
+    //if (data.hit)
+    //{
+    //    //その分位置を下げる
+    //    transform_.position_.y -= data.dist;
+    //}
 }
 
 //描画
