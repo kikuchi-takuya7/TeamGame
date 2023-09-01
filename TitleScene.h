@@ -15,16 +15,11 @@ public:
 	void Imgui_Window() override;
 
 private:
-	Transform kumo_Transform_;//Kumoの位置を調整するための変数
+	Transform title_Transform_;//Kumoの位置を調整するための変数
 	int hhaikei_; //画像番号(背景)
-	int hKumo_;  //画像番号(雲)
-	int hMoji_;  //画像番号(文字)
-	bool kumoMovingUp_;   //上に移動中かどうかのフラグ
-	float kumoMoveSpeed_; //上下移動速度
-
-	Transform moji_Transform_;
-	bool mojiMovingUp_;     // 上に移動中かどうかのフラグ
-	float mojiMoveSpeed_;   // 上下移動速度
+	int hTitle_;  //画像番号(雲)
+	bool titleMovingUp_;   //上に移動中かどうかのフラグ
+	float titleMoveSpeed_; //上下移動速度
 
 	HANDLE hFile_;        //ファイルのハンドル
 

@@ -7,7 +7,7 @@ const LPCSTR fileName = "SaveFile\\TitleSaveData";
 
 //コンストラクタ
 TitleScene::TitleScene(GameObject* parent)
-	: GameObject(parent, "TitleScene"), hhaikei_(-1), hKumo_(-1), hMoji_(-1), hStart_(-1), hBrackStart_(-1), alpha_(0), changeLimit_(0),tmpLimit_(0), alphaFlag_(false), startFlag_(false)
+	: GameObject(parent, "TitleScene"), hhaikei_(-1), hTitle_(-1),  hStart_(-1), hBrackStart_(-1), alpha_(0), changeLimit_(0),tmpLimit_(0), alphaFlag_(false), startFlag_(false)
 {
 }
 
@@ -98,24 +98,13 @@ void TitleScene::Initialize()
 	hhaikei_ = Image::Load("haikei.png");
 	assert(hhaikei_ >= 0);
 
-	hKumo_ = Image::Load("Kumo.png");
-	assert(hKumo_ >= 0);
+	hTitle_ = Image::Load("Title.png");
+	assert(hTitle_ >= 0);
 
-	kumo_Transform_.position_.y = 0.1f;
+	title_Transform_.position_.y = 0.1f;
 
-	kumoMovingUp_ = true;       //最初は上に移動
-	kumoMoveSpeed_ = 0.001f;    //移動速度
-
-	//画像のロード
-	hMoji_ = Image::Load("Moji.png");
-	assert(hMoji_ >= 0);
-
-	moji_Transform_.position_.y = 0.15f;
-	moji_Transform_.scale_.x -= 0.25f;
-	moji_Transform_.scale_.y -= 0.25f;
-
-	mojiMovingUp_ = true;       // 最初は上に移動
-	mojiMoveSpeed_ = 0.001f;    // 移動速度
+	titleMovingUp_ = true;       //最初は上に移動
+	titleMoveSpeed_ = 0.001f;    //移動速度
 
 	hStart_ = Image::Load("Start.png");
 	assert(hStart_ >= 0);
@@ -127,36 +116,20 @@ void TitleScene::Initialize()
 //更新
 void TitleScene::Update()
 {
-	//kumoの位置を更新
-	if (kumoMovingUp_) {
-		kumo_Transform_.position_.y += kumoMoveSpeed_;
+	//titleの位置を更新
+	if (titleMovingUp_) {
+		title_Transform_.position_.y += titleMoveSpeed_;
 	}
 	else {
-		kumo_Transform_.position_.y -= kumoMoveSpeed_;
+		title_Transform_.position_.y -= titleMoveSpeed_;
 	}
 	
 	//一定の範囲で反転させる
-	if (kumo_Transform_.position_.y > 0.1f) {
-		kumoMovingUp_ = false;
+	if (title_Transform_.position_.y > 0.1f) {
+		titleMovingUp_ = false;
 	}
-	else if (kumo_Transform_.position_.y < -0.1f) {
-		kumoMovingUp_ = true;
-	}
-
-	// mojiの位置を更新
-	if (mojiMovingUp_) {
-		moji_Transform_.position_.y += mojiMoveSpeed_;
-	}
-	else {
-		moji_Transform_.position_.y -= mojiMoveSpeed_;
-	}
-
-	// 一定の範囲で反転させる
-	if (moji_Transform_.position_.y > 0.15f) {
-		mojiMovingUp_ = false;
-	}
-	else if (moji_Transform_.position_.y < -0.05f) {
-		mojiMovingUp_ = true;
+	else if (title_Transform_.position_.y < -0.1f) {
+		titleMovingUp_ = true;
 	}
 
 	//STARTの点滅を管理
@@ -195,11 +168,8 @@ void TitleScene::Draw()
 	Image::SetTransform(hhaikei_, transform_);
 	Image::Draw(hhaikei_);
 
-	Image::SetTransform(hKumo_, kumo_Transform_);
-	Image::Draw(hKumo_);
-
-	Image::SetTransform(hMoji_, moji_Transform_);
-	Image::Draw(hMoji_);
+	Image::SetTransform(hTitle_, title_Transform_);
+	Image::Draw(hTitle_);
 
 	Image::SetTransform(hStart_, start_Transform_);
 	Image::Draw(hStart_);
