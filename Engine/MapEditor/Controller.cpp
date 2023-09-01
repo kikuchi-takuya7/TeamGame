@@ -103,7 +103,7 @@ void Controller::Update()
     int hGroundModel = pMapData->GetModelHandle();    //モデル番号を取得
 
     RayCastData data;
-    data.start = Camera::GetPosition();   //レイの発射位置　カメラから座標とか取りたいから
+    data.start = Camera::GetMousePos();   //レイの発射位置　カメラから座標とか取りたいから
     data.dir = Camera::GetTarget();       //レイの方向
     Model::RayCast(hGroundModel, &data); //レイを発射
 
