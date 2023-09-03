@@ -1,16 +1,16 @@
 #include "MapData.h"
 #include "../Model.h"
 #include "../Input.h"
+#include "../../TestWall.h"
 #include <vector>
 #include <string>
 #include <stdexcept>
 
-//ディレクトリ内の指定した識別子のファイルネームを獲得
-std::vector<std::string> get_file_path_in_dir(const std::string& dir_name, const std::string& extension) noexcept(false);
+
 
 //コンストラクタ
 MapData::MapData(GameObject* parent)
-	: GameObject(parent, "MapData"),changeModel_(0)
+	: GameObject(parent, "MapData"),selecting_object(PATTERN_END)
 {
 
     
@@ -19,6 +19,7 @@ MapData::MapData(GameObject* parent)
 //初期化
 void MapData::Initialize()
 {
+    //ファイルの中に入ってるすべてのfbxファイルの名前の取得
     fileName_ = get_file_path_in_dir("./Map/", "fbx");
     
     //fileNameの個数分の要素数を確保
@@ -41,8 +42,8 @@ void MapData::Update()
     //左クリックされた
     if (Input::IsMouseButtonDown(0))
     {
-
         //何らかの処理
+        CreateObject();
     }
 }
 
@@ -59,13 +60,14 @@ void MapData::Draw()
         }
     }
     Transform objPos;
-    objPos.position_ = Input::GetMousePosition();
+    objPos.position_.y = 1.0f;
 
-    if (changeModel_ == 99)
+    if (selecting_object == PATTERN_END)
         return;
 
-    Model::SetTransform(hModel_[changeModel_], objPos);
-    Model::Draw(hModel_[changeModel_]);
+    //マウスの位置にオブジェクトを仮で表示したい
+    Model::SetTransform(hModel_[selecting_object], objPos);
+    Model::Draw(hModel_[selecting_object]);
 
 }
 
@@ -79,18 +81,55 @@ void MapData::Imgui_Window()
     ImGui::Begin("DataWindow");
     if (ImGui::CollapsingHeader("MapEditor"))
     {
-        if (ImGui::TreeNode("Object")){
-            for (int i = 0; i < fileName_.size(); i++) {
-                ImGui::RadioButton(fileName_.at(i).c_str(), &changeModel_, i);
+        if (ImGui::TreeNode("Object")){//Objectのツリーをクリックすると
+
+            int tmp = selecting_object;
+            for (int i = 0; i < fileName_.size(); i++) { //fileName分だけその名前のラジオボタンが出るように。iとselecting_objectが一致したらそこだけ選択できる
+                ImGui::RadioButton(fileName_.at(i).c_str(), &tmp, i);
             }
-            ImGui::RadioButton("stay", &changeModel_, 99);
+
+            ImGui::RadioButton("stay", &tmp, PATTERN_END);//何も選択していない状態にしたい時用
+            selecting_object = static_cast<FBXPATTERN>(tmp);//intからenumに
             ImGui::TreePop();
         }
     }
     ImGui::End();
 }
 
-std::vector<std::string> get_file_path_in_dir(const std::string& dir_name, const std::string& extension) noexcept(false)
+GameObject* MapData::CreateObject()
+{
+
+    //forで回してFBXPATTERNとfilenameの要素の順番が一致したところでオブジェクトを作るのも想定したけどobjectNameとかがめんどくさくなるから無し
+    //対応したenum型の数字になったらそのオブジェクトを作成してcreateObjectにプッシュバックする
+    switch (selecting_object)
+    {
+    case TESTFLOOR: {
+        break;
+    }
+    case TESTWALL: {
+        TestWall* pTestWall = Instantiate<TestWall>(this);
+        AddCreateObject(pTestWall);
+        int c = createObjectList_.size();
+        char ID = c + '0'; //文字コード的に0を足すとちょうどcの数字を表すやつになってくれる
+        pTestWall->GetobjectID(ID); //作ったオブジェクト順に識別するためのIDを付ける
+        return pTestWall;
+    }
+    case PATTERN_END: {
+        break;
+    }
+    default:
+        break;
+    }
+
+    return NULL;   // 指定のクラスが無い
+}
+
+void MapData::AddCreateObject(GameObject* object)
+{
+    createObjectList_.push_back(object);
+}
+
+std::vector<std::string> MapData::get_file_path_in_dir(const std::string& dir_name, const std::string& extension) noexcept(false)
 {
     HANDLE hFind;
     WIN32_FIND_DATA win32fd;//defined at Windwos.h

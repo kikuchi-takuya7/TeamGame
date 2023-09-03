@@ -1,0 +1,32 @@
+#pragma once
+#include "Engine/GameObject.h"
+
+//◆◆◆を管理するクラス
+class TestWall : public GameObject
+{
+    int hModel_;    //モデル番号
+    char objectID_; //どのオブジェクトかimguiが判別するためのオブジェクト
+
+public:
+    //コンストラクタ
+    TestWall(GameObject* parent);
+
+    //デストラクタ
+    ~TestWall();
+
+    //初期化
+    void Initialize() override;
+
+    //更新
+    void Update() override;
+
+    //描画
+    void Draw() override;
+
+    //開放
+    void Release() override;
+
+    void Imgui_Window() override;
+
+    void GetobjectID(char ID) { objectID_ = ID; }
+};

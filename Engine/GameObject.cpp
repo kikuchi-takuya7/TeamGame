@@ -383,20 +383,27 @@ void GameObject::Setting_Transform(Transform& _transform, float posmin, float po
 	float* r[] = { &_transform.rotate_.x ,&_transform.rotate_.y, &_transform.rotate_.z };
 	float s = _transform.scale_.x;
 
-	std::string tmp = str;
-	tmp = str + "sPosition";
-	char* c = new char[tmp.size() + 1];
-	strcpy_s(c, tmp.size() + 1, tmp.c_str());
-	ImGui::SliderFloat3(c, *p, posmin, posmax);
+	std::string tmpString = str;
+	tmpString = str + "sPosition.x";
+	char* c = new char[tmpString.size() + 1];
+	strcpy_s(c, tmpString.size() + 1, tmpString.c_str());
+	ImGui::SliderFloat(c, p[0], posmin, posmax);
 
-	tmp = str + "sRotate";
-	strcpy_s(c, tmp.size() + 1, tmp.c_str());
+	tmpString = str + "sPosition.y";
+	strcpy_s(c, tmpString.size() + 1, tmpString.c_str());
+	ImGui::SliderFloat(c, p[1], posmin, posmax);
+
+	tmpString = str + "sPosition.z";
+	strcpy_s(c, tmpString.size() + 1, tmpString.c_str());
+	ImGui::SliderFloat(c, p[2], posmin, posmax);
+
+	tmpString = str + "sRotate";
+	strcpy_s(c, tmpString.size() + 1, tmpString.c_str());
 	ImGui::SliderFloat3(c, *r, 0.0f, rot);
 
-	tmp = str + "sScale";
-	strcpy_s(c, tmp.size() + 1, tmp.c_str());
+	tmpString = str + "sScale";
+	strcpy_s(c, tmpString.size() + 1, tmpString.c_str());
 	ImGui::SliderFloat(c, &s, 0.0f, scl);
-	//ImGui::SliderFloat("float", &f, 0.0f, 1.0f);
 
 	_transform.scale_.x = s;
 	_transform.scale_.y = s;

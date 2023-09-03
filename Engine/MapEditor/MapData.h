@@ -3,6 +3,7 @@
 #include <vector>
 
 
+//新しいファイルを追加したら、こことCreateObjectに要素を手動で追加する
 enum FBXPATTERN {
 	TESTFLOOR,
 	TESTWALL,
@@ -32,12 +33,29 @@ public:
 	void Imgui_Window() override;
 
 	int GetModelHandle() { return hModel_[0]; }
+
+	/// <summary>
+	/// selecting_objectに対応したオブジェクトを作成する
+	/// </summary>
+	/// <returns>作成したオブジェクト</returns>
+	GameObject* CreateObject();
+
+	//createObjectListに入れる
+	void AddCreateObject(GameObject* object);
+
+	//ディレクトリ内の指定した識別子のファイルネームを獲得
+	std::vector<std::string> get_file_path_in_dir(const std::string& dir_name, const std::string& extension) noexcept(false);
+
 private:
 
 	std::vector<int> hModel_;
+	
+	//Mapファイルの中に入ってるfbxファイルの名前を入れる
 	std::vector<std::string> fileName_;
-	int changeModel_;
+	
+	//imguiで選択されているオブジェクト
+	FBXPATTERN selecting_object;
 
 	//作成したオブジェクトリスト
-	std::list<GameObject*> objectList_;
+	std::list<GameObject*> createObjectList_;
 };

@@ -150,6 +150,10 @@
     <ClCompile Include="Engine\Imgui\imgui_widgets.cpp">
       <Filter>01Engine\Imgui</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\MapEditor\Controller.cpp" />
+    <ClCompile Include="Engine\MapEditor\MapData.cpp" />
+    <ClCompile Include="Engine\MapEditor\MapEditorScene.cpp" />
+    <ClCompile Include="TestWall.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\BoxCollider.h">
@@ -264,6 +268,10 @@
     <ClInclude Include="MainGameScene.h">
       <Filter>Others</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\MapEditor\Controller.h" />
+    <ClInclude Include="Engine\MapEditor\MapData.h" />
+    <ClInclude Include="Engine\MapEditor\MapEditorScene.h" />
+    <ClInclude Include="TestWall.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Assets\Shader\Simple2D.hlsl">
