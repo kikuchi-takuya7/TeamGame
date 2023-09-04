@@ -41,7 +41,9 @@ void TestWall::Imgui_Window()
 {
 
 	ImGui::Begin("DataWindow");
-	if (ImGui::CollapsingHeader("TestWall"))
+	std::string str = GetObjectName() + objectID_;
+	const char* windowName = str.c_str();
+	if (ImGui::CollapsingHeader(windowName))
 	{
 		Setting_Transform(transform_, -100.0f, 100.0f, 365.0f, 5.0f, GetObjectName() + objectID_);
 

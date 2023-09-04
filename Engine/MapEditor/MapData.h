@@ -32,7 +32,7 @@ public:
 
 	void Imgui_Window() override;
 
-	int GetModelHandle() { return hModel_[0]; }
+	std::list<GameObject*> GetCreateObjectList() { return createObjectList_; }
 
 	/// <summary>
 	/// selecting_objectに対応したオブジェクトを作成する

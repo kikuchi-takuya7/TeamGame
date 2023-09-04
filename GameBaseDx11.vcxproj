@@ -93,7 +93,7 @@
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
-      <AdditionalIncludeDirectories>C:\Program Files\Autodesk\FBX\FBX SDK\2020.3.2\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Program Files\Autodesk\FBX\FBX SDK\2020.3.2\include;D:\project\kikuchi-takuya7\TeamGame\Engine\json-develop\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>C:\Program Files\Autodesk\FBX\FBX SDK\2020.3.2\lib\vs2019\x64\debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
@@ -154,6 +154,7 @@
     <ClCompile Include="Engine\MapEditor\MapData.cpp" />
     <ClCompile Include="Engine\MapEditor\MapEditorScene.cpp" />
     <ClCompile Include="Engine\Model.cpp" />
+    <ClCompile Include="Engine\SaveManager\SaveManager.cpp" />
     <ClCompile Include="Engine\VFX.cpp" />
     <ClCompile Include="Engine\RootObject.cpp" />
     <ClCompile Include="Engine\SceneManager.cpp" />
@@ -194,10 +195,12 @@
     <ClInclude Include="Engine\Imgui\imstb_textedit.h" />
     <ClInclude Include="Engine\Imgui\imstb_truetype.h" />
     <ClInclude Include="Engine\Input.h" />
+    <ClInclude Include="Engine\json-develop\include\nlohmann\json.hpp" />
     <ClInclude Include="Engine\MapEditor\Controller.h" />
     <ClInclude Include="Engine\MapEditor\MapData.h" />
     <ClInclude Include="Engine\MapEditor\MapEditorScene.h" />
     <ClInclude Include="Engine\Model.h" />
+    <ClInclude Include="Engine\SaveManager\SaveManager.h" />
     <ClInclude Include="Engine\VFX.h" />
     <ClInclude Include="Engine\RootObject.h" />
     <ClInclude Include="Engine\SceneManager.h" />

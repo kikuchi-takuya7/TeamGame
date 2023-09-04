@@ -39,6 +39,12 @@
     <Filter Include="01Engine\Imgui">
       <UniqueIdentifier>{8da53457-e57c-49f0-b8c0-edd887808a4d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01Engine\SaveManager">
+      <UniqueIdentifier>{1658cc38-a2cd-4e01-899b-eec0312d6e76}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01Engine\Json">
+      <UniqueIdentifier>{6938f99e-cfba-426a-a554-8584264090b2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine\BoxCollider.cpp">
@@ -154,6 +160,9 @@
     <ClCompile Include="Engine\MapEditor\MapData.cpp" />
     <ClCompile Include="Engine\MapEditor\MapEditorScene.cpp" />
     <ClCompile Include="TestWall.cpp" />
+    <ClCompile Include="Engine\SaveManager\SaveManager.cpp">
+      <Filter>01Engine\SaveManager</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\BoxCollider.h">
@@ -272,6 +281,12 @@
     <ClInclude Include="Engine\MapEditor\MapData.h" />
     <ClInclude Include="Engine\MapEditor\MapEditorScene.h" />
     <ClInclude Include="TestWall.h" />
+    <ClInclude Include="Engine\SaveManager\SaveManager.h">
+      <Filter>01Engine\SaveManager</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\json-develop\include\nlohmann\json.hpp">
+      <Filter>01Engine\Json</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Assets\Shader\Simple2D.hlsl">

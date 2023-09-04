@@ -2,6 +2,7 @@
 #include "../Model.h"
 #include "../Input.h"
 #include "../../TestWall.h"
+#include "../SaveManager/SaveManager.h"
 #include <vector>
 #include <string>
 #include <stdexcept>
@@ -31,6 +32,9 @@ void MapData::Initialize()
         assert(hModel_.at(i) >= 0);
     }
     
+    SaveManager* pSaveManager = Instantiate<SaveManager>(this);
+    pSaveManager->Load("SaveFile/SaveTest.json");
+
 }
 
 //更新
@@ -90,6 +94,11 @@ void MapData::Imgui_Window()
             ImGui::RadioButton("stay", &tmp, PATTERN_END);//何も選択していない状態にしたい時用
             selecting_object = static_cast<FBXPATTERN>(tmp);//intからenumに
             ImGui::TreePop();
+        }
+
+        if (ImGui::Button("Save")) {
+            SaveManager* pSaveManager = Instantiate<SaveManager>(this);
+            pSaveManager->Save("SaveTest",createObjectList_);
         }
     }
     ImGui::End();
