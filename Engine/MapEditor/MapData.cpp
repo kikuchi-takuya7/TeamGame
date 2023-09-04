@@ -25,7 +25,6 @@ void MapData::Initialize()
     //fileName‚ÌŒÂ”•ª‚Ì—v‘f”‚ğŠm•Û
     hModel_.assign(fileName_.size(),-1);
 
-
     for (int i = 0; i < hModel_.size(); i++) {
         std::string dir = "Map/";
         hModel_.at(i) = Model::Load(dir + fileName_.at(i));

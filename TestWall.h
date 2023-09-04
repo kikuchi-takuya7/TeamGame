@@ -6,6 +6,7 @@ class TestWall : public GameObject
 {
     int hModel_;    //モデル番号
     char objectID_; //どのオブジェクトかimguiが判別するためのオブジェクト
+    bool isDelete_;
 
 public:
     //コンストラクタ

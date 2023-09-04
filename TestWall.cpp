@@ -3,7 +3,7 @@
 
 //コンストラクタ
 TestWall::TestWall(GameObject* parent)
-    :GameObject(parent, "TestWall"), hModel_(-1),objectID_('N')
+    :GameObject(parent, "TestWall"), hModel_(-1),objectID_('N'),isDelete_(false)
 {
 }
 
@@ -44,6 +44,21 @@ void TestWall::Imgui_Window()
 	if (ImGui::CollapsingHeader("TestWall"))
 	{
 		Setting_Transform(transform_, -100.0f, 100.0f, 365.0f, 5.0f, GetObjectName() + objectID_);
+
+		if (ImGui::Button("Delete")) {
+			isDelete_ = true;
+		}
+
+		if (isDelete_) {
+			ImGui::SetNextWindowPos(ImVec2(600, 300), ImGuiCond_Once);//ImGuiCond_FirstUseEverこれを付けると初めて実行したときだけこの大きさに設定されて。それ以降はimgui.iniに保存される
+			ImGui::SetNextWindowSize(ImVec2(100, 50), ImGuiCond_Once);
+			ImGui::Begin("DeleteOk?");
+			if (ImGui::Button("Delete")) {
+				KillMe();
+			}
+			ImGui::End();
+		}
+
 	}
 	ImGui::End();
 
