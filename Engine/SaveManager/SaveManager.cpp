@@ -71,7 +71,8 @@ void SaveManager::Save(std::string fileName,std::list<GameObject*> list)
 
         json m_json = {
                 {"objectName",(*itr)->GetObjectName()},
-                {"Transform",arr}
+                {"Transform",arr},
+                {"objectID",(*itr)->GetobjectID()}
         };
 
         writing_file << m_json.dump() << std::endl;
@@ -140,6 +141,9 @@ void SaveManager::Load(std::string fileName)
 
         object->SetTransform(objTrans);
 
+        char ID = m_json["objectID"];
+
+        object->SetobjectID(m_json["objectID"]);
     }
 
 

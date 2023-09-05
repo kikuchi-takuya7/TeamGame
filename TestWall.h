@@ -29,5 +29,5 @@ public:
 
     void Imgui_Window() override;
 
-    void GetobjectID(char ID) { objectID_ = ID; }
+    
 };

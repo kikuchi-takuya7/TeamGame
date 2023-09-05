@@ -230,6 +230,9 @@ public:
 	void SetScale(float x, float y, float z) { SetScale(XMFLOAT3(x, y, z)); }
 	void SetTransform(Transform transform) { transform_ = transform; }
 
+	void SetobjectID(char ID) { objectID_ = ID; }
+	char GetobjectID() { return objectID_; }
+
 
 private:
 
@@ -254,6 +257,8 @@ private:
 
 	//子オブジェクトリスト
 	std::list<GameObject*> childList_;
+
+	char objectID_;
 
 };
 

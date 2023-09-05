@@ -119,7 +119,7 @@ GameObject* MapData::CreateObject()
         AddCreateObject(pTestWall);
         int c = createObjectList_.size();
         char ID = c + '0'; //文字コード的に0を足すとちょうどcの数字を表すやつになってくれる
-        pTestWall->GetobjectID(ID); //作ったオブジェクト順に識別するためのIDを付ける
+        pTestWall->SetobjectID(ID); //作ったオブジェクト順に識別するためのIDを付ける
         return pTestWall;
     }
     case PATTERN_END: {
