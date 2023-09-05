@@ -5,8 +5,10 @@
 class TestWall : public GameObject
 {
     int hModel_;    //モデル番号
-    char objectID_; //どのオブジェクトかimguiが判別するためのオブジェクト
+    //char objectID_; //どのオブジェクトかimguiが判別するためのオブジェクト
     bool isDelete_;
+
+    bool isClose_;
 
 public:
     //コンストラクタ
@@ -29,5 +31,12 @@ public:
 
     void Imgui_Window() override;
 
+    void Data_Edit();
+
+    bool IsKillCheck();
+
+    void DeleteMe();
+
+    void DeleteStop();
     
 };

@@ -46,6 +46,9 @@ public:
 	//ディレクトリ内の指定した識別子のファイルネームを獲得
 	std::vector<std::string> get_file_path_in_dir(const std::string& dir_name, const std::string& extension) noexcept(false);
 
+	//createObjectの中にdeleteされたオブジェクトがあるか
+	void CheckDeleteObject();
+
 private:
 
 	std::vector<int> hModel_;
@@ -58,4 +61,9 @@ private:
 
 	//作成したオブジェクトリスト
 	std::list<GameObject*> createObjectList_;
+
+	//セーブするかのフラグ
+	bool isSave_;
+
+	int beginCreateObjSize_;
 };

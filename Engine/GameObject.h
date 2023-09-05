@@ -213,6 +213,7 @@ public:
 
 
 	//各アクセス関数
+	Transform GetTransform() { return transform_; }
 	XMFLOAT3 GetPosition() { return transform_.position_; }
 	XMFLOAT3 GetRotate() { return transform_.rotate_; }
 	XMFLOAT3 GetScale() { return transform_.scale_; }
@@ -230,8 +231,8 @@ public:
 	void SetScale(float x, float y, float z) { SetScale(XMFLOAT3(x, y, z)); }
 	void SetTransform(Transform transform) { transform_ = transform; }
 
-	void SetobjectID(char ID) { objectID_ = ID; }
-	char GetobjectID() { return objectID_; }
+	void SetObjectID(char ID) { objectID_ = ID; }
+	char GetObjectID() { return objectID_; }
 
 
 private:
@@ -258,6 +259,7 @@ private:
 	//子オブジェクトリスト
 	std::list<GameObject*> childList_;
 
+	//オブジェクトを識別するID　char型なのはImguiの名前で使えるようにするため
 	char objectID_;
 
 };

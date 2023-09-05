@@ -2,6 +2,7 @@
 #include <iostream>
 #include "../json-develop/include/nlohmann/json.hpp"
 #include "../../TestWall.h"
+#include "../MapEditor/MapData.h"
 #include <fstream>
 
 using json = nlohmann::json;
@@ -56,6 +57,7 @@ void SaveManager::Save(std::string fileName,std::list<GameObject*> list)
     std::ofstream writing_file;
     writing_file.open(filename, std::ios::out);
 
+    int i = 1;
     for (auto itr = list.begin(); itr != list.end();itr++) {
 
         //要素が空のjson変数を作る
@@ -72,11 +74,12 @@ void SaveManager::Save(std::string fileName,std::list<GameObject*> list)
         json m_json = {
                 {"objectName",(*itr)->GetObjectName()},
                 {"Transform",arr},
-                {"objectID",(*itr)->GetobjectID()}
+                {"objectID",i} //IDはここで0から入力しないとあっちに行ったときにIDが2とかで被る時がある
         };
 
         writing_file << m_json.dump() << std::endl;
 
+        i++;
     }
         
     writing_file.close();
@@ -125,6 +128,9 @@ void SaveManager::Load(std::string fileName)
         json m_json;
         ifs >> m_json;
 
+        if (m_json["objectName"].empty() || m_json["Transform"].empty() || m_json["objectID"].empty())
+            continue;
+
         GameObject* object = CreateObj(m_json["objectName"]);
             
         //読み込んだデータをオブジェクトに入れる
@@ -141,9 +147,13 @@ void SaveManager::Load(std::string fileName)
 
         object->SetTransform(objTrans);
 
-        char ID = m_json["objectID"];
+        int tmp = m_json["objectID"];
 
-        object->SetobjectID(m_json["objectID"]);
+        char ID = (char)tmp + '0';
+
+        //strcpy_s(ID, tmp.size() + 1, tmp.c_str());
+
+        object->SetObjectID(ID);
     }
 
 
@@ -152,9 +162,10 @@ void SaveManager::Load(std::string fileName)
 
 GameObject* SaveManager::CreateObj(std::string className)
 {
-
+    //ロードしたobjectNameに対応するオブジェクトを作成し、MapDataのcreateObjectに入れる
     if (className == "TestWall") {
         TestWall* Player = Instantiate<TestWall>(this->GetParent());
+        ((MapData*)this->GetParent())->AddCreateObject(Player);
         return Player;
     }
 

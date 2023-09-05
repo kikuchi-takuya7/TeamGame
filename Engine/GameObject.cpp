@@ -17,7 +17,7 @@ GameObject::GameObject(GameObject* parent) :
 
 //コンストラクタ（標準）
 GameObject::GameObject(GameObject* parent, const std::string& name)
-	: pParent_(parent), objectName_(name)
+	: pParent_(parent), objectName_(name), objectID_('N')
 {
 	childList_.clear();
 	state_ = { 0, 1, 1, 0 };

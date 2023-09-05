@@ -3,7 +3,7 @@
 
 //コンストラクタ
 TestWall::TestWall(GameObject* parent)
-    :GameObject(parent, "TestWall"), hModel_(-1),objectID_('N'),isDelete_(false)
+    :GameObject(parent, "TestWall"), hModel_(-1),isDelete_(false),isClose_(false)
 {
 }
 
@@ -41,27 +41,54 @@ void TestWall::Imgui_Window()
 {
 
 	ImGui::Begin("DataWindow");
-	std::string str = GetObjectName() + objectID_;
+	Data_Edit();
+
+}
+
+void TestWall::Data_Edit()
+{
+	std::string str = GetObjectName() + GetObjectID();
 	const char* windowName = str.c_str();
+
 	if (ImGui::CollapsingHeader(windowName))
 	{
-		Setting_Transform(transform_, -100.0f, 100.0f, 365.0f, 5.0f, GetObjectName() + objectID_);
+		Setting_Transform(transform_, -100.0f, 100.0f, 365.0f, 5.0f, GetObjectName() + GetObjectID());
 
-		if (ImGui::Button("Delete")) {
+		std::string s = "delete";
+		str = s + GetObjectID();
+		const char* deleteName = str.c_str();
+		if (ImGui::Button(deleteName)) {
 			isDelete_ = true;
 		}
 
 		if (isDelete_) {
 			ImGui::SetNextWindowPos(ImVec2(600, 300), ImGuiCond_Once);//ImGuiCond_FirstUseEverこれを付けると初めて実行したときだけこの大きさに設定されて。それ以降はimgui.iniに保存される
 			ImGui::SetNextWindowSize(ImVec2(100, 50), ImGuiCond_Once);
-			ImGui::Begin("DeleteOk?");
-			if (ImGui::Button("Delete")) {
+			std::string tmp = "OK?";
+			tmp = tmp + s + GetObjectID();
+			const char* deleteName = tmp.c_str();
+			ImGui::Begin(deleteName, &isDelete_);
+			if (ImGui::Button(deleteName)) {
+
 				KillMe();
 			}
-			ImGui::End();
+			ImGui::End();	
 		}
-
 	}
 	ImGui::End();
+}
 
+bool TestWall::IsKillCheck()
+{
+	return isDelete_;
+}
+
+void TestWall::DeleteMe()
+{
+	isDelete_ = true;
+}
+
+void TestWall::DeleteStop()
+{
+	isDelete_ = false;
 }

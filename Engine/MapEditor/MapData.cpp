@@ -6,12 +6,13 @@
 #include <vector>
 #include <string>
 #include <stdexcept>
+#include "../Global.h"
 
 
 
 //コンストラクタ
 MapData::MapData(GameObject* parent)
-	: GameObject(parent, "MapData"),selecting_object(PATTERN_END)
+	: GameObject(parent, "MapData"),selecting_object(PATTERN_END),isSave_(false),beginCreateObjSize_(0)
 {
 
     
@@ -35,12 +36,14 @@ void MapData::Initialize()
     SaveManager* pSaveManager = Instantiate<SaveManager>(this);
     pSaveManager->Load("SaveFile/SaveTest.json");
 
+    beginCreateObjSize_ = createObjectList_.size();
 }
 
 //更新
 void MapData::Update()
 {
-    XMFLOAT3 mousePos = Input::GetMousePosition();
+    
+    CheckDeleteObject();
 
     //左クリックされた
     if (Input::IsMouseButtonDown(0))
@@ -96,11 +99,56 @@ void MapData::Imgui_Window()
             ImGui::TreePop();
         }
 
-        if (ImGui::Button("Save")) {
-            SaveManager* pSaveManager = Instantiate<SaveManager>(this);
-            pSaveManager->Save("SaveTest",createObjectList_);
+        
+        if (ImGui::Button("Save"))
+            isSave_ = true;
+
+        //Saveが押されたらここが表示される
+        if (isSave_) {
+            ImGui::SetNextWindowPos(ImVec2(600, 300), ImGuiCond_Once);//ImGuiCond_FirstUseEverこれを付けると初めて実行したときだけこの大きさに設定されて。それ以降はimgui.iniに保存される
+            ImGui::SetNextWindowSize(ImVec2(100, 50), ImGuiCond_Once);
+            ImGui::Begin("SaveOk?");
+            if (ImGui::Button("Save")) {
+                
+                SaveManager* pSaveManager = Instantiate<SaveManager>(this);
+                pSaveManager->Save("SaveTest", createObjectList_);
+                isSave_ = false;
+            }
+            ImGui::End();
         }
     }
+
+
+    //ここに各オブジェクトのTransformとかまとめて処理したかったけど、listがGameObject型だからそれぞれのisDelete_とアクセスできないし一旦やめた
+    //if (ImGui::CollapsingHeader("ObjectData"))
+    //{
+    //    for (auto itr = createObjectList_.begin(); itr != createObjectList_.end(); itr++) {
+    //        std::string str = GetObjectName() + GetObjectID();
+    //        const char* windowName = str.c_str();
+
+    //        if (ImGui::CollapsingHeader(windowName))
+    //        {
+    //            Setting_Transform((*itr)->GetTransform(), -100.0f, 100.0f, 365.0f, 5.0f, GetObjectName() + GetObjectID());
+
+    //            if (ImGui::Button("Delete")) {
+
+    //            }
+
+    //            if (isDelete_) {
+    //                ImGui::SetNextWindowPos(ImVec2(600, 300), ImGuiCond_Once);//ImGuiCond_FirstUseEverこれを付けると初めて実行したときだけこの大きさに設定されて。それ以降はimgui.iniに保存される
+    //                ImGui::SetNextWindowSize(ImVec2(100, 50), ImGuiCond_Once);
+    //                ImGui::Begin("DeleteOk?");
+    //                if (ImGui::Button("Delete")) {
+    //                    KillMe();
+    //                }
+    //                ImGui::End();
+    //            }
+
+    //        }
+    //        ImGui::End();
+    //    }
+
+    //}
     ImGui::End();
 }
 
@@ -116,10 +164,11 @@ GameObject* MapData::CreateObject()
     }
     case TESTWALL: {
         TestWall* pTestWall = Instantiate<TestWall>(this);
-        AddCreateObject(pTestWall);
-        int c = createObjectList_.size();
+        int c = beginCreateObjSize_ + 1;
+        beginCreateObjSize_++;
         char ID = c + '0'; //文字コード的に0を足すとちょうどcの数字を表すやつになってくれる
-        pTestWall->SetobjectID(ID); //作ったオブジェクト順に識別するためのIDを付ける
+        AddCreateObject(pTestWall);
+        pTestWall->SetObjectID(ID); //作ったオブジェクト順に識別するためのIDを付ける
         return pTestWall;
     }
     case PATTERN_END: {
@@ -165,4 +214,18 @@ std::vector<std::string> MapData::get_file_path_in_dir(const std::string& dir_na
     FindClose(hFind);
 
     return file_names;
+}
+
+void MapData::CheckDeleteObject()
+{
+
+    for (auto itr = createObjectList_.begin(); itr != createObjectList_.end();) {
+        if ((*itr)->IsDead()) {
+            itr = createObjectList_.erase(itr);
+        }
+        else {
+            itr++;
+        }
+    }
+
 }
