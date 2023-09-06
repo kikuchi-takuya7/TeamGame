@@ -231,8 +231,8 @@ public:
 	void SetScale(float x, float y, float z) { SetScale(XMFLOAT3(x, y, z)); }
 	void SetTransform(Transform transform) { transform_ = transform; }
 
-	void SetObjectID(char ID) { objectID_ = ID; }
-	char GetObjectID() { return objectID_; }
+	void SetObjectID(int ID) { objectID_ = ID; }
+	int GetObjectID() { return objectID_; }
 
 
 private:
@@ -259,8 +259,8 @@ private:
 	//子オブジェクトリスト
 	std::list<GameObject*> childList_;
 
-	//オブジェクトを識別するID　char型なのはImguiの名前で使えるようにするため
-	char objectID_;
+	//オブジェクトを識別するIDというか順番みたいな感じになってる。IDがないとImguiで識別できなくなっちゃう
+	int objectID_;
 
 };
 

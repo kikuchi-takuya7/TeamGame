@@ -49,6 +49,10 @@ public:
 	//createObjectの中にdeleteされたオブジェクトがあるか
 	void CheckDeleteObject();
 
+	//オブジェクトの位置（CreateList）を上に上げる
+	void ChengeUp(GameObject* pTarget);
+	void ChengeDown(GameObject* pTarget);
+
 private:
 
 	std::vector<int> hModel_;
@@ -65,5 +69,4 @@ private:
 	//セーブするかのフラグ
 	bool isSave_;
 
-	int beginCreateObjSize_;
 };

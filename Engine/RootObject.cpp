@@ -37,9 +37,10 @@ void RootObject::Imgui_Window()
 		conf_ = true;
 	}
 
-	ImGui::SetNextWindowPos(ImVec2(900, 10), ImGuiCond_Once);//, ImGuiCond_FirstUseEverこれを付けると初めて実行したときだけこの大きさに設定されて。それ以降はimgui.iniに保存される
-	ImGui::SetNextWindowSize(ImVec2(400, 1000), ImGuiCond_Once);
+	ImGui::SetNextWindowPos(ImVec2(875, 10), ImGuiCond_Once);//, ImGuiCond_FirstUseEverこれを付けると初めて実行したときだけこの大きさに設定されて。それ以降はimgui.iniに保存される
+	ImGui::SetNextWindowSize(ImVec2(400, 600), ImGuiCond_Once);//ImGuiCond_Onceを付けると呼び出すときだけこの大きさになる
 	ImGui::Begin("DataWindow");
+
 	ImGui::Text("Shift + S: DataSave");
 
 	if (conf_) {

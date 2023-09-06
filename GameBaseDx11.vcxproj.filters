@@ -163,6 +163,7 @@
     <ClCompile Include="Engine\SaveManager\SaveManager.cpp">
       <Filter>01Engine\SaveManager</Filter>
     </ClCompile>
+    <ClCompile Include="TestFloor.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\BoxCollider.h">
@@ -287,6 +288,7 @@
     <ClInclude Include="Engine\json-develop\include\nlohmann\json.hpp">
       <Filter>01Engine\Json</Filter>
     </ClInclude>
+    <ClInclude Include="TestFloor.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Assets\Shader\Simple2D.hlsl">
