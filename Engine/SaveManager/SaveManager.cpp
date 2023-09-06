@@ -60,9 +60,8 @@ void SaveManager::Save(std::string fileName,std::list<GameObject*> list)
     int i = 1;
     for (auto itr = list.begin(); itr != list.end();itr++) {
 
-        //—v‘f‚ª‹ó‚Ìjson•Ï”‚ğì‚é
-        
 
+        //‚»‚ê‚¼‚ê‚ÌTransform‚ğŒŸõ‚µ‚Ä“ü‚ê‚é
         XMFLOAT3 pos = (*itr)->GetPosition();
         XMFLOAT3 rot = (*itr)->GetRotate();
         XMFLOAT3 sca = (*itr)->GetScale();
@@ -74,9 +73,10 @@ void SaveManager::Save(std::string fileName,std::list<GameObject*> list)
         json m_json = {
                 {"objectName",(*itr)->GetObjectName()},
                 {"Transform",arr},
-                {"objectID",i} //ID‚Í‚±‚±‚Å0‚©‚ç“ü—Í‚µ‚È‚¢‚Æ‚ ‚Á‚¿‚És‚Á‚½‚Æ‚«‚ÉID‚ª2‚Æ‚©‚Å”í‚é‚ª‚ ‚é
+                {"objectID",i} //ID‚Í‚±‚±‚Å1‚©‚ç“ü—Í‚µ‚È‚¢‚Æ‚ ‚Á‚¿‚És‚Á‚½‚Æ‚«‚ÉID‚ª2‚Æ‚©‚Å”í‚é‚ª‚ ‚é
         };
 
+        //ˆês‚¸‚Â“ü—Í
         writing_file << m_json.dump() << std::endl;
 
         i++;
@@ -128,6 +128,7 @@ void SaveManager::Load(std::string fileName)
         json m_json;
         ifs >> m_json;
 
+        //—v‘f‚ª‚©‚ç‚È‚ç‚â‚ß‚é
         if (m_json["objectName"].empty() || m_json["Transform"].empty() || m_json["objectID"].empty())
             continue;
 
@@ -147,6 +148,7 @@ void SaveManager::Load(std::string fileName)
 
         object->SetTransform(objTrans);
 
+        //charŒ^‚Ì”š‚ğ®”Œ^‚Å“Ç‚İ‚ñ‚ÅcharŒ^‚Ì0‚ğ‘«‚·‚Æ‚¿‚å‚¤‚Ç‚»‚Ì”š‚É‚È‚é
         int tmp = m_json["objectID"];
 
         char ID = (char)tmp + '0';
