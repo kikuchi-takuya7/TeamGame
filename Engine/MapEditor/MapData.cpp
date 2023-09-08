@@ -57,6 +57,10 @@ void MapData::Update()
 void MapData::Draw()
 {
    
+    for (auto itr = createObjectList_.begin(); itr != createObjectList_.end();) {
+        //(*itr)->
+    }
+
     Transform objPos;
     objPos.position_.y = 1.0f;
 
@@ -101,7 +105,7 @@ void MapData::Imgui_Window()
         if (isSave_) {
             ImGui::SetNextWindowPos(ImVec2(600, 300), ImGuiCond_Once);//ImGuiCond_FirstUseEverこれを付けると初めて実行したときだけこの大きさに設定されて。それ以降はimgui.iniに保存される
             ImGui::SetNextWindowSize(ImVec2(100, 50), ImGuiCond_Once);
-            ImGui::Begin("SaveOk?");
+            ImGui::Begin("SaveOk?",&isSave_);
             if (ImGui::Button("Save")) {
                 CheckDeleteObject();
                 SaveManager* pSaveManager = Instantiate<SaveManager>(this);
@@ -114,35 +118,20 @@ void MapData::Imgui_Window()
 
 
     //ここに各オブジェクトのTransformとかまとめて処理したかったけど、listがGameObject型だからそれぞれのisDelete_とアクセスできないし一旦やめた
-    //if (ImGui::CollapsingHeader("ObjectData"))
-    //{
-    //    for (auto itr = createObjectList_.begin(); itr != createObjectList_.end(); itr++) {
-    //        std::string str = GetObjectName() + GetObjectID();
-    //        const char* windowName = str.c_str();
+    if (ImGui::CollapsingHeader("ObjectData"))
+    {
+        if (ImGui::TreeNode("Data")) {//Objectのツリーをクリックすると
+            for (auto itr = createObjectList_.begin(); itr != createObjectList_.end(); itr++) {
+            
+            
 
-    //        if (ImGui::CollapsingHeader(windowName))
-    //        {
-    //            Setting_Transform((*itr)->GetTransform(), -100.0f, 100.0f, 365.0f, 5.0f, GetObjectName() + GetObjectID());
+                (*itr)->Imgui_Data_Edit();
+                
+            }
 
-    //            if (ImGui::Button("Delete")) {
-
-    //            }
-
-    //            if (isDelete_) {
-    //                ImGui::SetNextWindowPos(ImVec2(600, 300), ImGuiCond_Once);//ImGuiCond_FirstUseEverこれを付けると初めて実行したときだけこの大きさに設定されて。それ以降はimgui.iniに保存される
-    //                ImGui::SetNextWindowSize(ImVec2(100, 50), ImGuiCond_Once);
-    //                ImGui::Begin("DeleteOk?");
-    //                if (ImGui::Button("Delete")) {
-    //                    KillMe();
-    //                }
-    //                ImGui::End();
-    //            }
-
-    //        }
-    //        ImGui::End();
-    //    }
-
-    //}
+            ImGui::TreePop();
+        }
+    }
     ImGui::End();
 }
 
@@ -263,10 +252,14 @@ void MapData::ChengeDown(GameObject* pTarget)
     if ((*itr) == pTarget)
         return;
 
-    for (itr ; itr != createObjectList_.begin(); itr--) {
+    while(itr!=createObjectList_.begin()) {
+
+        itr--;
+
         if ((*itr) == pTarget) {
             createObjectList_.splice(std::next(itr, 2), createObjectList_, itr);
             break;
         }
     }
+
 }

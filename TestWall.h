@@ -31,7 +31,7 @@ public:
 
     void Imgui_Window() override;
 
-    void Data_Edit();
+    void Imgui_Data_Edit() override;
 
     bool IsKillCheck();
 

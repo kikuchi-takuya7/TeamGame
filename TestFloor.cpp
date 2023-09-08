@@ -41,13 +41,15 @@ void TestFloor::Release()
 void TestFloor::Imgui_Window()
 {
 
-	ImGui::Begin("DataWindow");
-	Data_Edit();
+	//ImGui::Begin("DataWindow");
+	//Imgui_Data_Edit();
 
 }
 
-void TestFloor::Data_Edit()
+void TestFloor::Imgui_Data_Edit()
 {
+	ImGui::Begin("DataWindow");
+
 	//Imguiの名前表示でcharにする必要があるためその準備
 	int tmp = GetObjectID();
 	std::string ID = std::to_string(tmp);
@@ -68,8 +70,8 @@ void TestFloor::Data_Edit()
 
 		if (isDelete_) {
 			ImGui::SetNextWindowPos(ImVec2(600, 300), ImGuiCond_Once);//ImGuiCond_FirstUseEverこれを付けると初めて実行したときだけこの大きさに設定されて。それ以降はimgui.iniに保存される
-			ImGui::SetNextWindowSize(ImVec2(100, 50), ImGuiCond_Once);
-			std::string tmp = str + ID + "OK?";
+			ImGui::SetNextWindowSize(ImVec2(200, 100), ImGuiCond_Once);
+			std::string tmp = str + "OK?";
 			const char* deleteConf = tmp.c_str();
 			ImGui::Begin(deleteConf, &isDelete_);
 			if (ImGui::Button(deleteConf)) {
