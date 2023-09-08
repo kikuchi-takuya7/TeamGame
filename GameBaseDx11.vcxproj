@@ -169,6 +169,7 @@
     <ClCompile Include="Option.cpp" />
     <ClCompile Include="SelectScene.cpp" />
     <ClCompile Include="SplashScene.cpp" />
+    <ClCompile Include="TestFloor.cpp" />
     <ClCompile Include="TestWall.cpp" />
     <ClCompile Include="TitleScene.cpp" />
   </ItemGroup>
@@ -215,6 +216,7 @@
     <ClInclude Include="Option.h" />
     <ClInclude Include="SelectScene.h" />
     <ClInclude Include="SplashScene.h" />
+    <ClInclude Include="TestFloor.h" />
     <ClInclude Include="TestWall.h" />
     <ClInclude Include="TitleScene.h" />
   </ItemGroup>

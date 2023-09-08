@@ -2,6 +2,7 @@
 #include <iostream>
 #include "../json-develop/include/nlohmann/json.hpp"
 #include "../../TestWall.h"
+#include "../../TestFloor.h"
 #include "../MapEditor/MapData.h"
 #include <fstream>
 
@@ -57,7 +58,8 @@ void SaveManager::Save(std::string fileName,std::list<GameObject*> list)
     std::ofstream writing_file;
     writing_file.open(filename, std::ios::out);
 
-    int i = 1;
+    //MapDataで作ったオブジェクトのサイズ順にIDつけちゃってるからこっちで1から付け直さないとＩＤが被っちゃう
+    int ID = 1;
     for (auto itr = list.begin(); itr != list.end();itr++) {
 
 
@@ -70,16 +72,19 @@ void SaveManager::Save(std::string fileName,std::list<GameObject*> list)
                          rot.x,rot.y,rot.z,
                          sca.x,sca.y,sca.z };
 
+        //string型で保存しないとロードの時少しめんどくさくなる
+        std::string s = std::to_string(ID);
+
         json m_json = {
                 {"objectName",(*itr)->GetObjectName()},
                 {"Transform",arr},
-                {"objectID",i} //IDはここで1から入力しないとあっちに行ったときにIDが2とかで被る時がある
+                {"objectID",s} 
         };
 
         //一行ずつ入力
         writing_file << m_json.dump() << std::endl;
 
-        i++;
+        ID++;
     }
         
     writing_file.close();
@@ -128,7 +133,7 @@ void SaveManager::Load(std::string fileName)
         json m_json;
         ifs >> m_json;
 
-        //要素がからならやめる
+        //要素が空ならやめる
         if (m_json["objectName"].empty() || m_json["Transform"].empty() || m_json["objectID"].empty())
             continue;
 
@@ -148,14 +153,11 @@ void SaveManager::Load(std::string fileName)
 
         object->SetTransform(objTrans);
 
-        //char型の数字を整数型で読み込んでchar型の0を足すとちょうどその数字になる
-        int tmp = m_json["objectID"];
+        //Stringをintに変えて保存
+        std::string tmpString = m_json["objectID"];
 
-        char ID = (char)tmp + '0';
+        object->SetObjectID(std::stoi(tmpString));
 
-        //strcpy_s(ID, tmp.size() + 1, tmp.c_str());
-
-        object->SetObjectID(ID);
     }
 
 
@@ -164,13 +166,22 @@ void SaveManager::Load(std::string fileName)
 
 GameObject* SaveManager::CreateObj(std::string className)
 {
-    //ロードしたobjectNameに対応するオブジェクトを作成し、MapDataのcreateObjectに入れる
+    //ロードしたobjectNameに対応するオブジェクトを作成し、SaveManagerを呼び出したのがMapDataならcreateObjectに入れる
     if (className == "TestWall") {
-        TestWall* Player = Instantiate<TestWall>(this->GetParent());
-        ((MapData*)this->GetParent())->AddCreateObject(Player);
-        return Player;
-    }
+        TestWall* object = Instantiate<TestWall>(this->GetParent());
 
+        if (this->GetParent()->GetObjectName() == "MapData")
+            ((MapData*)this->GetParent())->AddCreateObject(object);
+  
+        return object;
+    }
+    else if (className == "TestFloor") {
+        TestFloor* object = Instantiate<TestFloor>(this->GetParent());
+
+        if (this->GetParent()->GetObjectName() == "MapData")
+        ((MapData*)this->GetParent())->AddCreateObject(object);
+        return object;
+    }
     return NULL;   // 指定のクラスが無い
 }
 

@@ -2,6 +2,7 @@
 #include "../Model.h"
 #include "../Input.h"
 #include "../../TestWall.h"
+#include "../../TestFloor.h"
 #include "../SaveManager/SaveManager.h"
 #include <vector>
 #include <string>
@@ -12,7 +13,7 @@
 
 //コンストラクタ
 MapData::MapData(GameObject* parent)
-	: GameObject(parent, "MapData"),selecting_object(PATTERN_END),isSave_(false),beginCreateObjSize_(0)
+	: GameObject(parent, "MapData"),selecting_object(PATTERN_END),isSave_(false)
 {
 
     
@@ -36,14 +37,13 @@ void MapData::Initialize()
     SaveManager* pSaveManager = Instantiate<SaveManager>(this);
     pSaveManager->Load("SaveFile/SaveTest.json");
 
-    beginCreateObjSize_ = createObjectList_.size();
 }
 
 //更新
 void MapData::Update()
 {
     
-    CheckDeleteObject();
+    //CheckDeleteObject();
 
     //左クリックされた
     if (Input::IsMouseButtonDown(0))
@@ -56,15 +56,7 @@ void MapData::Update()
 //描画
 void MapData::Draw()
 {
-    for (int x = 0; x < 15; x++) {
-        for (int z = 0; z < 15; z++) {
-            Transform blockTrans;
-            blockTrans.position_.z = z;
-            blockTrans.position_.x = x;
-            Model::SetTransform(hModel_[0], blockTrans);
-            Model::Draw(hModel_[0]);
-        }
-    }
+   
     Transform objPos;
     objPos.position_.y = 1.0f;
 
@@ -87,6 +79,7 @@ void MapData::Imgui_Window()
     ImGui::Begin("DataWindow");
     if (ImGui::CollapsingHeader("MapEditor"))
     {
+
         if (ImGui::TreeNode("Object")){//Objectのツリーをクリックすると
 
             int tmp = selecting_object;
@@ -100,8 +93,9 @@ void MapData::Imgui_Window()
         }
 
         
-        if (ImGui::Button("Save"))
+        if (ImGui::Button("Save")) {
             isSave_ = true;
+        }
 
         //Saveが押されたらここが表示される
         if (isSave_) {
@@ -109,7 +103,7 @@ void MapData::Imgui_Window()
             ImGui::SetNextWindowSize(ImVec2(100, 50), ImGuiCond_Once);
             ImGui::Begin("SaveOk?");
             if (ImGui::Button("Save")) {
-                
+                CheckDeleteObject();
                 SaveManager* pSaveManager = Instantiate<SaveManager>(this);
                 pSaveManager->Save("SaveTest", createObjectList_);
                 isSave_ = false;
@@ -160,15 +154,16 @@ GameObject* MapData::CreateObject()
     switch (selecting_object)
     {
     case TESTFLOOR: {
+        TestFloor* pTestFloor = Instantiate<TestFloor>(this);
+        AddCreateObject(pTestFloor);
+        pTestFloor->SetObjectID(createObjectList_.size()); //作ったオブジェクト順に識別するためのIDを付ける
+        return pTestFloor;
         break;
     }
     case TESTWALL: {
         TestWall* pTestWall = Instantiate<TestWall>(this);
-        int c = beginCreateObjSize_ + 1;
-        beginCreateObjSize_++;
-        char ID = c + '0'; //文字コード的に0を足すとちょうどcの数字を表すやつになってくれる
         AddCreateObject(pTestWall);
-        pTestWall->SetObjectID(ID); //作ったオブジェクト順に識別するためのIDを付ける
+        pTestWall->SetObjectID(createObjectList_.size()); //作ったオブジェクト順に識別するためのIDを付ける
         return pTestWall;
     }
     case PATTERN_END: {
@@ -183,6 +178,7 @@ GameObject* MapData::CreateObject()
 
 void MapData::AddCreateObject(GameObject* object)
 {
+    CheckDeleteObject();
     createObjectList_.push_back(object);
 }
 
@@ -228,4 +224,49 @@ void MapData::CheckDeleteObject()
         }
     }
 
+}
+
+void MapData::ChengeUp(GameObject* pTarget)
+{
+
+    auto itr = createObjectList_.begin();
+
+    //既に先頭なら
+    if ((*itr) == pTarget)
+        return;
+
+    for (itr ; itr != createObjectList_.end(); itr++) {
+        if ((*itr) == pTarget) {
+            createObjectList_.splice(std::next(itr, -1), createObjectList_, itr);
+            break;
+        }
+    }
+
+    /*SaveManager* pSaveManager = Instantiate<SaveManager>(this);
+    pSaveManager->Save("SaveFile/SaveTest.json", createObjectList_);
+    KillAllChildren();
+    createObjectList_.clear();
+    SaveManager* pSaveManager2 = Instantiate<SaveManager>(this);
+    pSaveManager2->Load("SaveFile/SaveTest.json");*/
+
+    //この関数を子から呼び出してるのにKillAllChildrenでぶっ殺してるからエラーになる
+    //対処法がわからないため一旦保留。めんどくさいけど再起動すれば描画順番変えれはする
+}
+
+void MapData::ChengeDown(GameObject* pTarget)
+{
+
+    auto itr = createObjectList_.end();
+
+    itr--;
+    //既に一番後ろなら
+    if ((*itr) == pTarget)
+        return;
+
+    for (itr ; itr != createObjectList_.begin(); itr--) {
+        if ((*itr) == pTarget) {
+            createObjectList_.splice(std::next(itr, 2), createObjectList_, itr);
+            break;
+        }
+    }
 }

@@ -1,2 +1,5 @@
-{"Transform":[35.24599838256836,0.0,0.0,0.0,0.0,0.0,1.0,1.0,1.0],"objectID":1,"objectName":"TestWall"}
-{"Transform":[4.0980000495910645,0.0,3.2790000438690186,0.0,0.0,0.0,1.0,1.0,1.0],"objectID":2,"objectName":"TestWall"}
+{"Transform":[4.918000221252441,0.0,6.557000160217285,0.0,0.0,0.0,1.0,1.0,1.0],"objectID":"1","objectName":"TestFloor"}
+{"Transform":[4.916999816894531,0.8199999928474426,4.918000221252441,0.0,0.0,0.0,1.0,1.0,1.0],"objectID":"2","objectName":"TestWall"}
+{"Transform":[0.0,0.0,0.0,0.0,0.0,0.0,1.0,1.0,1.0],"objectID":"3","objectName":"TestWall"}
+{"Transform":[0.0,0.0,0.0,0.0,0.0,0.0,1.0,1.0,1.0],"objectID":"4","objectName":"TestWall"}
+{"Transform":[0.0,0.0,0.0,0.0,0.0,0.0,1.0,1.0,1.0],"objectID":"5","objectName":"TestWall"}

@@ -1,44 +1,44 @@
-#include "TestWall.h"
+#include "TestFloor.h"
 #include "Engine/MapEditor/MapData.h"
 #include "Engine/Model.h"
 
 //コンストラクタ
-TestWall::TestWall(GameObject* parent)
-    :GameObject(parent, "TestWall"), hModel_(-1),isDelete_(false),isClose_(false)
+TestFloor::TestFloor(GameObject* parent)
+	:GameObject(parent, "TestFloor"), hModel_(-1), isDelete_(false), isClose_(false)
 {
 }
 
 //デストラクタ
-TestWall::~TestWall()
+TestFloor::~TestFloor()
 {
 }
 
 //初期化
-void TestWall::Initialize()
+void TestFloor::Initialize()
 {
-    //モデルデータのロード
-    hModel_ = Model::Load("Map/testWall.fbx");
-    assert(hModel_ >= 0);
+	//モデルデータのロード
+	hModel_ = Model::Load("Map/testFloor.fbx");
+	assert(hModel_ >= 0);
 }
 
 //更新
-void TestWall::Update()
+void TestFloor::Update()
 {
 }
 
 //描画
-void TestWall::Draw()
+void TestFloor::Draw()
 {
-    Model::SetTransform(hModel_, transform_);
-    Model::Draw(hModel_);
+	Model::SetTransform(hModel_, transform_);
+	Model::Draw(hModel_);
 }
 
 //開放
-void TestWall::Release()
+void TestFloor::Release()
 {
 }
 
-void TestWall::Imgui_Window()
+void TestFloor::Imgui_Window()
 {
 
 	ImGui::Begin("DataWindow");
@@ -46,7 +46,7 @@ void TestWall::Imgui_Window()
 
 }
 
-void TestWall::Data_Edit()
+void TestFloor::Data_Edit()
 {
 	//Imguiの名前表示でcharにする必要があるためその準備
 	int tmp = GetObjectID();
@@ -96,17 +96,17 @@ void TestWall::Data_Edit()
 	ImGui::End();
 }
 
-bool TestWall::IsKillCheck()
+bool TestFloor::IsKillCheck()
 {
 	return isDelete_;
 }
 
-void TestWall::DeleteMe()
+void TestFloor::DeleteMe()
 {
 	isDelete_ = true;
 }
 
-void TestWall::DeleteStop()
+void TestFloor::DeleteStop()
 {
 	isDelete_ = false;
 }
