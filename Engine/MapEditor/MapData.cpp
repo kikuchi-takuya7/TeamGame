@@ -69,9 +69,9 @@ void MapData::Update()
 void MapData::Draw()
 {
    
-    for (auto itr = createObjectList_.begin(); itr != createObjectList_.end();) {
-        //(*itr)->
-    }
+    /*for (auto itr = createObjectList_.begin(); itr != createObjectList_.end();) {
+        (*itr)->
+    }*/
 
     Transform objPos;
     objPos.position_.y = 1.0f;
