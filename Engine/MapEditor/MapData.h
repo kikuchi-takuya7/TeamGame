@@ -69,4 +69,10 @@ private:
 	//セーブするかのフラグ
 	bool isSave_;
 
+	//createObjectを上下するやつのフラグ
+	/*bool isUp_;
+	bool isDown_;*/
+
+
+
 };

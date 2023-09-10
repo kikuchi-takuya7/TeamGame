@@ -13,7 +13,7 @@
 
 //コンストラクタ
 MapData::MapData(GameObject* parent)
-	: GameObject(parent, "MapData"),selecting_object(PATTERN_END),isSave_(false)
+	: GameObject(parent, "MapData"),selecting_object(PATTERN_END),isSave_(false)/*,isUp_(false),isDown_(false)*/
 {
 
     
@@ -44,6 +44,18 @@ void MapData::Update()
 {
     
     //CheckDeleteObject();
+
+    //ちゃんとセーブされるのにロードできない。なんでやねん
+    //if (isUp_) { 
+    //    SaveManager* pSaveManager = Instantiate<SaveManager>(this);
+    //    pSaveManager->Save("SaveFile/SaveTest.json", createObjectList_);
+    //    KillAllChildren();
+    //    createObjectList_.clear();
+    //    SaveManager* pSaveManager2 = Instantiate<SaveManager>(this);
+    //    pSaveManager2->Load("SaveFile/SaveTest.json");
+    //    
+    //    isUp_ = false;
+    //}
 
     //左クリックされた
     if (Input::IsMouseButtonDown(0))
@@ -111,38 +123,8 @@ void MapData::Imgui_Window()
             ImGui::End();
         }
     }
+    //ここで各オブジェクトのTransformとかまとめて処理したかったけど、listがGameObject型だからそれぞれのisDelete_とアクセスできないしやめた
 
-
-    //ここに各オブジェクトのTransformとかまとめて処理したかったけど、listがGameObject型だからそれぞれのisDelete_とアクセスできないし一旦やめた
-    //if (ImGui::CollapsingHeader("ObjectData"))
-    //{
-    //    for (auto itr = createObjectList_.begin(); itr != createObjectList_.end(); itr++) {
-    //        std::string str = GetObjectName() + GetObjectID();
-    //        const char* windowName = str.c_str();
-
-    //        if (ImGui::CollapsingHeader(windowName))
-    //        {
-    //            Setting_Transform((*itr)->GetTransform(), -100.0f, 100.0f, 365.0f, 5.0f, GetObjectName() + GetObjectID());
-
-    //            if (ImGui::Button("Delete")) {
-
-    //            }
-
-    //            if (isDelete_) {
-    //                ImGui::SetNextWindowPos(ImVec2(600, 300), ImGuiCond_Once);//ImGuiCond_FirstUseEverこれを付けると初めて実行したときだけこの大きさに設定されて。それ以降はimgui.iniに保存される
-    //                ImGui::SetNextWindowSize(ImVec2(100, 50), ImGuiCond_Once);
-    //                ImGui::Begin("DeleteOk?");
-    //                if (ImGui::Button("Delete")) {
-    //                    KillMe();
-    //                }
-    //                ImGui::End();
-    //            }
-
-    //        }
-    //        ImGui::End();
-    //    }
-
-    //}
     ImGui::End();
 }
 
@@ -242,15 +224,17 @@ void MapData::ChengeUp(GameObject* pTarget)
         }
     }
 
+    //isUp_ = true;
+
     /*SaveManager* pSaveManager = Instantiate<SaveManager>(this);
-    pSaveManager->Save("SaveFile/SaveTest.json", createObjectList_);
-    KillAllChildren();
+    pSaveManager->Save("SaveFile/SaveTest.json", createObjectList_);*/
+    /*KillAllChildren();
     createObjectList_.clear();
     SaveManager* pSaveManager2 = Instantiate<SaveManager>(this);
     pSaveManager2->Load("SaveFile/SaveTest.json");*/
 
     //この関数を子から呼び出してるのにKillAllChildrenでぶっ殺してるからエラーになる
-    //対処法がわからないため一旦保留。めんどくさいけど再起動すれば描画順番変えれはする
+    //bool型変数を作ってtrueならこっちのUpDate中に上の処理をする奴も考えたけどファイルのロードが上手くできてなかった。プロジェクト実行中はファイル書き換えても実行中には新しいデータをロードできない？
 }
 
 void MapData::ChengeDown(GameObject* pTarget)

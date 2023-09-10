@@ -45,8 +45,6 @@ void SaveManager::Release()
 
 void SaveManager::Save(std::string fileName,std::list<GameObject*> list)
 {
-
-    int listSize = list.size();
         
     //ƒtƒ@ƒCƒ‹ì¬‚Ì€”õ
     string prevPath = "SaveFile/";

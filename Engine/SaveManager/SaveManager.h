@@ -38,6 +38,8 @@ private:
     
 };
 
+//namespace‚ÅÀ‘•‚àl‚¦‚½‚¯‚ÇCreateObj‚Åe‚ğ’Tõ‚Å‚«‚È‚¢‚©‚ç•’Ê‚ÉGameObject‚ğŒp³‚³‚¹‚½B—Ç‚¢‚â‚è•û‚ ‚Á‚½‚ç‹³‚¦‚Ä
+
 //namespace SaveManager
 //{
 //
