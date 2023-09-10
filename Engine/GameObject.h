@@ -43,6 +43,11 @@ public:
 	virtual void Release(void) {}
 	virtual void Imgui_Window() {}
 
+	/// <summary>
+	/// Imguiで使うセーブデータとか用のやつ
+	/// </summary>
+	virtual void Imgui_Data_Edit() {}
+
 	//自分の該当関数を読んだ後、子供の関数も呼ぶ
 	void UpdateSub();
 	void DrawSub();
@@ -82,6 +87,8 @@ public:
 	/// <param name="hFile">クラスで作成したファイルのやつ</param>
 	/// <param name="fileName">ロードするファイルの名前</param>
 	void Load_Transform_File(HANDLE hFile, LPCSTR fileName);
+
+	
 
 	//各フラグの制御
 	bool IsDead();			// 削除するかどうか
