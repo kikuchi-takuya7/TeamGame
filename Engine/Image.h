@@ -88,4 +88,8 @@ namespace Image
 	//引数：handle	知りたい画像の番号
 	//戻値：ワールド行列
 	XMMATRIX GetMatrix(int handle);
+
+	//画像の大きさを取得
+	//これあればマウスの当たり判定楽にできるんじゃないかな？
+	XMFLOAT3 GetSize(int handle);
 }
