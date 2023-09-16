@@ -164,6 +164,12 @@
       <Filter>01Engine\SaveManager</Filter>
     </ClCompile>
     <ClCompile Include="TestFloor.cpp" />
+    <ClCompile Include="Engine\Button.cpp">
+      <Filter>01Engine\ResourceManager</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Timer.cpp">
+      <Filter>01Engine\ResourceManager</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\BoxCollider.h">
@@ -289,6 +295,12 @@
       <Filter>01Engine\Json</Filter>
     </ClInclude>
     <ClInclude Include="TestFloor.h" />
+    <ClInclude Include="Engine\Button.h">
+      <Filter>01Engine\ResourceManager</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Timer.h">
+      <Filter>01Engine\ResourceManager</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Assets\Shader\Simple2D.hlsl">

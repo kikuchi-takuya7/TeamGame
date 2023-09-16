@@ -92,3 +92,16 @@ XMMATRIX Camera::GetBillboardMatrix()
 {
 	return billBoard_; 
 }
+
+XMFLOAT3 Camera::GetScreenPosition(XMFLOAT3 pos3d)
+{
+	XMVECTOR v2 = XMVector3Transform(XMLoadFloat3(&pos3d), Camera::GetViewMatrix());
+	v2 = XMVector3Transform(v2, Camera::GetProjectionMatrix());
+	float x = XMVectorGetX(v2);
+	float y = XMVectorGetY(v2);
+	float z = XMVectorGetZ(v2);
+	return XMFLOAT3(
+		x / z * Direct3D::screenWidth_ / 2.0f + Direct3D::screenWidth_ / 2.0f,
+		-y / z * Direct3D::screenHeight_ / 2.0f + Direct3D::screenHeight_ / 2.0f,
+		0);
+}

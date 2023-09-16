@@ -37,4 +37,7 @@ namespace Camera
 
 	//ビルボード用回転行列を取得
 	XMMATRIX GetBillboardMatrix();
+
+	XMFLOAT3 GetScreenPosition(XMFLOAT3 pos3d);
+
 };
