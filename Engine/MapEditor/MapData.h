@@ -53,6 +53,9 @@ public:
 	void ChengeUp(GameObject* pTarget);
 	void ChengeDown(GameObject* pTarget);
 
+	//ロードしたすべてのIDを調べて最大値を知っておく
+	int MaxObjectId();
+
 private:
 
 	std::vector<int> hModel_;
@@ -69,9 +72,7 @@ private:
 	//セーブするかのフラグ
 	bool isSave_;
 
-	//createObjectを上下するやつのフラグ
-	/*bool isUp_;
-	bool isDown_;*/
+	int nextObjectId_;
 
 
 

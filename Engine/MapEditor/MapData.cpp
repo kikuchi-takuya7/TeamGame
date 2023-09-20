@@ -13,7 +13,7 @@
 
 //コンストラクタ
 MapData::MapData(GameObject* parent)
-	: GameObject(parent, "MapData"),selecting_object(PATTERN_END),isSave_(false)/*,isUp_(false),isDown_(false)*/
+	: GameObject(parent, "MapData"),selecting_object(PATTERN_END),isSave_(false),nextObjectId_(0)
 {
 
     
@@ -37,13 +37,16 @@ void MapData::Initialize()
     SaveManager* pSaveManager = Instantiate<SaveManager>(this);
     pSaveManager->Load("SaveFile/SaveTest.json");
 
+    CheckDeleteObject();
+    nextObjectId_ = MaxObjectId();
+    nextObjectId_++;
 }
 
 //更新
 void MapData::Update()
 {
     
-    //CheckDeleteObject();
+    CheckDeleteObject();
 
     //ちゃんとセーブされるのにロードできない。なんでやねん
     //if (isUp_) { 
@@ -119,7 +122,7 @@ void MapData::Imgui_Window()
             ImGui::SetNextWindowSize(ImVec2(100, 50), ImGuiCond_Once);
             ImGui::Begin("SaveOk?",&isSave_);
             if (ImGui::Button("Save")) {
-                CheckDeleteObject();
+                //CheckDeleteObject();
                 SaveManager* pSaveManager = Instantiate<SaveManager>(this);
                 pSaveManager->Save("SaveTest", createObjectList_);
                 isSave_ = false;
@@ -157,14 +160,14 @@ GameObject* MapData::CreateObject()
     case TESTFLOOR: {
         TestFloor* pTestFloor = Instantiate<TestFloor>(this);
         AddCreateObject(pTestFloor);
-        pTestFloor->SetObjectID(createObjectList_.size()); //作ったオブジェクト順に識別するためのIDを付ける
+        pTestFloor->SetObjectID(nextObjectId_); //作ったオブジェクト順に識別するためのIDを付ける
         return pTestFloor;
         break;
     }
     case TESTWALL: {
         TestWall* pTestWall = Instantiate<TestWall>(this);
         AddCreateObject(pTestWall);
-        pTestWall->SetObjectID(createObjectList_.size()); //作ったオブジェクト順に識別するためのIDを付ける
+        pTestWall->SetObjectID(nextObjectId_); //作ったオブジェクト順に識別するためのIDを付ける
         return pTestWall;
     }
     case PATTERN_END: {
@@ -179,7 +182,7 @@ GameObject* MapData::CreateObject()
 
 void MapData::AddCreateObject(GameObject* object)
 {
-    CheckDeleteObject();
+    //CheckDeleteObject();
     createObjectList_.push_back(object);
 }
 
@@ -276,4 +279,17 @@ void MapData::ChengeDown(GameObject* pTarget)
         }
     }
 
+}
+
+int MapData::MaxObjectId()
+{
+    int ID = 0;
+    for (auto itr = createObjectList_.begin(); itr != createObjectList_.end(); itr++) {
+        int tmp = (*itr)->GetObjectID();
+        if (ID < tmp) {
+            ID = tmp;
+        }
+    }
+
+    return ID;
 }

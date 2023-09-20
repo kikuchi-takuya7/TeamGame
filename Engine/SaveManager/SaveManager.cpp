@@ -57,7 +57,7 @@ void SaveManager::Save(std::string fileName,std::list<GameObject*> list)
     writing_file.open(filename, std::ios::out);
 
     //MapDataで作ったオブジェクトのサイズ順にIDつけちゃってるからこっちで1から付け直さないとＩＤが被っちゃう
-    int ID = 1;
+    //int ID = 1;
     for (auto itr = list.begin(); itr != list.end();itr++) {
 
 
@@ -71,6 +71,7 @@ void SaveManager::Save(std::string fileName,std::list<GameObject*> list)
                          sca.x,sca.y,sca.z };
 
         //string型で保存しないとロードの時少しめんどくさくなる
+        int ID = (*itr)->GetObjectID();
         std::string s = std::to_string(ID);
 
         json m_json = {
@@ -81,8 +82,6 @@ void SaveManager::Save(std::string fileName,std::list<GameObject*> list)
 
         //一行ずつ入力
         writing_file << m_json.dump() << std::endl;
-
-        ID++;
     }
         
     writing_file.close();
