@@ -43,6 +43,11 @@ public:
 	virtual void Release(void) {}
 	virtual void Imgui_Window() {}
 
+	/// <summary>
+	/// Imguiで使うセーブデータとか用のやつ
+	/// </summary>
+	virtual void Imgui_Data_Edit() {}
+
 	//自分の該当関数を読んだ後、子供の関数も呼ぶ
 	void UpdateSub();
 	void DrawSub();
@@ -82,6 +87,8 @@ public:
 	/// <param name="hFile">クラスで作成したファイルのやつ</param>
 	/// <param name="fileName">ロードするファイルの名前</param>
 	void Load_Transform_File(HANDLE hFile, LPCSTR fileName);
+
+	
 
 	//各フラグの制御
 	bool IsDead();			// 削除するかどうか
@@ -213,6 +220,7 @@ public:
 
 
 	//各アクセス関数
+	Transform GetTransform() { return transform_; }
 	XMFLOAT3 GetPosition() { return transform_.position_; }
 	XMFLOAT3 GetRotate() { return transform_.rotate_; }
 	XMFLOAT3 GetScale() { return transform_.scale_; }
@@ -228,6 +236,10 @@ public:
 	void SetRotateZ(float z) { SetRotate(transform_.rotate_.x, transform_.rotate_.y, z); }
 	void SetScale(XMFLOAT3 scale) { transform_.scale_ = scale; }
 	void SetScale(float x, float y, float z) { SetScale(XMFLOAT3(x, y, z)); }
+	void SetTransform(Transform transform) { transform_ = transform; }
+
+	void SetObjectID(int ID) { objectID_ = ID; }
+	int GetObjectID() { return objectID_; }
 
 
 private:
@@ -253,6 +265,9 @@ private:
 
 	//子オブジェクトリスト
 	std::list<GameObject*> childList_;
+
+	//オブジェクトを識別するIDというか順番みたいな感じになってる。IDがないとImguiで識別できなくなっちゃう
+	int objectID_;
 
 };
 

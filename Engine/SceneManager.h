@@ -11,6 +11,7 @@ enum SCENE_ID
 	SCENE_ID_MAIN,
 	SCENE_ID_GAMECLEAR,
 	SCENE_ID_GAMEOVER,
+	SCENE_ID_MAPEDITOR
 };
 
 //-----------------------------------------------------------

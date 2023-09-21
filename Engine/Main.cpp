@@ -149,9 +149,11 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 				//ルートオブジェクトのDrawを呼んだあと、自動的に子、孫のUpdateが呼ばれる
 				pRootObject->DrawSub();
 
+//でバックの時だけ
+#ifdef _DEBUG
 				//Imguiウィンドウの表示
 				pRootObject->Imgui_WindowSub();
-
+#endif
 				ImGui::Render();
 				ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
 
