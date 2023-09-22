@@ -14,9 +14,9 @@ public:
 	void Push(bool pushed);
 	bool MouseInArea(XMFLOAT3 mousePos);
 private:
-	int hImage;
-	int hPush;
-	bool pushed;
-	XMFLOAT3 center;
-	XMFLOAT3 size;
+	int hImage_;
+	int hPush_;
+	bool pushed_;
+	XMFLOAT3 center_;
+	XMFLOAT3 size_;
 };

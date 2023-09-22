@@ -3,6 +3,7 @@
 #include "Engine/Input.h"
 #include "Engine/Image.h"
 
+
 const LPCSTR fileName = "SaveFile\\TitleSaveData";
 
 //コンストラクタ
@@ -106,11 +107,15 @@ void TitleScene::Initialize()
 	titleMovingUp_ = true;       //最初は上に移動
 	titleMoveSpeed_ = 0.001f;    //移動速度
 
-	hStart_ = Image::Load("Start.png");
+	/*hStart_ = Image::Load("Start.png");
 	assert(hStart_ >= 0);
 
 	hBrackStart_ = Image::Load("BrackStart.png");
-	assert(hBrackStart_ >= 0);
+	assert(hBrackStart_ >= 0);*/
+
+	start_ = Instantiate<Button>(this);
+	start_->SetImage("Start", "BrackStart");
+	start_->SetPosition(1280/2, 720/2);//ウィンドウの横幅1280,縦720
 }
 
 //更新
@@ -132,32 +137,41 @@ void TitleScene::Update()
 		titleMovingUp_ = true;
 	}
 
-	//STARTの点滅を管理
-	if (!startFlag_) {
-		ChangeAlpha();
+
+
+	////STARTの点滅を管理
+	//if (!startFlag_) {
+	//	ChangeAlpha();
+	//}
+	//else {
+	//	ChangeScene();
+	//}
+
+	////マウスカーソルの位置
+	//XMFLOAT3 mouse;
+	//mouse = Input::GetMousePosition();
+	//mouse.x -= 480;
+	//mouse.y -= 570;
+
+	////マウスの初期位置が左上で色々ややこしかったので、クリック処理はごり押しで追加
+	//if (mouse.x > 0 && mouse.y > 0 && mouse.x < 300 && mouse.y < 200 && startFlag_ == false) {
+	//	alpha_ = 255;
+	//	if (Input::IsMouseButtonDown(0)) {
+	//		startFlag_ = true;
+	//		alphaFlag_ = false;
+	//	}
+	//}
+
+	//Image::SetAlpha(hStart_, alpha_);
+
+	XMFLOAT3 pos = Input::GetMousePosition();
+	if (start_->MouseInArea(pos)) {
+		start_->Push(true);
+
+	} else {
+		start_->Push(false);
+
 	}
-	else {
-		ChangeScene();
-	}
-
-	//マウスカーソルの位置
-	XMFLOAT3 mouse;
-	mouse = Input::GetMousePosition();
-	mouse.x -= 480;
-	mouse.y -= 570;
-
-	//マウスの初期位置が左上で色々ややこしかったので、クリック処理はごり押しで追加
-	if (mouse.x > 0 && mouse.y > 0 && mouse.x < 300 && mouse.y < 200 && startFlag_ == false) {
-		alpha_ = 255;
-		if (Input::IsMouseButtonDown(0)) {
-			startFlag_ = true;
-			alphaFlag_ = false;
-		}
-	}
-
-	
-
-	Image::SetAlpha(hStart_, alpha_);
 
 }
 
@@ -165,17 +179,17 @@ void TitleScene::Update()
 void TitleScene::Draw()
 {
 
-	Image::SetTransform(hhaikei_, transform_);
+	/*Image::SetTransform(hhaikei_, transform_);
 	Image::Draw(hhaikei_);
 
 	Image::SetTransform(hTitle_, title_Transform_);
-	Image::Draw(hTitle_);
+	Image::Draw(hTitle_);*/
 
-	Image::SetTransform(hStart_, start_Transform_);
+	/*Image::SetTransform(hStart_, start_Transform_);
 	Image::Draw(hStart_);
 
 	Image::SetTransform(hBrackStart_, start_Transform_);
-	//Image::Draw(hBrackStart_);
+	Image::Draw(hBrackStart_);*/
 
 }
 

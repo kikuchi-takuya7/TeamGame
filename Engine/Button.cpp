@@ -45,10 +45,12 @@ Button::~Button()
 
 void Button::Initialize()
 {
-	pushed = false;
-	hImage = -1;
+	pushed_ = false;
+	hImage_ = -1;
+	//size_ = Image::GetSize(hImage_);
 	transform_.position_.x = 0.0f;
 	transform_.position_.y = 0.0f;
+	
 }
 
 void Button::Update()
@@ -58,13 +60,13 @@ void Button::Update()
 void Button::Draw()
 {
 
-	if (pushed) {
-		Image::SetTransform(hPush, transform_);
-		Image::Draw(hPush);
+	if (pushed_) {
+		Image::SetTransform(hPush_, transform_);
+		Image::Draw(hPush_);
 	}
 	else {
-		Image::SetTransform(hImage, transform_);
-		Image::Draw(hImage);
+		Image::SetTransform(hImage_, transform_);
+		Image::Draw(hImage_);
 	}
 }
 
@@ -75,28 +77,28 @@ bool Button::Finished()
 
 void Button::SetImage(std::string normal, std::string pushed)
 {
-	hImage = Image::Load((normal+".png").c_str());
-	hPush = Image::Load((pushed+".png").c_str());
-	size = Image::GetSize(hImage);
+	hImage_ = Image::Load((normal+".png").c_str());
+	hPush_ = Image::Load((pushed+".png").c_str());
+	size_ = Image::GetSize(hImage_);
 }
 
 void Button::SetPosition(int x, int y)
 {
 	transform_.position_.x = (float)(x - Direct3D::screenWidth_ / 2) / Direct3D::screenWidth_;
-	transform_.position_.y = -(float)(y - Direct3D::screenHeight_ / 2) / (Direct3D::screenHeight_/2);
-	center = XMFLOAT3(x, y, 0);
+	transform_.position_.y = -(float)(y - Direct3D::screenHeight_ / 2) / (Direct3D::screenHeight_ /2);
+	center_ = XMFLOAT3(x, y, 0);
 }
 
 void Button::Push(bool pushed)
 {
-	this->pushed = pushed;
+	this->pushed_ = pushed;
 }
 
 bool Button::MouseInArea(XMFLOAT3 mousePos)
 {
-	if (abs(mousePos.x - center.x) > size.x/2)
+	if (abs(mousePos.x - center_.x) > size_.x/2)
 		return false;
-	if (abs(mousePos.y - center.y) > size.y/2)
+	if (abs(mousePos.y - center_.y) > size_.y/2)
 		return false;
 	return true;
 }

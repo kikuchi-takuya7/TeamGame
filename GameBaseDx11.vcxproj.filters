@@ -45,6 +45,12 @@
     <Filter Include="01Engine\Json">
       <UniqueIdentifier>{6938f99e-cfba-426a-a554-8584264090b2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="MapEditor">
+      <UniqueIdentifier>{c53ab2f1-c236-4cd1-892b-45f9dc14e5e6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MapEditor\MapObject">
+      <UniqueIdentifier>{95241bf1-31c3-428c-ad89-e331a88fc9a2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine\BoxCollider.cpp">
@@ -156,20 +162,31 @@
     <ClCompile Include="Engine\Imgui\imgui_widgets.cpp">
       <Filter>01Engine\Imgui</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\MapEditor\Controller.cpp" />
-    <ClCompile Include="Engine\MapEditor\MapData.cpp" />
-    <ClCompile Include="Engine\MapEditor\MapEditorScene.cpp" />
-    <ClCompile Include="TestWall.cpp" />
     <ClCompile Include="Engine\SaveManager\SaveManager.cpp">
       <Filter>01Engine\SaveManager</Filter>
     </ClCompile>
-    <ClCompile Include="TestFloor.cpp" />
     <ClCompile Include="Engine\Button.cpp">
       <Filter>01Engine\ResourceManager</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Timer.cpp">
       <Filter>01Engine\ResourceManager</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\MapEditor\MapData.cpp">
+      <Filter>MapEditor</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\MapEditor\MapEditorScene.cpp">
+      <Filter>MapEditor</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\MapEditor\MapController.cpp">
+      <Filter>MapEditor</Filter>
+    </ClCompile>
+    <ClCompile Include="TestFloor.cpp">
+      <Filter>MapEditor\MapObject</Filter>
+    </ClCompile>
+    <ClCompile Include="TestWall.cpp">
+      <Filter>MapEditor\MapObject</Filter>
+    </ClCompile>
+    <ClCompile Include="DevelopSelectScene.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\BoxCollider.h">
@@ -284,23 +301,34 @@
     <ClInclude Include="MainGameScene.h">
       <Filter>Others</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\MapEditor\Controller.h" />
-    <ClInclude Include="Engine\MapEditor\MapData.h" />
-    <ClInclude Include="Engine\MapEditor\MapEditorScene.h" />
-    <ClInclude Include="TestWall.h" />
     <ClInclude Include="Engine\SaveManager\SaveManager.h">
       <Filter>01Engine\SaveManager</Filter>
     </ClInclude>
     <ClInclude Include="Engine\json-develop\include\nlohmann\json.hpp">
       <Filter>01Engine\Json</Filter>
     </ClInclude>
-    <ClInclude Include="TestFloor.h" />
     <ClInclude Include="Engine\Button.h">
       <Filter>01Engine\ResourceManager</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Timer.h">
       <Filter>01Engine\ResourceManager</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\MapEditor\MapData.h">
+      <Filter>MapEditor</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\MapEditor\MapEditorScene.h">
+      <Filter>MapEditor</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\MapEditor\MapController.h">
+      <Filter>MapEditor</Filter>
+    </ClInclude>
+    <ClInclude Include="TestFloor.h">
+      <Filter>MapEditor\MapObject</Filter>
+    </ClInclude>
+    <ClInclude Include="TestWall.h">
+      <Filter>MapEditor\MapObject</Filter>
+    </ClInclude>
+    <ClInclude Include="DevelopSelectScene.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Assets\Shader\Simple2D.hlsl">

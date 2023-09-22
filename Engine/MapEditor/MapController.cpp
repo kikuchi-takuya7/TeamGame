@@ -1,22 +1,22 @@
-#include "Controller.h"
+#include "MapController.h"
 #include "MapData.h"
 #include "../Input.h"
 #include "../Camera.h"
 #include "../Model.h"
 
 //コンストラクタ
-Controller::Controller(GameObject* parent)
-    :GameObject(parent, "Controller")
+MapController::MapController(GameObject* parent)
+    :GameObject(parent, "MapController")
 {
 }
 
 //デストラクタ
-Controller::~Controller()
+MapController::~MapController()
 {
 }
 
 //初期化
-void Controller::Initialize()
+void MapController::Initialize()
 {
     transform_.position_.x = 7.0f;
     transform_.position_.z = 7.0f;
@@ -25,7 +25,7 @@ void Controller::Initialize()
 }
 
 //更新
-void Controller::Update()
+void MapController::Update()
 {
     if (Input::IsKey(DIK_LEFTARROW)) {
         transform_.rotate_.y -= 1.0f;
@@ -116,11 +116,11 @@ void Controller::Update()
 }
 
 //描画
-void Controller::Draw()
+void MapController::Draw()
 {
 }
 
 //開放
-void Controller::Release()
+void MapController::Release()
 {
 }

@@ -1,5 +1,6 @@
 #pragma once
 #include "Engine/GameObject.h"
+#include "Engine/Button.h"
 
 class TitleScene : public GameObject
 {
@@ -34,4 +35,6 @@ private:
 	int tmpLimit_;
 	bool alphaFlag_;
 	bool startFlag_;//クリックされたかのフラグ
+
+	Button* start_;
 };

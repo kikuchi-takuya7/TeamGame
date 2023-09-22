@@ -2,15 +2,15 @@
 #include "../GameObject.h"
 
 //◆◆◆を管理するクラス
-class Controller : public GameObject
+class MapController : public GameObject
 {
 
 public:
     //コンストラクタ
-    Controller(GameObject* parent);
+    MapController(GameObject* parent);
 
     //デストラクタ
-    ~Controller();
+    ~MapController();
 
     //初期化
     void Initialize() override;

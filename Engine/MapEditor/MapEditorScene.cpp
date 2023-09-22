@@ -1,5 +1,5 @@
 #include "MapEditorScene.h"
-#include "Controller.h"
+#include "MapController.h"
 #include "MapData.h"
 
 //コンストラクタ
@@ -11,7 +11,7 @@ MapEditorScene::MapEditorScene(GameObject* parent)
 //初期化
 void MapEditorScene::Initialize()
 {
-	Instantiate<Controller>(this);
+	Instantiate<MapController>(this);
 	Instantiate<MapData>(this);
 }
 
