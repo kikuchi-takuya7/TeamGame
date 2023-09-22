@@ -24,17 +24,7 @@ private:
 
 	HANDLE hFile_;        //ファイルのハンドル
 
-	void ChangeAlpha();
-	void ChangeScene();
-
 	Transform start_Transform_;//Startの位置を調整する為の変数
-	int hStart_; //画像番号(start)
-	int hBrackStart_; //画像番号(黒いstart)
-	int alpha_;//黒いStartの透明度
-	int changeLimit_;
-	int tmpLimit_;
-	bool alphaFlag_;
-	bool startFlag_;//クリックされたかのフラグ
 
 	Button* start_;
 };

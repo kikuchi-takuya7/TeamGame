@@ -1,6 +1,8 @@
 #include "Button.h"
 #include "Image.h"
 #include "Direct3D.h"
+#include "SceneManager.h"
+#include "Input.h"
 
 namespace {
 	float startX; // 移動開始X座標
@@ -37,6 +39,11 @@ Button::Button(GameObject* parent)
 	seq_line = -1;
 	seq_time = 0.0f;
 	canMove = false;
+	alpha_ = 0;
+	changeLimit_ = 0;
+	tmpLimit_ = 0;
+	alphaFlag_ = false;
+	startFlag_ = false;
 }
 
 Button::~Button()
@@ -47,7 +54,7 @@ void Button::Initialize()
 {
 	pushed_ = false;
 	hImage_ = -1;
-	//size_ = Image::GetSize(hImage_);
+	hPush_ = -1;
 	transform_.position_.x = 0.0f;
 	transform_.position_.y = 0.0f;
 	
@@ -55,24 +62,46 @@ void Button::Initialize()
 
 void Button::Update()
 {
+	
+	//点滅を管理
+	if (!startFlag_) {
+		ChangeAlpha();
+	}
+	else {
+		ChangeScene();
+	}
+
+	if (pushed_) {
+
+		if(!startFlag_)
+			alpha_ = 255;
+
+		if (Input::IsMouseButtonDown(0)) {
+			startFlag_ = true;
+			alphaFlag_ = false;
+		}
+	}
+
+	Image::SetAlpha(hImage_,alpha_);
 }
 
 void Button::Draw()
 {
 
-	if (pushed_) {
-		Image::SetTransform(hPush_, transform_);
-		Image::Draw(hPush_);
-	}
-	else {
-		Image::SetTransform(hImage_, transform_);
-		Image::Draw(hImage_);
-	}
+	Image::SetTransform(hImage_, transform_);
+	Image::Draw(hImage_);
+	
 }
 
 bool Button::Finished()
 {
 	return canMove;
+}
+
+void Button::SetImage(std::string normal)
+{
+	hImage_ = Image::Load((normal + ".png").c_str());
+	size_ = Image::GetSize(hImage_);
 }
 
 void Button::SetImage(std::string normal, std::string pushed)
@@ -103,5 +132,54 @@ bool Button::MouseInArea(XMFLOAT3 mousePos)
 	return true;
 }
 
-//　イージング 0.0～1.0を補間する曲線
-//　スプライン 4つ以上の点を滑らかに通る曲線
+void Button::SetAlphaNormal(float alpha)
+{
+	Image::SetAlpha(hImage_, alpha);
+}
+
+void Button::SetAlphaPush(float alpha)
+{
+	Image::SetAlpha(hPush_, alpha);
+}
+
+void Button::ChangeAlpha()
+{
+	if (!alphaFlag_) {
+		alpha_ += 3;
+	}
+	else {
+		alpha_ -= 3;
+	}
+
+	if (alpha_ >= 255)
+		alphaFlag_ = true;
+
+	if (alpha_ <= 0)
+		alphaFlag_ = false;
+}
+
+void Button::ChangeScene()
+{
+	changeLimit_++;
+
+	if (changeLimit_ % 30 == 1) {
+		alphaFlag_ = false;
+	}
+
+	if (tmpLimit_ > 15)
+		alphaFlag_ = true;
+
+	if (alphaFlag_) {
+		alpha_ = 255;
+		tmpLimit_ = 0;
+	}
+	else {
+		alpha_ = 0;
+		tmpLimit_++;
+	}
+
+	if (changeLimit_ > 120) {
+		SceneManager* pSceneManager = (SceneManager*)FindObject("SceneManager");
+		pSceneManager->ChangeScene(SCENE_ID_SELECT);
+	}
+}
