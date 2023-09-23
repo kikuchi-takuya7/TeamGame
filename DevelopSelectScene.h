@@ -2,16 +2,7 @@
 #include "Engine/GameObject.h"
 
 
-enum SCENESELECT {
-	NONE = -1,
-	SPLASH,
-	TITLE,
-	SELECT,
-	MAIN,
-	GAMECLEAR,
-	GAMEOVER,
-	MAPEDITOR,
-};
+
 
 //■■シーンを管理するクラス
 class DevelopSelectScene : public GameObject
@@ -36,5 +27,19 @@ public:
 	void Imgui_Window() override;
 
 private:
+
+	enum SCENESELECT {
+		NONE = -1,
+		SPLASH,
+		TITLE,
+		SELECT,
+		MAIN,
+		GAMECLEAR,
+		GAMEOVER,
+		MAPEDITOR,
+	};
+
 	SCENESELECT scene_;
+
+
 };

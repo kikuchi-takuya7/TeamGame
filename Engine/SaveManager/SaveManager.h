@@ -35,30 +35,19 @@ public:
 
 private:
 
+    /*template <class T>
+    T* CreateObject(GameObject* pParent)
+    {
+        T* object = Instantiate<T>(this->GetParent());
+
+        if (this->GetParent()->GetObjectName() == "MapData")
+            ((MapData*)this->GetParent())->AddCreateObject(object);
+
+        return object;
+    }*/
     
 };
 
-//namespaceで実装も考えたけどCreateObjで親を探索できないから普通にGameObjectを継承させた。良いやり方あったら教えて
 
-//namespace SaveManager
-//{
-//
-//
-//    //初期化
-//    void Initialize();
-//
-//    //更新
-//    void Update();
-//
-//    //開放
-//    void Release();
-//
-//    void Save(std::string fileName, std::list<GameObject*> list);
-//
-//    void AddSaveObj(GameObject* obj);
-//
-//    void Load(std::string fileName);
-//
-//    GameObject* CreateObj(std::string className);     // オブジェクト生成
-//
-//};
+
+//namespaceで実装も考えたけどCreateObjで親を探索できないから普通にGameObjectを継承させた。良いやり方あったら教えて

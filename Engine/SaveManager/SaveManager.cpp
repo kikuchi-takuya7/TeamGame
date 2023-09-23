@@ -157,7 +157,6 @@ void SaveManager::Load(std::string fileName)
 
     }
 
-
     ifs.close();
 }
 
@@ -176,7 +175,8 @@ GameObject* SaveManager::CreateObj(std::string className)
         TestFloor* object = Instantiate<TestFloor>(this->GetParent());
 
         if (this->GetParent()->GetObjectName() == "MapData")
-        ((MapData*)this->GetParent())->AddCreateObject(object);
+            ((MapData*)this->GetParent())->AddCreateObject(object);
+
         return object;
     }
     return NULL;   // Žw’è‚ÌƒNƒ‰ƒX‚ª–³‚¢

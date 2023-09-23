@@ -1,6 +1,11 @@
 #pragma once
 #include "GameObject.h"
 
+enum NEXTSCENE {
+	NONE = -1,
+	SELECT
+};
+
 class Button : public GameObject {
 public:
 	Button(GameObject* parent);
@@ -17,8 +22,9 @@ public:
 	void SetImage(std::string normal);
 	void SetImage(std::string normal, std::string pushed);
 	void SetPosition(int x, int y);
-	void SetAlphaNormal(float alpha);
-	void SetAlphaPush(float alpha);
+	void SetAlphaNormal(float alpha);//通常時表示する画像　
+	void SetAlphaPush(float alpha);//押されている最中に表示する画像
+	void SetNextScene(NEXTSCENE next);
 	
 	//pushedを変える
 	void Push(bool pushed);
@@ -51,4 +57,6 @@ private:
 	int tmpLimit_;
 	bool alphaFlag_;
 	bool startFlag_;//クリックされたかのフラグ
+
+	NEXTSCENE nextScene_;
 };

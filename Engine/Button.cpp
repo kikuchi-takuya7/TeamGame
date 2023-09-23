@@ -44,6 +44,7 @@ Button::Button(GameObject* parent)
 	tmpLimit_ = 0;
 	alphaFlag_ = false;
 	startFlag_ = false;
+	nextScene_ = NONE;
 }
 
 Button::~Button()
@@ -142,6 +143,11 @@ void Button::SetAlphaPush(float alpha)
 	Image::SetAlpha(hPush_, alpha);
 }
 
+void Button::SetNextScene(NEXTSCENE next)
+{
+	nextScene_ = next;
+}
+
 void Button::ChangeAlpha()
 {
 	if (!alphaFlag_) {
@@ -178,8 +184,18 @@ void Button::ChangeScene()
 		tmpLimit_++;
 	}
 
-	if (changeLimit_ > 120) {
-		SceneManager* pSceneManager = (SceneManager*)FindObject("SceneManager");
-		pSceneManager->ChangeScene(SCENE_ID_SELECT);
+	if (changeLimit_ > 60) {
+		switch (nextScene_)
+		{
+		case NONE:
+			break;
+		case SELECT: {
+			SceneManager* pSceneManager = (SceneManager*)FindObject("SceneManager");
+			pSceneManager->ChangeScene(SCENE_ID_SELECT);
+		}
+			break;
+		default:
+			break;
+		}
 	}
 }
