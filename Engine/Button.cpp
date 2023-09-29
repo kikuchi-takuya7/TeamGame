@@ -39,12 +39,13 @@ Button::Button(GameObject* parent)
 	seq_line = -1;
 	seq_time = 0.0f;
 	canMove = false;
-	alpha_ = 0;
+	alpha_ = 255;
 	changeLimit_ = 0;
 	tmpLimit_ = 0;
 	alphaFlag_ = false;
 	startFlag_ = false;
 	nextScene_ = NONE;
+	isFlash_ = false;
 }
 
 Button::~Button()
@@ -65,12 +66,16 @@ void Button::Update()
 {
 	
 	//点滅を管理
-	if (!startFlag_) {
-		ChangeAlpha();
+	//isFlashがtrueなら待機状態で点滅するように
+	if (isFlash_) {
+		if (!startFlag_) {//クリックされたらelseになる
+			ChangeAlpha();
+		}
+		else {
+			ChangeScene();
+		}
 	}
-	else {
-		ChangeScene();
-	}
+	
 
 	if (pushed_) {
 
@@ -80,6 +85,7 @@ void Button::Update()
 		if (Input::IsMouseButtonDown(0)) {
 			startFlag_ = true;
 			alphaFlag_ = false;
+			isFlash_ = true;
 		}
 	}
 
@@ -146,6 +152,11 @@ void Button::SetAlphaPush(float alpha)
 void Button::SetNextScene(NEXTSCENE next)
 {
 	nextScene_ = next;
+}
+
+void Button::SetIsFlash(bool flash)
+{
+	isFlash_ = flash;
 }
 
 void Button::ChangeAlpha()

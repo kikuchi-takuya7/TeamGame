@@ -111,6 +111,7 @@ void TitleScene::Initialize()
 	start_->SetImage("StartTest");
 	start_->SetPosition(600, 650);//ウィンドウの横幅1280,縦720
 	start_->SetNextScene(SELECT);
+	start_->SetIsFlash(false);
 }
 
 //更新

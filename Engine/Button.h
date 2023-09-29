@@ -25,6 +25,7 @@ public:
 	void SetAlphaNormal(float alpha);//通常時表示する画像　
 	void SetAlphaPush(float alpha);//押されている最中に表示する画像
 	void SetNextScene(NEXTSCENE next);
+	void SetIsFlash(bool flash);
 	
 	//pushedを変える
 	void Push(bool pushed);
@@ -57,6 +58,8 @@ private:
 	int tmpLimit_;
 	bool alphaFlag_;
 	bool startFlag_;//クリックされたかのフラグ
+
+	bool isFlash_;//待機状態で点滅させるかどうか。trueなら点滅
 
 	NEXTSCENE nextScene_;
 };
