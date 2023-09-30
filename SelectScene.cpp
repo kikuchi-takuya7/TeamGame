@@ -16,7 +16,7 @@ SelectScene::~SelectScene()
 void SelectScene::Initialize()
 {
 	//画像データのロード
-	hPict_ = Image::Load("haikei.jpg");
+	hPict_ = Image::Load("haikei.png");
 	assert(hPict_ >= 0);
 	
 }
