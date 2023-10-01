@@ -187,6 +187,9 @@
       <Filter>MapEditor\MapObject</Filter>
     </ClCompile>
     <ClCompile Include="DevelopSelectScene.cpp" />
+    <ClCompile Include="Room1.cpp">
+      <Filter>MapEditor\MapObject</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\BoxCollider.h">
@@ -329,6 +332,9 @@
       <Filter>MapEditor\MapObject</Filter>
     </ClInclude>
     <ClInclude Include="DevelopSelectScene.h" />
+    <ClInclude Include="Room1.h">
+      <Filter>MapEditor\MapObject</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Assets\Shader\Simple2D.hlsl">

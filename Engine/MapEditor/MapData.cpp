@@ -9,6 +9,7 @@
 #include "../Global.h"
 #include "../../TestWall.h"
 #include "../../TestFloor.h"
+#include "../../Room1.h"
 
 
 //コンストラクタ
@@ -49,8 +50,7 @@ void MapData::Update()
     CheckDeleteObject();
 
     //ちゃんとセーブされるのにロードできない。なんでやねん
-
-
+    //Model::AllRelease()を使えば行けそうっていうメモ
 
     //if (Input::IsMouseButtonDown(0)) {
 
@@ -213,6 +213,13 @@ GameObject* MapData::CreateObject()
     //対応したenum型の数字になったらそのオブジェクトを作成してcreateObjectにプッシュバックする
     switch (selecting_object)
     {
+    case ROOM_1: {
+        Room1* pRoom = Instantiate<Room1>(this);
+        AddCreateObject(pRoom);
+        pRoom->SetObjectID(nextObjectId_); //作ったオブジェクト順に識別するためのIDを付ける
+        return pRoom;
+        break;
+    }
     case TESTFLOOR: {
         TestFloor* pTestFloor = Instantiate<TestFloor>(this);
         AddCreateObject(pTestFloor);

@@ -27,6 +27,14 @@ void MapController::Initialize()
 //çXêV
 void MapController::Update()
 {
+
+    if (Input::IsKey(DIK_SPACE) && transform_.position_.y <= 10.0f) {
+        transform_.position_.y += 0.2f;
+    }
+    if (Input::IsKey(DIK_LSHIFT) && transform_.position_.y >= 0.0f || Input::IsKey(DIK_LSHIFT) && transform_.position_.y >= 0.0f) {
+        transform_.position_.y -= 0.2f;
+    }
+
     if (Input::IsKey(DIK_LEFTARROW)) {
         transform_.rotate_.y -= 1.0f;
     }
