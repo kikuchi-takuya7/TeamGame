@@ -6,6 +6,12 @@ class SelectScene : public GameObject
 {
 private:
 	int hPict_;    //画像番号
+	Transform exit_Transform_;//Exitの位置を調整するための変数
+	int hExit_;    //exitの画像番号
+	int hPlay_;    //playの画像
+	int hStore_;   //storeの画像番号
+	Transform volume_Transform_;
+	int hVolume_;   //volumeの画像番号
 public:
 	//コンストラクタ
 	//引数：parent  親オブジェクト（SceneManager）

@@ -42,7 +42,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v143</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
@@ -173,6 +173,7 @@
     <ClCompile Include="Room1.cpp" />
     <ClCompile Include="SelectScene.cpp" />
     <ClCompile Include="SplashScene.cpp" />
+    <ClCompile Include="StoreScene.cpp" />
     <ClCompile Include="TestFloor.cpp" />
     <ClCompile Include="TestWall.cpp" />
     <ClCompile Include="TitleScene.cpp" />
@@ -224,6 +225,7 @@
     <ClInclude Include="Room1.h" />
     <ClInclude Include="SelectScene.h" />
     <ClInclude Include="SplashScene.h" />
+    <ClInclude Include="StoreScene.h" />
     <ClInclude Include="TestFloor.h" />
     <ClInclude Include="TestWall.h" />
     <ClInclude Include="TitleScene.h" />

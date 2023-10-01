@@ -7,6 +7,7 @@
 #include "../GameClearScene.h"
 #include "../GameOverScene.h"
 #include "../DevelopSelectScene.h"
+#include "../StoreScene.h"
 #include "MapEditor/MapEditorScene.h"
 #include "Model.h"
 #include "Image.h"
@@ -53,6 +54,7 @@ void SceneManager::Update()
 		case SCENE_ID_GAMEOVER: Instantiate<GameOverScene>(this); break;
 		case SCENE_ID_MAPEDITOR: Instantiate<MapEditorScene>(this); break;
 		case SCENE_ID_DEVELOP_SELECT: Instantiate<DevelopSelectScene>(this); break;
+		case SCENE_ID_STORE: Instantiate<StoreScene>(this); break;
 		}
 		Audio::Initialize();
 		currentSceneID_ = nextSceneID_;

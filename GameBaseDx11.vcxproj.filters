@@ -190,6 +190,7 @@
     <ClCompile Include="Room1.cpp">
       <Filter>MapEditor\MapObject</Filter>
     </ClCompile>
+    <ClCompile Include="StoreScene.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\BoxCollider.h">
@@ -335,6 +336,7 @@
     <ClInclude Include="Room1.h">
       <Filter>MapEditor\MapObject</Filter>
     </ClInclude>
+    <ClInclude Include="StoreScene.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Assets\Shader\Simple2D.hlsl">
