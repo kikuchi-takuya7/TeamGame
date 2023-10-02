@@ -27,6 +27,10 @@ const char* WIN_CLASS_NAME = "SampleGame";	//ウィンドウクラス名
 HWND InitApp(HINSTANCE hInstance, int screenWidth, int screenHeight, int nCmdShow);
 LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
+RootObject* pRootObject = new RootObject;
+
+BOOL CALLBACK DialogProc(HWND hDlg, UINT msg, WPARAM wp, LPARAM lp);
+
 // エントリーポイント
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
@@ -77,7 +81,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 	//ルートオブジェクト準備
 	//すべてのゲームオブジェクトの親となるオブジェクト
-	RootObject* pRootObject = new RootObject;
 	pRootObject->Initialize();
 
 	HWND hDlg = CreateDialog(hInstance, MAKEINTRESOURCE(IDD_DIALOG1), hWnd, (DLGPROC)DialogProc);
@@ -270,6 +273,6 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 //本物のダイアログプロシージャ
 BOOL CALLBACK DialogProc(HWND hDlg, UINT msg, WPARAM wp, LPARAM lp)
 {
-	SelectScene* pSelect = (SelectScene*)pRootJob->FindObject("Stage");
+	SelectScene* pSelect = (SelectScene*)pRootObject->FindObject("Stage");
 	return pSelect->DialogProc(hDlg, msg, wp, lp);
 }

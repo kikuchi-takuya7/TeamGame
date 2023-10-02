@@ -47,8 +47,8 @@ void SelectScene::Initialize()
 //更新
 void SelectScene::Update()
 {
-	SceneManager* pSceneManager = (SceneManager*)FindObject("SceneManager");
-	pSceneManager->ChangeScene(SCENE_ID_SELECT);
+	/*SceneManager* pSceneManager = (SceneManager*)FindObject("SceneManager");
+	pSceneManager->ChangeScene(SCENE_ID_SELECT);*/
 
 	//Main画面に遷移
 	if (hPlay_) {
@@ -99,7 +99,7 @@ BOOL SelectScene::DialogProc(HWND hDlg, UINT msg, WPARAM wp, LPARAM lp)
 	{
 	case WM_INITDIALOG:
 		//ボタンの初期値
-		SendMessage(GetDlgItem(hDlg, IDC_YES), BM_SETCHECK, BST_CHECKED, 0);
+		SendMessage(GetDlgItem(hDlg, IDC_YES), BM_CLICK, BST_PUSHED, 0);
 		
 		return 0;
 	case WM_COMMAND:
