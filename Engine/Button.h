@@ -3,7 +3,9 @@
 
 enum NEXTSCENE {
 	NONE = -1,
-	SELECT
+	SELECT,
+	MAIN,
+	STORE
 };
 
 class Button : public GameObject {

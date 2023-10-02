@@ -16,6 +16,7 @@ private:
 	bool isExitClicked_;
 
 	Button* play_;
+	Button* store_;
 public:
 	//コンストラクタ
 	//引数：parent  親オブジェクト（SceneManager）
@@ -23,6 +24,7 @@ public:
 	~SelectScene();
 	void Initialize() override;
 	void Update() override;
+	void DelayTransition(int sceneID);
 	void Draw() override;
 	void Release() override;
 	BOOL CALLBACK DialogProc(HWND hDlg, UINT msg, WPARAM wp, LPARAM lp);
