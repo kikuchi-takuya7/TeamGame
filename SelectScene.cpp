@@ -1,6 +1,7 @@
 #include "SelectScene.h"
 #include "Engine/Image.h"
 #include "Engine/Input.h"
+#include  "resource.h"
 
 //コンストラクタ
 SelectScene::SelectScene(GameObject* parent)
@@ -90,4 +91,19 @@ void SelectScene::Draw()
 //開放
 void SelectScene::Release()
 {
+}
+
+BOOL SelectScene::DialogProc(HWND hDlg, UINT msg, WPARAM wp, LPARAM lp)
+{
+	switch (msg)
+	{
+	case WM_INITDIALOG:
+		//ボタンの初期値
+		SendMessage(GetDlgItem(hDlg, IDC_YES), BM_SETCHECK, BST_CHECKED, 0);
+		
+		return 0;
+	case WM_COMMAND:
+		
+	}
+	return 0;
 }
