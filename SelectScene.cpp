@@ -103,7 +103,7 @@ BOOL SelectScene::DialogProc(HWND hDlg, UINT msg, WPARAM wp, LPARAM lp)
 		
 		return 0;
 	case WM_COMMAND:
-		
+		return 0;
 	}
 	return 0;
 }

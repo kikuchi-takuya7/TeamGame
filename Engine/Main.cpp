@@ -12,7 +12,7 @@
 #include "Input.h"
 #include "Audio.h"
 #include "VFX.h"
-#include "resou"
+#include  "../resource.h"
 #include "Imgui/imgui.h"
 #include "Imgui/imgui_impl_win32.h"
 #include "Imgui/imgui_impl_dx11.h"
@@ -265,3 +265,4 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 	}
 	return DefWindowProc(hWnd, msg, wParam, lParam);
 }
+
