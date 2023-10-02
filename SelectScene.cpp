@@ -21,6 +21,9 @@ void SelectScene::Initialize()
 	hPict_ = Image::Load("haikei.png");
 	assert(hPict_ >= 0);
 
+	//playの画像データのロード
+	hPlay_ = Image::Load("Play.png");
+	assert(hPlay_ >= 0);
 	
 
 	//storeの画像データのロード
@@ -39,11 +42,7 @@ void SelectScene::Initialize()
 
 	volume_Transform_.position_.y = 0.1f;
 
-	play_ = Instantiate<Button>(this);
-	play_->SetImage("play");
-	play_->SetPosition(600, 800);//ウィンドウの横幅1280,縦720
-	play_->SetNextScene(MAIN);
-	play_->SetIsFlash(false);
+	
 }
 
 //更新
@@ -52,45 +51,13 @@ void SelectScene::Update()
 	SceneManager* pSceneManager = (SceneManager*)FindObject("SceneManager");
 	pSceneManager->ChangeScene(SCENE_ID_SELECT);
 
-	//// Exitボタンがクリックされた場合
-	//if (hExit_) {
-	//	if (Input::IsMouseButtonDown(0)) {
-	//		XMFLOAT3 mousePos = Input::GetMousePosition();
-	//		// Exitボタンの座標を取得する（適宜調整が必要）
-	//		RECT exitButtonRect = { exit_Transform_.position_.x, exit_Transform_.position_.y, , exitButtonHeight };
-
-	//		// マウスの座標がExitボタンの範囲内にあるかチェック
-	//		if (PtInRect(&exitButtonRect, mousePos)) {
-	//			isExitClicked_ = true;
-	//		}
-	//	}
-	//}
-
-
 	//Main画面に遷移
-	//if (hPlay_) {
-	//	if (Input::IsMouseButtonDown(0)) {
-	//		SceneManager* pSceneManager = (SceneManager*)FindObject("SceneManager");
-	//		pSceneManager->ChangeScene(SCENE_ID_MAIN);
-	//	}
-	//}
-
-	////Store画面に遷移
-	//if (hStore_) {
-	//	if (Input::IsMouseButtonDown(0)) {
-	//		SceneManager* pSceneManager = (SceneManager*)FindObject("SceneManager");
-	//		pSceneManager->ChangeScene(SCENE_ID_STORE);
-	//	}
-	//}
-	
-	XMFLOAT3 pos = Input::GetMousePosition();
-	if (play_->MouseInArea(pos)) {
-		play_->Push(true);
-
-
+	if (hPlay_) {
+		if (Input::IsMouseButtonDown(0)) {
+			SceneManager* pSceneManager = (SceneManager*)FindObject("SceneManager");
+			pSceneManager->ChangeScene(SCENE_ID_MAIN);
+		}
 	}
-	else {
-		play_->Push(false);
 
 	}
 }
