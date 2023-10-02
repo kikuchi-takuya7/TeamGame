@@ -1,6 +1,7 @@
 #pragma once
 #include "Engine/GameObject.h"
 #include "Engine/SceneManager.h"
+#include "Engine/Button.h"
 
 class SelectScene : public GameObject
 {
@@ -12,6 +13,9 @@ private:
 	int hStore_;   //storeの画像番号
 	Transform volume_Transform_;
 	int hVolume_;   //volumeの画像番号
+	bool isExitClicked_;
+
+	Button* play_;
 public:
 	//コンストラクタ
 	//引数：parent  親オブジェクト（SceneManager）

@@ -85,6 +85,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 	HWND hDlg = CreateDialog(hInstance, MAKEINTRESOURCE(IDD_DIALOG1), hWnd, (DLGPROC)DialogProc);
 
+	// ダイアログを表示
+	ShowWindow(hDlg, SW_SHOWNORMAL);
+
 	//メッセージループ（何か起きるのを待つ）
 	MSG msg;
 	ZeroMemory(&msg, sizeof(msg));
@@ -273,6 +276,6 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 //本物のダイアログプロシージャ
 BOOL CALLBACK DialogProc(HWND hDlg, UINT msg, WPARAM wp, LPARAM lp)
 {
-	SelectScene* pSelect = (SelectScene*)pRootObject->FindObject("Stage");
+	SelectScene* pSelect = (SelectScene*)pRootObject->FindObject("SelectScene");
 	return pSelect->DialogProc(hDlg, msg, wp, lp);
 }
