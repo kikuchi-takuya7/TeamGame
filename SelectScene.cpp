@@ -47,8 +47,8 @@ void SelectScene::Initialize()
 //XV
 void SelectScene::Update()
 {
-	/*SceneManager* pSceneManager = (SceneManager*)FindObject("SceneManager");
-	pSceneManager->ChangeScene(SCENE_ID_SELECT);*/
+	SceneManager* pSceneManager = (SceneManager*)FindObject("SceneManager");
+	pSceneManager->ChangeScene(SCENE_ID_SELECT);
 
 	//Main‰æ–Ê‚É‘JˆÚ
 	if (hPlay_) {
