@@ -337,6 +337,7 @@
       <Filter>MapEditor\MapObject</Filter>
     </ClInclude>
     <ClInclude Include="StoreScene.h" />
+    <ClInclude Include="resource.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Assets\Shader\Simple2D.hlsl">
@@ -356,5 +357,10 @@
     <None Include="Engine\Imgui\.editorconfig">
       <Filter>01Engine\Imgui</Filter>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="GameBaseDx11.rc">
+      <Filter>リソース ファイル</Filter>
+    </ResourceCompile>
   </ItemGroup>
 </Project>

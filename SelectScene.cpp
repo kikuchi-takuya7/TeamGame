@@ -49,11 +49,22 @@ void SelectScene::Update()
 	SceneManager* pSceneManager = (SceneManager*)FindObject("SceneManager");
 	pSceneManager->ChangeScene(SCENE_ID_SELECT);
 
-	//XMFLOAT3 pos = Input::GetMousePosition();
-	if (Input::IsMouseButtonDown(hStore_)) {
-		SceneManager* pSceneManager = (SceneManager*)FindObject("SceneManager");
-		pSceneManager->ChangeScene(SCENE_ID_STORE);
+	//Main‰æ–Ê‚É‘JˆÚ
+	if (hPlay_) {
+		if (Input::IsMouseButtonDown(0)) {
+			SceneManager* pSceneManager = (SceneManager*)FindObject("SceneManager");
+			pSceneManager->ChangeScene(SCENE_ID_MAIN);
+		}
 	}
+
+	//Store‰æ–Ê‚É‘JˆÚ
+	if (hStore_) {
+		if (Input::IsMouseButtonDown(0)) {
+			SceneManager* pSceneManager = (SceneManager*)FindObject("SceneManager");
+			pSceneManager->ChangeScene(SCENE_ID_STORE);
+		}
+	}
+	
 
 }
 

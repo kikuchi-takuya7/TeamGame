@@ -21,4 +21,5 @@ public:
 	void Update() override;
 	void Draw() override;
 	void Release() override;
+	BOOL CALLBACK DialogProc(HWND hDlg, UINT msg, WPARAM wp, LPARAM lp);
 };

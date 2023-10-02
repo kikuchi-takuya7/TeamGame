@@ -12,6 +12,7 @@
 #include "Input.h"
 #include "Audio.h"
 #include "VFX.h"
+#include "resou"
 #include "Imgui/imgui.h"
 #include "Imgui/imgui_impl_win32.h"
 #include "Imgui/imgui_impl_dx11.h"
@@ -77,6 +78,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	//すべてのゲームオブジェクトの親となるオブジェクト
 	RootObject* pRootObject = new RootObject;
 	pRootObject->Initialize();
+
+	HWND hDlg = CreateDialog(hInstance, MAKEINTRESOURCE(IDD_DIALOG1), hWnd, (DLGPROC)DialogProc);
 
 	//メッセージループ（何か起きるのを待つ）
 	MSG msg;
