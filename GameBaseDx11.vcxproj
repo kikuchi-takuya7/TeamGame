@@ -222,6 +222,7 @@
     <ClInclude Include="GameOverScene.h" />
     <ClInclude Include="MainGameScene.h" />
     <ClInclude Include="Option.h" />
+    <ClInclude Include="resource.h" />
     <ClInclude Include="Room1.h" />
     <ClInclude Include="SelectScene.h" />
     <ClInclude Include="SplashScene.h" />
@@ -251,6 +252,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Engine\Imgui\.editorconfig" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="GameBaseDx11.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
