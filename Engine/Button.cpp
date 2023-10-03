@@ -205,16 +205,6 @@ void Button::ChangeScene()
 			pSceneManager->ChangeScene(SCENE_ID_SELECT);
 		}
 			break;
-		case MAIN: {
-			SceneManager* pSceneManager = (SceneManager*)FindObject("SceneManager");
-			pSceneManager->ChangeScene(SCENE_ID_MAIN);
-		}
-			break;
-		case STORE: {
-			SceneManager* pSceneManager = (SceneManager*)FindObject("SceneManager");
-			pSceneManager->ChangeScene(SCENE_ID_STORE);
-		}
-			break;
 		default:
 			break;
 		}

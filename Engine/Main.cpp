@@ -83,10 +83,14 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	//すべてのゲームオブジェクトの親となるオブジェクト
 	pRootObject->Initialize();
 
-	HWND hDlg = CreateDialog(hInstance, MAKEINTRESOURCE(IDD_DIALOG1), hWnd, (DLGPROC)DialogProc);
+	
+	if (log) {
+		HWND hDlg = CreateDialog(hInstance, MAKEINTRESOURCE(IDD_DIALOG1), hWnd, (DLGPROC)DialogProc);
 
-	// ダイアログを表示
-	ShowWindow(hDlg, SW_SHOWNORMAL);
+		// ダイアログを表示
+		ShowWindow(hDlg, SW_SHOWNORMAL);
+	}
+	
 
 	//メッセージループ（何か起きるのを待つ）
 	MSG msg;
