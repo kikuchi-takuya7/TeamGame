@@ -17,7 +17,7 @@ Room1::~Room1()
 void Room1::Initialize()
 {
 	//モデルデータのロード
-	hModel_ = Model::Load("Map/Room_01.fbx");
+	hModel_ = Model::Load("Map/stage.fbx");
 	assert(hModel_ >= 0);
 }
 
