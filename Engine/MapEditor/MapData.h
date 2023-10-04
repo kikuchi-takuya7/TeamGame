@@ -6,6 +6,7 @@
 //新しいファイルを追加したら、こことCreateObjectに要素を手動で追加する
 enum FBXPATTERN {
 	ROOM_1,
+	STAGE,//仮で作ったからこれと上の奴はクリックしない方が良い
 	TESTFLOOR,
 	TESTWALL,
 	PATTERN_END
