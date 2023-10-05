@@ -16,6 +16,9 @@ private:
 	Transform volume_Transform_;
 	int hVolume_;   //volumeの画像番号
 	bool log;       //ダイアログのフラグ
+
+	Button* play_;
+	Button* store_;
 	
 public:
 	//コンストラクタ
