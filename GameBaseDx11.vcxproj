@@ -170,6 +170,7 @@
     <ClCompile Include="GameOverScene.cpp" />
     <ClCompile Include="MainGameScene.cpp" />
     <ClCompile Include="Option.cpp" />
+    <ClCompile Include="Player.cpp" />
     <ClCompile Include="Room1.cpp" />
     <ClCompile Include="SelectScene.cpp" />
     <ClCompile Include="SplashScene.cpp" />
@@ -222,6 +223,7 @@
     <ClInclude Include="GameOverScene.h" />
     <ClInclude Include="MainGameScene.h" />
     <ClInclude Include="Option.h" />
+    <ClInclude Include="Player.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="Room1.h" />
     <ClInclude Include="SelectScene.h" />

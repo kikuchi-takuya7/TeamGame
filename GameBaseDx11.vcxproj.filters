@@ -191,6 +191,9 @@
       <Filter>MapEditor\MapObject</Filter>
     </ClCompile>
     <ClCompile Include="StoreScene.cpp" />
+    <ClCompile Include="Player.cpp">
+      <Filter>MainGame</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\BoxCollider.h">
@@ -302,9 +305,6 @@
     <ClInclude Include="Engine\Imgui\imstb_truetype.h">
       <Filter>01Engine\Imgui</Filter>
     </ClInclude>
-    <ClInclude Include="MainGameScene.h">
-      <Filter>Others</Filter>
-    </ClInclude>
     <ClInclude Include="Engine\SaveManager\SaveManager.h">
       <Filter>01Engine\SaveManager</Filter>
     </ClInclude>
@@ -338,6 +338,12 @@
     </ClInclude>
     <ClInclude Include="StoreScene.h" />
     <ClInclude Include="resource.h" />
+    <ClInclude Include="MainGameScene.h">
+      <Filter>MainGame</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>MainGame</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Assets\Shader\Simple2D.hlsl">

@@ -1,4 +1,5 @@
 #include "MainGameScene.h"
+#include "Player.h"
 
 //コンストラクタ
 MainGameScene::MainGameScene(GameObject* parent)
@@ -14,6 +15,7 @@ MainGameScene::~MainGameScene()
 //初期化
 void MainGameScene::Initialize()
 {
+
 }
 
 //更新
