@@ -194,6 +194,9 @@
     <ClCompile Include="Player.cpp">
       <Filter>MainGame</Filter>
     </ClCompile>
+    <ClCompile Include="StageMap.cpp">
+      <Filter>MainGame</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\BoxCollider.h">
@@ -342,6 +345,9 @@
       <Filter>MainGame</Filter>
     </ClInclude>
     <ClInclude Include="Player.h">
+      <Filter>MainGame</Filter>
+    </ClInclude>
+    <ClInclude Include="StageMap.h">
       <Filter>MainGame</Filter>
     </ClInclude>
   </ItemGroup>

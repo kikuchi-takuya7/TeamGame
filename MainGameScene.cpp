@@ -1,5 +1,6 @@
 #include "MainGameScene.h"
 #include "Player.h"
+#include "StageMap.h"
 
 //コンストラクタ
 MainGameScene::MainGameScene(GameObject* parent)
@@ -15,7 +16,8 @@ MainGameScene::~MainGameScene()
 //初期化
 void MainGameScene::Initialize()
 {
-
+	Player* pPlayer = Instantiate<Player>(this);
+	StageMap* pStageMap = Instantiate<StageMap>(this);
 }
 
 //更新
