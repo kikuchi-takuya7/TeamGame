@@ -21,6 +21,10 @@ void Player::Initialize()
     //モデルデータのロード
     hModel_ = Model::Load("goburin.fbx");
     assert(hModel_ >= 0);
+
+    transform_.rotate_.y = 180;
+
+    Model::SetAnimFrame(hModel_, 0, 60, 1);
 }
 
 //更新
@@ -162,98 +166,98 @@ void Player::Update()
      ///////////ここからFPS視点////////////////////////////////
     //////////////////////////////////////////////////////////
 
-    //transform.rotate_.y度回転させる行列を作成
-    XMMATRIX rotY = XMMatrixRotationY(XMConvertToRadians(transform_.rotate_.y));
-    XMMATRIX rotX = XMMatrixRotationX(XMConvertToRadians(transform_.rotate_.x));
+    ////transform.rotate_.y度回転させる行列を作成
+    //XMMATRIX rotY = XMMatrixRotationY(XMConvertToRadians(transform_.rotate_.y));
+    //XMMATRIX rotX = XMMatrixRotationX(XMConvertToRadians(transform_.rotate_.x));
 
-    //現在の位置をベクトル型に変換
-    XMVECTOR pos = XMLoadFloat3(&transform_.position_);
+    ////現在の位置をベクトル型に変換
+    //XMVECTOR pos = XMLoadFloat3(&transform_.position_);
 
-    //1フレームの移動ベクトル
-    XMVECTOR moveZ = { 0.0f, 0.0f, 0.1f, 0.0f }; //奥に0.1m
-    //移動ベクトルを変形 (洗車と同じ向きに回転) させる
-    moveZ = XMVector3TransformCoord(moveZ, rotY);
+    ////1フレームの移動ベクトル
+    //XMVECTOR moveZ = { 0.0f, 0.0f, 0.1f, 0.0f }; //奥に0.1m
+    ////移動ベクトルを変形 (洗車と同じ向きに回転) させる
+    //moveZ = XMVector3TransformCoord(moveZ, rotY);
 
-    //1フレームの移動ベクトル
-    XMVECTOR moveX = { 0.1f, 0.0f, 0.0f, 0.0f }; //横に0.1m
-    //移動ベクトルを変形 (洗車と同じ向きに回転) させる
-    moveX = XMVector3TransformCoord(moveX, rotY);
+    ////1フレームの移動ベクトル
+    //XMVECTOR moveX = { 0.1f, 0.0f, 0.0f, 0.0f }; //横に0.1m
+    ////移動ベクトルを変形 (洗車と同じ向きに回転) させる
+    //moveX = XMVector3TransformCoord(moveX, rotY);
 
 
-    //移動
-    if (Input::IsKey(DIK_W)) {
-        //移動
-        pos += moveZ;
+    ////移動
+    //if (Input::IsKey(DIK_W)) {
+    //    //移動
+    //    pos += moveZ;
 
-    }
-    if (Input::IsKey(DIK_S)) {
+    //}
+    //if (Input::IsKey(DIK_S)) {
 
-        pos -= moveZ;
+    //    pos -= moveZ;
 
-    }
-    if (Input::IsKey(DIK_A)) {
+    //}
+    //if (Input::IsKey(DIK_A)) {
 
-        pos -= moveX;
+    //    pos -= moveX;
 
-    }
-    if (Input::IsKey(DIK_D)) {
+    //}
+    //if (Input::IsKey(DIK_D)) {
 
-        pos += moveX;
+    //    pos += moveX;
 
-    }
+    //}
 
-    //現在地をベクトルからいつものtransform.positionに戻す
-    XMStoreFloat3(&transform_.position_, pos);
+    ////現在地をベクトルからいつものtransform.positionに戻す
+    //XMStoreFloat3(&transform_.position_, pos);
 
-    //行列うんたらかんたら
-    float w = (float)(Direct3D::screenWidth_ / 2.0f);
-    float h = (float)(Direct3D::screenHeight_ / 2.0f);
-    float offsetX = 0;
-    float offsetY = 0;
-    float minZ = 0;
-    float maxZ = 1;
+    ////行列うんたらかんたら
+    //float w = (float)(Direct3D::screenWidth_ / 2.0f);
+    //float h = (float)(Direct3D::screenHeight_ / 2.0f);
+    //float offsetX = 0;
+    //float offsetY = 0;
+    //float minZ = 0;
+    //float maxZ = 1;
 
-    //ビューポート作成
-    XMMATRIX vp =
-    {
-        w                ,0                ,0           ,0,
-        0                ,-h               ,0           ,0,
-        0                ,0                ,maxZ - minZ ,0,
-        offsetX + w      ,offsetY + h      ,minZ        ,1
-    };
+    ////ビューポート作成
+    //XMMATRIX vp =
+    //{
+    //    w                ,0                ,0           ,0,
+    //    0                ,-h               ,0           ,0,
+    //    0                ,0                ,maxZ - minZ ,0,
+    //    offsetX + w      ,offsetY + h      ,minZ        ,1
+    //};
 
-    //ビューポートを逆行列に
-    XMMATRIX invVP = XMMatrixInverse(nullptr, vp);
-    //プロジェクション変換
-    XMMATRIX invProj = XMMatrixInverse(nullptr, Camera::GetProjectionMatrix());
-    //びゅー変換
-    XMMATRIX invView = XMMatrixInverse(nullptr, Camera::GetViewMatrix());
+    ////ビューポートを逆行列に
+    //XMMATRIX invVP = XMMatrixInverse(nullptr, vp);
+    ////プロジェクション変換
+    //XMMATRIX invProj = XMMatrixInverse(nullptr, Camera::GetProjectionMatrix());
+    ////びゅー変換
+    //XMMATRIX invView = XMMatrixInverse(nullptr, Camera::GetViewMatrix());
 
-    //マウスの移動量を毎回計算してからマウスの位置を強制的に中央に戻すといいらしい
-    //ok
+    ////マウスの移動量を毎回計算してからマウスの位置を強制的に中央に戻すといいらしい
+    ////ok
 
-    Input::SetMousePosition(Direct3D::screenWidth_ / 2.0f, (Direct3D::screenHeight_ / 2.0f));
+    //Input::SetMousePosition(Direct3D::screenWidth_ / 2.0f, (Direct3D::screenHeight_ / 2.0f));
 
-    //GetMousePositionの使用が違うから少し変えた
-    XMFLOAT3 mousePosFront = Input::GetMousePosition();
-    mousePosFront.z = 0.0;
+    ////GetMousePositionの使用が違うから少し変えた
+    //XMFLOAT3 mousePosFront = Input::GetMousePosition();
+    //mousePosFront.z = 0.0;
 
-    //1,mousePosFrontをベクトルに変換
-    XMVECTOR vMouseFront = XMLoadFloat3(&mousePosFront);
-    //2. 1にinvVP,invPrj,invViewをかける
-    vMouseFront = XMVector3TransformCoord(vMouseFront, invVP * invProj * invView);
-    
-    //ポジションを常に見る。
-    Camera::SetTarget(vMouseFront);
+    ////1,mousePosFrontをベクトルに変換
+    //XMVECTOR vMouseFront = XMLoadFloat3(&mousePosFront);
+    ////2. 1にinvVP,invPrj,invViewをかける
+    //vMouseFront = XMVector3TransformCoord(vMouseFront, invVP * invProj * invView);
+    //
+    ////ポジションを常に見る。
+    //Camera::SetTarget(vMouseFront);
 
-    //カメラの位置は常にポジションの後ろ
-    //z軸－10のやつに回転行列をかけて常に後ろにいるようにしてるけどFPS視点だと不要かも
-    XMVECTOR vCam = { 0,0,-10,0 };
-    vCam = XMVector3TransformCoord(vCam, rotX * rotY);
+    ////カメラの位置は常にポジションの後ろ
+    ////z軸－10のやつに回転行列をかけて常に後ろにいるようにしてるけどFPS視点だと不要かも
+    //XMVECTOR vCam = { 0,0,-10,0 };
+    //vCam = XMVector3TransformCoord(vCam, rotX * rotY);
 
-    XMFLOAT3 camPos = transform_.position_;
-    camPos.y += 1;
-    Camera::SetPosition(camPos);
+    //XMFLOAT3 camPos = transform_.position_;
+    //camPos.y += 1;
+    //Camera::SetPosition(camPos);
 }
 
 //描画
