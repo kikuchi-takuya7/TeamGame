@@ -250,11 +250,15 @@ void Player::Update()
 
 
     //今の状態だとマウスが中心からずれてたら常に回るようになってるから直してね明日の俺
+    //一人称視点じゃなかったら作業無駄無駄だから一旦やめとこ
 
-    XMFLOAT3 mouseMove = Input::GetMouseMove();
+    XMFLOAT3 mousePos = Input::GetMousePosition();
 
-    transform_.rotate_.x += mouseMove.x;
-    transform_.rotate_.y += mouseMove.y;
+    mousePos.x += Direct3D::screenWidth_ / 2;
+    mousePos.y += Direct3D::screenHeight_ / 2;
+
+    transform_.rotate_.x += mousePos.x;
+    transform_.rotate_.y += mousePos.y;
 
     //Input::SetMousePosition(Direct3D::screenWidth_ / 2, Direct3D::screenHeight_ / 2);
 
