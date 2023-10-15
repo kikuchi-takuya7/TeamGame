@@ -19,19 +19,21 @@ Player::~Player()
 void Player::Initialize()
 {
     //モデルデータのロード
-    hModel_ = Model::Load("goburin.fbx");
+    hModel_ = Model::Load("taikianime.fbx");
     assert(hModel_ >= 0);
 
     transform_.rotate_.y = 180;
 
-    Model::SetAnimFrame(hModel_, 0, 30, 1);
+    Model::SetAnimFrame(hModel_, 0, 120, 1);
 }
 
 //更新
 void Player::Update()
 {
 
-    /*if (Input::IsKey(DIK_A))
+#if 1
+
+    if (Input::IsKey(DIK_A))
     {
         transform_.rotate_.y -= 2.0f;
     }
@@ -39,7 +41,7 @@ void Player::Update()
     if (Input::IsKey(DIK_D))
     {
         transform_.rotate_.y += 2.0f;
-    }*/
+    }
 
     ////出力のところに変数がどうなってるか表示
     //Debug::Log(transform_.position_.x, true);
@@ -162,6 +164,8 @@ void Player::Update()
     //vCam = XMVector3TransformCoord(vCam, rotX * rotY);
     //Camera::SetPosition(pos + vCam);
 
+#else
+
       //////////////////////////////////////////////////////////
      ///////////ここからFPS視点////////////////////////////////
     //////////////////////////////////////////////////////////
@@ -209,67 +213,32 @@ void Player::Update()
     //現在地をベクトルからいつものtransform.positionに戻す
     XMStoreFloat3(&transform_.position_, pos);
 
-    //行列うんたらかんたら
-    float w = (float)(Direct3D::screenWidth_ / 2.0f);
-    float h = (float)(Direct3D::screenHeight_ / 2.0f);
-    float offsetX = 0;
-    float offsetY = 0;
-    float minZ = 0;
-    float maxZ = 1;
-
-    //ビューポート作成
-    XMMATRIX vp =
-    {
-        w                ,0                ,0           ,0,
-        0                ,-h               ,0           ,0,
-        0                ,0                ,maxZ - minZ ,0,
-        offsetX + w      ,offsetY + h      ,minZ        ,1
-    };
-
-    //ビューポートを逆行列に
-    XMMATRIX invVP = XMMatrixInverse(nullptr, vp);
-    //プロジェクション変換
-    XMMATRIX invProj = XMMatrixInverse(nullptr, Camera::GetProjectionMatrix());
-    //びゅー変換
-    XMMATRIX invView = XMMatrixInverse(nullptr, Camera::GetViewMatrix());
-
-    //マウスの移動量を毎回計算してからマウスの位置を強制的に中央に戻すといいらしい
-    //ok
-
-    //GetMousePositionの使用が違うから少し変えた
-    XMFLOAT3 mousePosFront = Input::GetMousePosition();
-    mousePosFront.z = 0.0;
-
-    //1,mousePosFrontをベクトルに変換
-    XMVECTOR vMouseFront = XMLoadFloat3(&mousePosFront);
-    //2. 1にinvVP,invPrj,invViewをかける
-    vMouseFront = XMVector3TransformCoord(vMouseFront, invVP * invProj * invView);
-    
-    //ポジションを常に見る。
-    Camera::SetTarget(vMouseFront);
-
-
     //今の状態だとマウスが中心からずれてたら常に回るようになってるから直してね明日の俺
     //一人称視点じゃなかったら作業無駄無駄だから一旦やめとこ
 
-    XMFLOAT3 mousePos = Input::GetMousePosition();
+    XMFLOAT3 mousePos = Input::GetMouseMove();
 
-    mousePos.x += Direct3D::screenWidth_ / 2;
-    mousePos.y += Direct3D::screenHeight_ / 2;
+    //mousePos.x += Direct3D::screenWidth_ / 2;
+    //mousePos.y += Direct3D::screenHeight_ / 2;
 
     transform_.rotate_.x += mousePos.x;
     transform_.rotate_.y += mousePos.y;
 
     //Input::SetMousePosition(Direct3D::screenWidth_ / 2, Direct3D::screenHeight_ / 2);
 
+    //ポジションを常に見る。
+    Camera::SetTarget(transform_.position_);
+
     //カメラの位置は常にポジションの後ろ
     //z軸－10のやつに回転行列をかけて常に後ろにいるようにしてるけどFPS視点だと不要かも
-    XMVECTOR vCam = { 0,0,-10,0 };
-    vCam = XMVector3TransformCoord(vCam, rotX * rotY);
 
-    XMFLOAT3 camPos = transform_.position_;
-    camPos.y += 1;
-    Camera::SetPosition(camPos);
+    //カメラの位置は常にポジションの後ろ
+    XMVECTOR vCam = { 0,5,-5,0 };
+    vCam = XMVector3TransformCoord(vCam, rotX * rotY);
+    Camera::SetPosition(pos + vCam);
+
+#endif
+
 }
 
 //描画
