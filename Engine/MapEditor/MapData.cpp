@@ -167,17 +167,15 @@ void MapData::Draw()
 
     Model::RayCast(hModel_[0], &data);
 
-    if (data.hit) {
-        data.hit = false;
-
-    }
-    
     Transform objPos;
     objPos.position_.y = 1.0f;
 
-    //マウスの位置にオブジェクトを仮で表示したい
-    Model::SetTransform(hModel_[selecting_object], objPos);
-    Model::Draw(hModel_[selecting_object]);
+    if (data.hit) {
+        //マウスの位置にオブジェクトを仮で表示したい
+        Model::SetTransform(hModel_[selecting_object], objPos);
+        Model::Draw(hModel_[selecting_object]);
+
+    }
 
 }
 
