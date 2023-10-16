@@ -191,6 +191,9 @@
       <Filter>MapEditor\MapObject</Filter>
     </ClCompile>
     <ClCompile Include="StoreScene.cpp" />
+    <ClCompile Include="ResultScene.cpp">
+      <Filter>MainGame</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\BoxCollider.h">
@@ -338,6 +341,9 @@
     </ClInclude>
     <ClInclude Include="StoreScene.h" />
     <ClInclude Include="resource.h" />
+    <ClInclude Include="ResultScene.h">
+      <Filter>MainGame</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Assets\Shader\Simple2D.hlsl">
