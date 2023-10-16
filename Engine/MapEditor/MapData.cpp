@@ -46,78 +46,68 @@ void MapData::Initialize()
 //更新
 void MapData::Update()
 {
-    
+    //毎回チェックしないとデリートしたタイミングでエラー出る。多分RootObjectのUpdateで消されたかどうか確認してるから
     CheckDeleteObject();
 
     //ちゃんとセーブされるのにロードできない。なんでやねん
     //Model::AllRelease()を使えば行けそうっていうメモ
 
-    //if (Input::IsMouseButtonDown(0)) {
+    //float w = (float)(Direct3D::screenWidth_ / 2.0f);
+    //float h = (float)(Direct3D::screenHeight_ / 2.0f);
+    //float offsetX = 0;
+    //float offsetY = 0;
+    //float minZ = 0;
+    //float maxZ = 1;
 
-    //    float w = (float)(Direct3D::screenWidth_ / 2.0f);
-    //    float h = (float)(Direct3D::screenHeight_ / 2.0f);
-    //    float offsetX = 0;
-    //    float offsetY = 0;
-    //    float minZ = 0;
-    //    float maxZ = 1;
+    ////ビューポート作成
+    //XMMATRIX vp =
+    //{
+    //    w                ,0                ,0           ,0,
+    //    0                ,-h               ,0           ,0,
+    //    0                ,0                ,maxZ - minZ ,0,
+    //    offsetX + w      ,offsetY + h      ,minZ        ,1
+    //};
 
-    //    //ビューポート作成
-    //    XMMATRIX vp =
-    //    {
-    //        w                ,0                ,0           ,0,
-    //        0                ,-h               ,0           ,0,
-    //        0                ,0                ,maxZ - minZ ,0,
-    //        offsetX + w      ,offsetY + h      ,minZ        ,1
-    //    };
+    ////ビューポートを逆行列に
+    //XMMATRIX invVP = XMMatrixInverse(nullptr, vp);
+    ////プロジェクション変換
+    //XMMATRIX invProj = XMMatrixInverse(nullptr, Camera::GetProjectionMatrix());
+    ////びゅー変換
+    //XMMATRIX invView = XMMatrixInverse(nullptr, Camera::GetViewMatrix());
 
-    //    //ビューポートを逆行列に
-    //    XMMATRIX invVP = XMMatrixInverse(nullptr, vp);
-    //    //プロジェクション変換
-    //    XMMATRIX invProj = XMMatrixInverse(nullptr, Camera::GetProjectionMatrix());
-    //    //びゅー変換
-    //    XMMATRIX invView = XMMatrixInverse(nullptr, Camera::GetViewMatrix());
+    //XMFLOAT3 mousePosFront = Input::GetMousePosition();
+    //mousePosFront.z = 0.0;
+    //XMFLOAT3 mousePosBack = Input::GetMousePosition();
+    //mousePosBack.z = 1.0f;
 
-    //    XMFLOAT3 mousePosFront = Input::GetMousePosition();
-    //    mousePosFront.z = 0.0;
-    //    XMFLOAT3 mousePosBack = Input::GetMousePosition();
-    //    mousePosBack.z = 1.0f;
+    ////1,mousePosFrontをベクトルに変換
+    //XMVECTOR vMouseFront = XMLoadFloat3(&mousePosFront);
+    ////2. 1にinvVP,invPrj,invViewをかける
+    //vMouseFront = XMVector3TransformCoord(vMouseFront, invVP * invProj * invView);
+    ////3,mousePosBackをベクトルに変換
+    //XMVECTOR vMouseBack = XMLoadFloat3(&mousePosBack);
+    ////4,3にinvVP,invPrj,invVeewをかける
+    //vMouseBack = XMVector3TransformCoord(vMouseBack, invVP * invProj * invView);
+    ////5,2から4に向かってレイを打つ（とりあえず）
 
-    //    //1,mousePosFrontをベクトルに変換
-    //    XMVECTOR vMouseFront = XMLoadFloat3(&mousePosFront);
-    //    //2. 1にinvVP,invPrj,invViewをかける
-    //    vMouseFront = XMVector3TransformCoord(vMouseFront, invVP * invProj * invView);
-    //    //3,mousePosBackをベクトルに変換
-    //    XMVECTOR vMouseBack = XMLoadFloat3(&mousePosBack);
-    //    //4,3にinvVP,invPrj,invVeewをかける
-    //    vMouseBack = XMVector3TransformCoord(vMouseBack, invVP * invProj * invView);
-    //    //5,2から4に向かってレイを打つ（とりあえず）
+    //int changeX = 0;
+    //int	changeZ = 0;
+    //float minDist = 9999;
 
-    //    int changeX = 0;
-    //    int	changeZ = 0;
-    //    float minDist = 9999;
-    //    for (int x = 0; x < 15; x++) {
-    //        
-    //        RayCastData data;
-    //        XMStoreFloat3(&data.start, vMouseFront);
-    //        XMStoreFloat3(&data.dir, vMouseBack - vMouseFront);
-    //        Transform trans;
-    //        trans.position_.x = x;
-    //        trans.position_.y = 0;
-    //        trans.position_.z = z;
-    //        Model::SetTransform(hModel_[0], trans);
 
-    //        Model::RayCast(hModel_[0], &data);
+    //RayCastData data;
+    //XMStoreFloat3(&data.start, vMouseFront);
+    //XMStoreFloat3(&data.dir, vMouseBack - vMouseFront);
 
-    //        if (data.hit) {
-    //            if (data.dist > minDist)
-    //                continue;
-    //            data.hit = false;
-    //            continue;
-    //        }
-    //    }
+    //Model::RayCast(hModel_[0], &data);
 
-    //    table_[changeX][changeZ].height++;
+    //if (data.hit) {
+    //    data.hit = false;
+
     //}
+
+    //Transform objPos;
+    //objPos.position_.y = 1.0f;
 
     //左クリックされた
     if (Input::IsMouseButtonDown(0))
@@ -130,69 +120,10 @@ void MapData::Update()
 //描画
 void MapData::Draw()
 {
-   
-
-    
 
     if (selecting_object == PATTERN_END)
         return;
 
-
-
-    float w = (float)(Direct3D::screenWidth_ / 2.0f);
-    float h = (float)(Direct3D::screenHeight_ / 2.0f);
-    float offsetX = 0;
-    float offsetY = 0;
-    float minZ = 0;
-    float maxZ = 1;
-
-    //ビューポート作成
-    XMMATRIX vp =
-    {
-        w                ,0                ,0           ,0,
-        0                ,-h               ,0           ,0,
-        0                ,0                ,maxZ - minZ ,0,
-        offsetX + w      ,offsetY + h      ,minZ        ,1
-    };
-
-    //ビューポートを逆行列に
-    XMMATRIX invVP = XMMatrixInverse(nullptr, vp);
-    //プロジェクション変換
-    XMMATRIX invProj = XMMatrixInverse(nullptr, Camera::GetProjectionMatrix());
-    //びゅー変換
-    XMMATRIX invView = XMMatrixInverse(nullptr, Camera::GetViewMatrix());
-
-    XMFLOAT3 mousePosFront = Input::GetMousePosition();
-    mousePosFront.z = 0.0;
-    XMFLOAT3 mousePosBack = Input::GetMousePosition();
-    mousePosBack.z = 1.0f;
-
-    //1,mousePosFrontをベクトルに変換
-    XMVECTOR vMouseFront = XMLoadFloat3(&mousePosFront);
-    //2. 1にinvVP,invPrj,invViewをかける
-    vMouseFront = XMVector3TransformCoord(vMouseFront, invVP * invProj * invView);
-    //3,mousePosBackをベクトルに変換
-    XMVECTOR vMouseBack = XMLoadFloat3(&mousePosBack);
-    //4,3にinvVP,invPrj,invVeewをかける
-    vMouseBack = XMVector3TransformCoord(vMouseBack, invVP * invProj * invView);
-    //5,2から4に向かってレイを打つ（とりあえず）
-
-    int changeX = 0;
-    int	changeZ = 0;
-    float minDist = 9999;
-
-            
-    RayCastData data;
-    XMStoreFloat3(&data.start, vMouseFront);
-    XMStoreFloat3(&data.dir, vMouseBack - vMouseFront);
-
-    Model::RayCast(hModel_[0], &data);
-
-    if (data.hit) {
-        data.hit = false;
-
-    }
-    
     Transform objPos;
     objPos.position_.y = 1.0f;
 
