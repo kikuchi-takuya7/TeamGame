@@ -18,8 +18,9 @@ GameOverScene::~GameOverScene()
 void GameOverScene::Initialize()
 {
 	//画像データのロード
-	hPict_ = Image::Load("haikei.png");
+	hPict_ = Image::Load("game_over_scene.png");
 	assert(hPict_ >= 0);
+	transform_.scale_ = XMFLOAT3(1.3f, 1.5f, 1.0f);
 }
 
 //更新
