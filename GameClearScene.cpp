@@ -1,4 +1,5 @@
 #include "GameClearScene.h"
+#include "Engine/SceneManager.h"
 
 //コンストラクタ
 GameClearScene::GameClearScene(GameObject* parent)
@@ -19,6 +20,8 @@ void GameClearScene::Initialize()
 //更新
 void GameClearScene::Update()
 {
+	SceneManager* pSceneManager = (SceneManager*)FindObject("SceneManager");
+	pSceneManager->ChangeScene(SCENE_ID_RESULT);
 }
 
 //描画
