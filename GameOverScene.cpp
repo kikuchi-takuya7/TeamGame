@@ -5,7 +5,7 @@
 
 //コンストラクタ
 GameOverScene::GameOverScene(GameObject* parent)
-	: GameObject(parent, "GameOverScene"), hPict_(-1)
+	: GameObject(parent, "GameOverScene"), hPict_(-1), hButton_(-1)
 {
 }
 
@@ -20,7 +20,11 @@ void GameOverScene::Initialize()
 	//画像データのロード
 	hPict_ = Image::Load("game_over_scene.png");
 	assert(hPict_ >= 0);
-	transform_.scale_ = XMFLOAT3(1.3f, 1.5f, 1.0f);
+	hk.scale_ = XMFLOAT3(1.3f, 1.5f, 1.0f);
+
+	hButton_ = Image::Load("Test.png");
+	assert(hButton_ >= 0);
+	ht.position_ = XMFLOAT3(0.8f, -0.8, 0);
 }
 
 //更新
@@ -36,8 +40,10 @@ void GameOverScene::Update()
 //描画
 void GameOverScene::Draw()
 {
-	Image::SetTransform(hPict_, transform_);
+	Image::SetTransform(hPict_, hk);
 	Image::Draw(hPict_);
+	Image::SetTransform(hButton_, ht);
+	Image::Draw(hButton_);
 }
 
 //開放
