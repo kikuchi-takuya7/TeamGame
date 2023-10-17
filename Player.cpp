@@ -19,6 +19,7 @@ Player::~Player()
 void Player::Initialize()
 {
     //モデルデータのロード
+    //hModel_ = Model::Load("goburin.fbx");
     hModel_ = Model::Load("taikianime.fbx");
     assert(hModel_ >= 0);
 
