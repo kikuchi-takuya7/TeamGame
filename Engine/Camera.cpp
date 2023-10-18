@@ -79,6 +79,16 @@ XMFLOAT3 Camera::GetTarget()
 	return f;
 }
 
+XMVECTOR Camera::GetPositionVector()
+{
+	return position_;
+}
+
+XMVECTOR Camera::GetTargetVector()
+{
+	return target_;
+}
+
 
 //ƒrƒ…[s—ñ‚ğæ“¾
 XMMATRIX Camera::GetViewMatrix()

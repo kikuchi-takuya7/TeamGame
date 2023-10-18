@@ -1,24 +1,24 @@
-#include "Player.h"
+ï»¿#include "Player.h"
 #include "Engine/Model.h"
 #include "Engine/Camera.h"
 #include "Engine/Input.h"
 #include "Engine/Debug.h"
 
-//ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+//ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 Player::Player(GameObject* parent)
     :GameObject(parent, "Player"),hModel_(-1)
 {
 }
 
-//ƒfƒXƒgƒ‰ƒNƒ^
+//ãƒ‡ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 Player::~Player()
 {
 }
 
-//‰Šú‰»
+//åˆæœŸåŒ–
 void Player::Initialize()
 {
-    //ƒ‚ƒfƒ‹ƒf[ƒ^‚Ìƒ[ƒh
+    //ãƒ¢ãƒ‡ãƒ«ãƒ‡ãƒ¼ã‚¿ã®ãƒ­ãƒ¼ãƒ‰
     //hModel_ = Model::Load("goburin.fbx");
     hModel_ = Model::Load("taikianime.fbx");
     assert(hModel_ >= 0);
@@ -26,161 +26,140 @@ void Player::Initialize()
     transform_.position_.z = -2;
 
     Model::SetAnimFrame(hModel_, 0, 120, 1);
+
+    
 }
 
-//XV
+//æ›´æ–°
 void Player::Update()
 {
 
-#if 0
-
+    Move_Character();
+    Move_Camera();
     
 
-    //o—Í‚Ì‚Æ‚±‚ë‚É•Ï”‚ª‚Ç‚¤‚È‚Á‚Ä‚é‚©•\¦
-    Debug::Log(transform_.position_.x, true);
+    /*XMFLOAT3 mousePos = Input::GetMousePosition();
 
-    //ôÔ‚ÌŒ»İ‚ÌˆÊ’u‚ğƒxƒNƒgƒ‹Œ^‚É•ÏŠ·
-    XMVECTOR pos = XMLoadFloat3(&transform_.position_);
+    mousePos.x += Direct3D::screenWidth_ / 2;
+    mousePos.y += Direct3D::screenHeight_ / 2;
 
-    //1ƒtƒŒ[ƒ€‚ÌˆÚ“®ƒxƒNƒgƒ‹
-    XMVECTOR move = { 0.0f, 0.0f, 0.1f, 0.0f }; //‰œ‚É0.1m
+    transform_.rotate_.x += mousePos.x;
+    transform_.rotate_.y += mousePos.y;*/
 
-    //transform.rotate_.y“x‰ñ“]‚³‚¹‚és—ñ‚ğì¬
-    XMMATRIX rotY = XMMatrixRotationY(XMConvertToRadians(transform_.rotate_.y));
-
-    //ˆÚ“®ƒxƒNƒgƒ‹‚ğ•ÏŒ` (ôÔ‚Æ“¯‚¶Œü‚«‚É‰ñ“]) ‚³‚¹‚é
-    move = XMVector3TransformCoord(move, rotY);
-
-    //WƒL[‚ª‰Ÿ‚³‚ê‚½‚çˆÚ“®
-    if (Input::IsKey(DIK_W)) {
-        //ˆÚ“®
-        pos += move;
-
-        //Œ»İ’n‚ğƒxƒNƒgƒ‹‚©‚ç‚¢‚Â‚à‚Ìtransform.position‚É–ß‚·
-        XMStoreFloat3(&transform_.position_, pos);
-
-    }
-
-    if (Input::IsKey(DIK_S)) {
-
-        pos -= move;
-
-        XMStoreFloat3(&transform_.position_, pos);
-
-    }
-
-    XMFLOAT3 camPos;
-
-    camPos = { transform_.position_ };
-    Camera::SetPosition(camPos);
-    XMFLOAT3 man;
-    XMStoreFloat3(&man, pos + move);
-    Camera::SetTarget(man);
-
-    if (Input::IsKey(DIK_SPACE) && transform_.position_.y <= 10.0f) {
-        transform_.position_.y += 0.2f;
-    }
-    if (Input::IsKey(DIK_LSHIFT) && transform_.position_.y >= 0.0f || Input::IsKey(DIK_LSHIFT) && transform_.position_.y >= 0.0f) {
-        transform_.position_.y -= 0.2f;
-    }
-
-
-    if (Input::IsKey(DIK_LEFTARROW)) {
-        transform_.rotate_.y -= 1.0f;
-    }
-    if (Input::IsKey(DIK_RIGHTARROW)) {
-        transform_.rotate_.y += 1.0f;
-    }
-
-    //transform.rotate_.y“x‰ñ“]‚³‚¹‚és—ñ‚ğì¬
-    XMMATRIX rotY = XMMatrixRotationY(XMConvertToRadians(transform_.rotate_.y));
-
-    if (Input::IsKey(DIK_UPARROW) && transform_.rotate_.x <= 88) {
-        transform_.rotate_.x += 1.0f;
-    }
-    if (Input::IsKey(DIK_DOWNARROW) && transform_.rotate_.x >= 0) {
-        transform_.rotate_.x -= 1.0f;
-    }
-
-    XMMATRIX rotX = XMMatrixRotationX(XMConvertToRadians(transform_.rotate_.x));
-
-    //Œ»İ‚ÌˆÊ’u‚ğƒxƒNƒgƒ‹Œ^‚É•ÏŠ·
-    XMVECTOR pos = XMLoadFloat3(&transform_.position_);
-
-    //1ƒtƒŒ[ƒ€‚ÌˆÚ“®ƒxƒNƒgƒ‹
-    XMVECTOR moveZ = { 0.0f, 0.0f, 0.1f, 0.0f }; //‰œ‚É0.1m
-
-    //ˆÚ“®ƒxƒNƒgƒ‹‚ğ•ÏŒ` (ôÔ‚Æ“¯‚¶Œü‚«‚É‰ñ“]) ‚³‚¹‚é
-    moveZ = XMVector3TransformCoord(moveZ, rotY);
-
-
-    //WƒL[‚ª‰Ÿ‚³‚ê‚½‚çˆÚ“®
-    if (Input::IsKey(DIK_W)) {
-        //ˆÚ“®
-        pos += moveZ;
-
-    }
-
-    if (Input::IsKey(DIK_S)) {
-
-        pos -= moveZ;
-
-    }
-    
-    //1ƒtƒŒ[ƒ€‚ÌˆÚ“®ƒxƒNƒgƒ‹
-    XMVECTOR moveX = { 0.1f, 0.0f, 0.0f, 0.0f }; //‰¡‚É0.1m
-
-    //ˆÚ“®ƒxƒNƒgƒ‹‚ğ•ÏŒ` (ôÔ‚Æ“¯‚¶Œü‚«‚É‰ñ“]) ‚³‚¹‚é
-    moveX = XMVector3TransformCoord(moveX, rotY);
-
-
-    if (Input::IsKey(DIK_A)) {
-
-        pos -= moveX;
-
-    }
-
-    if (Input::IsKey(DIK_D)) {
-
-        pos += moveX;
-
-    }
-
-    //Œ»İ’n‚ğƒxƒNƒgƒ‹‚©‚ç‚¢‚Â‚à‚Ìtransform.position‚É–ß‚·
-    XMStoreFloat3(&transform_.position_, pos);
-
-    //ƒ|ƒWƒVƒ‡ƒ“‚ğí‚ÉŒ©‚éB
-    Camera::SetTarget(transform_.position_);
-
-    //ƒJƒƒ‰‚ÌˆÊ’u‚Íí‚Éƒ|ƒWƒVƒ‡ƒ“‚ÌŒã‚ë
-    XMVECTOR vCam = { 0,0,-10,0 };
-    vCam = XMVector3TransformCoord(vCam, rotX * rotY);
-    Camera::SetPosition(pos + vCam);
-
-#else
-
-    if (Input::IsKey(DIK_A))
-    {
-       transform_.rotate_.y -= 2.0f;
-    }
-
-    if (Input::IsKey(DIK_D))
-    {
-       transform_.rotate_.y += 2.0f;
-    }
-
-#endif
+    //Input::SetMousePosition(Direct3D::screenWidth_ / 2, Direct3D::screenHeight_ / 2);
 
 }
 
-//•`‰æ
+//æç”»
 void Player::Draw()
 {
     Model::SetTransform(hModel_, transform_);
     Model::Draw(hModel_);
 }
 
-//ŠJ•ú
+//é–‹æ”¾
 void Player::Release()
 {
+}
+
+void Player::Move_Character()
+{
+    XMFLOAT3 fMove = XMFLOAT3(0, 0, 0);
+
+    if (Input::IsKey(DIK_A))
+    {
+        fMove.x = -0.1f;
+    }
+    if (Input::IsKey(DIK_D))
+    {
+        fMove.x = 0.1f;
+    }
+    if (Input::IsKey(DIK_W))
+    {
+        fMove.z = 0.1f;
+    }
+    if (Input::IsKey(DIK_S))
+    {
+        fMove.z = -0.1f;
+    }
+
+    XMVECTOR vMove = XMLoadFloat3(&fMove);
+    vMove = XMLoadFloat3(&fMove);
+    //vMove = XMVector3Normalize(vMove);
+
+
+    XMStoreFloat3(&fMove, vMove);
+
+    transform_.position_.x += fMove.x;
+    transform_.position_.z += fMove.z;
+
+
+    
+}
+
+void Player::Move_Camera()
+{
+
+    //transform.rotate_.yåº¦å›è»¢ã•ã›ã‚‹è¡Œåˆ—ã‚’ä½œæˆ
+    XMMATRIX rotY = XMMatrixRotationY(XMConvertToRadians(transform_.rotate_.y));
+
+    XMMATRIX rotX = XMMatrixRotationX(XMConvertToRadians(transform_.rotate_.x));
+
+    //ç¾åœ¨ã®ä½ç½®ã‚’ãƒ™ã‚¯ãƒˆãƒ«å‹ã«å¤‰æ›
+    XMVECTOR pos = XMLoadFloat3(&transform_.position_);
+
+    //ã‚«ãƒ¡ãƒ©ã®ä½ç½®ã¯å¸¸ã«ãƒã‚¸ã‚·ãƒ§ãƒ³ã®å¾Œã‚
+    XMVECTOR vCam = { 0,5,-9,0 };
+    vCam = XMVector3TransformCoord(vCam, rotX * rotY);
+    Camera::SetPosition(pos + vCam);
+
+
+    /////////////////////////////////////////////////////////////////
+    // â“µã€€ç¾åœ¨ã®ã‚«ãƒ¡ãƒ©ã®æ³¨è¦–ç‚¹ã¨è¦–ç‚¹ã‚’ä½¿ã£ã¦ã€XZå¹³é¢ä¸Šã§ã®ã€
+    //      æ³¨è¦–ç‚¹ã‹ã‚‰è¦–ç‚¹ã¾ã§ã®ãƒ™ã‚¯ãƒˆãƒ«(toCameraPosXZ)ã¨é•·ã•(toCameraPosXZLen)ã‚’æ±‚ã‚ã‚‹ã€‚
+    /////////////////////////////////////////////////////////////////
+    XMFLOAT3 camPos = Camera::GetPosition();
+    XMFLOAT3 camTar = Camera::GetTarget();
+    XMVECTOR toCameraPosXZ = camPos - camTar;
+
+    float height = XMVectorGetY(toCameraPosXZ);      //è¦–ç‚¹ã¸ã®Yæ–¹å‘ã®é«˜ã•ã¯ã€å¾Œã§ä½¿ã†ã®ã§ãƒãƒƒã‚¯ã‚¢ãƒƒãƒ—ã—ã¦ãŠãã€‚
+    toCameraPosXZ = XMVectorSetY(toCameraPosXZ, 0);  //XZå¹³é¢ã«ã™ã‚‹ã®ã§ã€Yã¯0ã«ã™ã‚‹ã€‚
+    float toCameraPosXZLen = Length(toCameraPosXZ); //XZå¹³é¢ä¸Šã§ã®è¦–ç‚¹ã¨æ³¨è¦–ç‚¹ã®è·é›¢ã‚’æ±‚ã‚ã‚‹ã€‚
+    XMVECTOR toCamPosNormalize = XMVector3Normalize(toCameraPosXZ);          //å˜ä½ãƒ™ã‚¯ãƒˆãƒ«åŒ–ã€‚
+    
+    /////////////////////////////////////////////////////////////////
+    // â“¶ã€€æ–°ã—ã„æ³¨è¦–ç‚¹ã‚’ã‚¢ã‚¯ã‚¿ãƒ¼ã®åº§æ¨™ã‹ã‚‰æ±ºã‚ã‚‹ã€‚
+    /////////////////////////////////////////////////////////////////
+    XMVECTOR target = XMLoadFloat3(&transform_.position_);
+    target += XMVectorSetY(target, 5.0f);
+    target += XMVectorSetX(target, -5.0f);
+    XMFLOAT3 floatTarget = transform_.position_;
+    floatTarget.y += 5.0f;
+    floatTarget.z += -5.0f;
+
+    /////////////////////////////////////////////////////////////////
+    // â“·ã€€æ–°ã—ã„æ³¨è¦–ç‚¹ã¨ç¾åœ¨ã®ã‚«ãƒ¡ãƒ©ã®è¦–ç‚¹ã‚’ä½¿ã£ã¦ã€XZå¹³é¢ä¸Šã§ã®ã€
+    //     æ³¨è¦–ç‚¹ã‹ã‚‰è¦–ç‚¹ã¾ã§ã®ãƒ™ã‚¯ãƒˆãƒ«(toNewCameraPos)ã‚’æ±‚ã‚ã‚‹ã€‚
+    /////////////////////////////////////////////////////////////////
+    XMVECTOR toNewCameraPos = transform_.position_ - floatTarget; //æ–°ã—ã„æ³¨è¦–ç‚¹ã‹ã‚‰ã‚«ãƒ¡ãƒ©ã®å§‹ç‚¹ã¸å‘ã‹ã†ãƒ™ã‚¯ãƒˆãƒ«ã‚’æ±‚ã‚ã‚‹ã€‚
+    toNewCameraPos = XMVectorSetY(toNewCameraPos, 0.0f);              //XZå¹³é¢ã«ã™ã‚‹ã®ã§ã€Yã¯0ã«ã™ã‚‹ã€‚
+    XMVECTOR toNewCamPosNormalize = XMVector3Normalize(toNewCameraPos);         //å˜ä½ãƒ™ã‚¯ãƒˆãƒ«åŒ–ã€‚
+
+    /////////////////////////////////////////////////////////////////
+    // â“¸ã€€ï¼‘ã¨ï¼’ã¨ï¼“ã§æ±‚ã‚ãŸæƒ…å ±ã‚’ä½¿ã£ã¦ã€æ–°ã—ã„è¦–ç‚¹ã‚’æ±ºå®šã™ã‚‹ã€‚
+    /////////////////////////////////////////////////////////////////
+    //ã¡ã‚‡ã£ã¨ã¥ã¤è¿½å°¾ã€‚
+    float weight = 0.7f;  //ã“ã®ã‚¦ã‚§ã‚¤ãƒˆã®å€¤ã¯0.0ï½1.0ã®å€¤ã‚’ã¨ã‚‹ã€‚1.0ã«è¿‘ã¥ãã»ã©è¿½å°¾ãŒå¼·ããªã‚‹ã€‚
+    toNewCamPosNormalize = toNewCamPosNormalize * weight + toCameraPosXZ * (1.0f - weight);
+    toNewCamPosNormalize = XMVector3Normalize(toNewCamPosNormalize);
+    toNewCamPosNormalize *= toCameraPosXZLen;
+    toNewCamPosNormalize = XMVectorSetY(toNewCamPosNormalize, height);              //é«˜ã•ã‚’æˆ»ã™ã€‚
+    XMVECTOR newCamPos = target + toCamPosNormalize;  //ã“ã‚Œã§æ–°ã—ã„è¦–ç‚¹ãŒæ±ºå®šã€‚
+
+    /////////////////////////////////////////////////////////////////
+    // â“¹ã€€è¦–ç‚¹ã¨æ³¨è¦–ç‚¹ã‚’ã‚«ãƒ¡ãƒ©ã«è¨­å®šã—ã¦çµ‚ã‚ã‚Šã€‚
+    /////////////////////////////////////////////////////////////////
+    Camera::SetPosition(newCamPos);
+    Camera::SetTarget(floatTarget);
+
 }

@@ -25,5 +25,9 @@ public:
     void Release() override;
 
 private:
+
+    void Move_Character();
+    void Move_Camera();
+
     int hModel_;
 };
