@@ -23,8 +23,6 @@ void SelectScene::Initialize()
 	//画像データのロード
 	hPict_ = Image::Load("haikei.png");
 	assert(hPict_ >= 0);
-	
-	
 
 	//exitの画像データのロード
 	hExit_ = Image::Load("Exit.png");
@@ -40,13 +38,13 @@ void SelectScene::Initialize()
 
 	play_ = Instantiate<Button>(this);
 	play_->SetImage("Play");
-	play_->SetPosition(600, 350);//ウィンドウの横幅1280,縦720
+	play_->SetPosition(100, 500);//ウィンドウの横幅1280,縦720
 	play_->SetNextScene(MAIN);
 	play_->SetIsFlash(false);
 
 	store_ = Instantiate<Button>(this);
 	store_->SetImage("Store");
-	store_->SetPosition(600, 400);
+	store_->SetPosition(1100, 230);
 	store_->SetNextScene(STORE);
 	store_->SetIsFlash(false);
 }
