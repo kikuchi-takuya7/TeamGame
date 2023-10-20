@@ -29,7 +29,7 @@ void GameOverScene::Initialize()
 
 	backmenu_ = Instantiate<Button>(this);
 	backmenu_->SetImage("go_backmenu");
-	backmenu_->SetPosition(1400, 680);//ウィンドウの横幅1280,縦720
+	backmenu_->SetPosition(1655, 680);//ウィンドウの横幅1280,縦720
 	backmenu_->SetScale(1.3f, 1.5f, 1.0f);
 	backmenu_->SetAlphaNormal(0);
 	backmenu_->SetNextScene(SELECT);
@@ -39,6 +39,15 @@ void GameOverScene::Initialize()
 //更新
 void GameOverScene::Update()
 {
+	XMFLOAT3 pos = Input::GetMousePosition();
+	if (backmenu_->MouseInArea(pos)) {
+		backmenu_->Push(true);
+	}
+	else {
+		backmenu_->Push(false);
+
+	}
+
 	if (Input::IsMouseButtonDown(0))
 	{
 		SceneManager* pSceneManager = (SceneManager*)FindObject("SceneManager");
