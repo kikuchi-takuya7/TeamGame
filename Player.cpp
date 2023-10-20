@@ -23,30 +23,44 @@ void Player::Initialize()
     hModel_ = Model::Load("taikianime.fbx");
     assert(hModel_ >= 0);
 
-    transform_.position_.z = -2;
+    transform_.position_.z = 0;
 
     Model::SetAnimFrame(hModel_, 0, 120, 1);
 
-    
+    currentPlayerState_ = IDLE;
+    nextPlayerState_ = IDLE;
+    currentAnimationState_ = NONE;
+    nextAnimationState_ = NONE;
 }
 
 //更新
 void Player::Update()
 {
 
-    Move_Character();
-    Move_Camera();
+    if (currentPlayerState_ != nextPlayerState_) {
+        ChangePlayerState(nextPlayerState_);
+    }
+
+    switch (currentPlayerState_)
+    {
+    case Player::IDLE:
+        Idle_Update();
+        break;
+    case Player::MOVE:
+        Move_Update();
+        break;
+    case Player::ACTION:
+        Action_Update();
+        break;
+    case Player::ANIMATIOIN:
+        Animation_Update();
+        break;
+    default:
+        break;
+    }
+
     
-
-    /*XMFLOAT3 mousePos = Input::GetMousePosition();
-
-    mousePos.x += Direct3D::screenWidth_ / 2;
-    mousePos.y += Direct3D::screenHeight_ / 2;
-
-    transform_.rotate_.x += mousePos.x;
-    transform_.rotate_.y += mousePos.y;*/
-
-    //Input::SetMousePosition(Direct3D::screenWidth_ / 2, Direct3D::screenHeight_ / 2);
+    //Move_Camera();
 
 }
 
@@ -62,7 +76,89 @@ void Player::Release()
 {
 }
 
-void Player::Move_Character()
+void Player::ChangePlayerState(PLAYERSTATE nextState)
+{
+
+    //開放して変更して初期化
+    OnLeavePlayerState(currentPlayerState_);
+
+    currentPlayerState_ = nextState;
+    
+    OnEnterPlayerState(currentPlayerState_);
+}
+
+void Player::OnEnterPlayerState(PLAYERSTATE state)
+{
+    switch (state)
+    {
+    case Player::IDLE:
+        break;
+    case Player::MOVE:
+        break;
+    case Player::ACTION:
+        break;
+    case Player::ANIMATIOIN:
+        break;
+    default:
+        break;
+    }
+}
+
+void Player::OnLeavePlayerState(PLAYERSTATE state)
+{
+    switch (state)
+    {
+    case Player::IDLE:
+        break;
+    case Player::MOVE:
+        break;
+    case Player::ACTION:
+        break;
+    case Player::ANIMATIOIN:
+        break;
+    default:
+        break;
+    }
+}
+
+void Player::ChangeAnimationState(ANIMATIONSTATE nextState)
+{
+}
+
+void Player::OnEnterAnimationState(ANIMATIONSTATE state)
+{
+}
+
+void Player::OnLeaveAnimationState(ANIMATIONSTATE state)
+{
+}
+
+void Player::Idle_Update()
+{
+    if (Input::IsKey(DIK_A))
+    {
+        nextPlayerState_ = MOVE;
+    }
+    if (Input::IsKey(DIK_D))
+    {
+        nextPlayerState_ = MOVE;
+    }
+    if (Input::IsKey(DIK_W))
+    {
+        nextPlayerState_ = MOVE;
+    }
+    if (Input::IsKey(DIK_S))
+    {
+        nextPlayerState_ = MOVE;
+    }
+}
+
+void Player::Move_Update()
+{
+    Move_Player();
+}
+
+void Player::Move_Player()
 {
     XMFLOAT3 fMove = XMFLOAT3(0, 0, 0);
 
@@ -83,18 +179,38 @@ void Player::Move_Character()
         fMove.z = -0.1f;
     }
 
+    //斜め移動でも足が速くならないように。なってる気がする
     XMVECTOR vMove = XMLoadFloat3(&fMove);
-    vMove = XMLoadFloat3(&fMove);
-    //vMove = XMVector3Normalize(vMove);
-
-
+    vMove = XMVector3Normalize(vMove);
     XMStoreFloat3(&fMove, vMove);
+    fMove.x /= 10;
+    fMove.z /= 10;
 
     transform_.position_.x += fMove.x;
     transform_.position_.z += fMove.z;
 
 
-    
+    //短いほうの角度だけ求める向き方向
+    XMVECTOR vLength = XMVector3Length(vMove);
+    float length = XMVectorGetX(vLength);
+
+    if (length != 0) {
+        XMVECTOR vFront = { 0,0,1,0 };
+        //vMove = XMVector3Normalize(vMove);
+
+        XMVECTOR vDot = XMVector3Dot(vFront, vMove);
+        float dot = XMVectorGetX(vDot);
+        float angle = acos(dot);
+
+        XMVECTOR vCross = XMVector3Cross(vFront, vMove);
+        if (XMVectorGetY(vCross) < 0) {
+
+            angle *= -1;
+        }
+
+
+        transform_.rotate_.y = XMConvertToDegrees(angle);
+    }
 }
 
 void Player::Move_Camera()
@@ -162,4 +278,12 @@ void Player::Move_Camera()
     Camera::SetPosition(newCamPos);
     Camera::SetTarget(floatTarget);
 
+}
+
+void Player::Action_Update()
+{
+}
+
+void Player::Animation_Update()
+{
 }

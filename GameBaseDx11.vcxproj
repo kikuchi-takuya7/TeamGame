@@ -171,6 +171,11 @@
     <ClCompile Include="MainGameScene.cpp" />
     <ClCompile Include="Option.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="PlayerState\PlayerState.cpp" />
+    <ClCompile Include="PlayerState\StateAction.cpp" />
+    <ClCompile Include="PlayerState\StateAnimation.cpp" />
+    <ClCompile Include="PlayerState\StateIdle.cpp" />
+    <ClCompile Include="PlayerState\StateMove.cpp" />
     <ClCompile Include="Room1.cpp" />
     <ClCompile Include="SelectScene.cpp" />
     <ClCompile Include="SplashScene.cpp" />
@@ -225,6 +230,11 @@
     <ClInclude Include="MainGameScene.h" />
     <ClInclude Include="Option.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="PlayerState\PlayerState.h" />
+    <ClInclude Include="PlayerState\StateAction.h" />
+    <ClInclude Include="PlayerState\StateAnimation.h" />
+    <ClInclude Include="PlayerState\StateIdle.h" />
+    <ClInclude Include="PlayerState\StateMove.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="Room1.h" />
     <ClInclude Include="SelectScene.h" />
