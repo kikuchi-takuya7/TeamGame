@@ -6,7 +6,7 @@
 
 //コンストラクタ
 Player::Player(GameObject* parent)
-    :GameObject(parent, "Player"),hModel_(-1)
+    :GameObject(parent, "Player"),hIdleModel_(-1),hMoveModel_(-1),hAnimeModel_{-1,-1}
 {
 }
 
@@ -18,42 +18,80 @@ Player::~Player()
 //初期化
 void Player::Initialize()
 {
+
+    gameFlame_ = 0;
+    animationFlame_ = 0;
+    idleEndFlame_ = 100;
+    moveEndFlame_ = 100;
+    applauseEndFlame_ = 100;
+    bowEndFlame_ = 50;
+    changeApplauseTiming_ = 20;
+    changeApplauseFlag_ = true;
+
     //モデルデータのロード
-    //hModel_ = Model::Load("goburin.fbx");
-    hModel_ = Model::Load("taikianime.fbx");
-    assert(hModel_ >= 0);
+    hIdleModel_ = Model::Load("PlayerFbx/taikianime.fbx");
+    assert(hIdleModel_ >= 0);
 
-    transform_.position_.z = 0;
+    hMoveModel_ = Model::Load("PlayerFbx/runmotion.fbx");
+    assert(hMoveModel_ >= 0);
 
-    Model::SetAnimFrame(hModel_, 0, 120, 1);
+    //アニメーションが追加されたらこことhのenumに名前を追加する
+    std::string emoteModelName[] = {
+        "hakusyu.fbx",
+        "ojigi.fbx",
+    };
+
+    std::string fName_Base = "PlayerFbx/";
+
+    //モデルデータのロード
+    for (int i = 0; i < NUM; i++) {
+        hAnimeModel_[i] = Model::Load(fName_Base + emoteModelName[i]);
+        assert(hAnimeModel_[i] >= 0);
+    }
+
+
+    Model::SetAnimFrame(hIdleModel_, 0, idleEndFlame_, 1);
+    Model::SetAnimFrame(hMoveModel_, 0, moveEndFlame_, 1);
+    Model::SetAnimFrame(hAnimeModel_[APPLAUSE], 0, moveEndFlame_, 1);
+    Model::SetAnimFrame(hAnimeModel_[BOW], 0, bowEndFlame_, 1);
+
+    transform_.position_.z = -5;
+    transform_.rotate_.y = 180;
 
     currentPlayerState_ = IDLE;
     nextPlayerState_ = IDLE;
-    currentAnimationState_ = NONE;
-    nextAnimationState_ = NONE;
+    currentEmoteState_ = NUM;
+    nextEmoteState_ = NUM;
+
+    
 }
 
 //更新
 void Player::Update()
 {
 
+    gameFlame_++;
+    animationFlame_++;
+
     if (currentPlayerState_ != nextPlayerState_) {
         ChangePlayerState(nextPlayerState_);
     }
 
+
     switch (currentPlayerState_)
     {
-    case Player::IDLE:
+    case IDLE:
         Idle_Update();
         break;
-    case Player::MOVE:
+    case MOVE:
         Move_Update();
         break;
-    case Player::ACTION:
+    case ACTION:
         Action_Update();
         break;
-    case Player::ANIMATIOIN:
-        Animation_Update();
+    case EMOTE:
+        Emote_Update();
+        CheckMoveKey();
         break;
     default:
         break;
@@ -67,8 +105,26 @@ void Player::Update()
 //描画
 void Player::Draw()
 {
-    Model::SetTransform(hModel_, transform_);
-    Model::Draw(hModel_);
+    switch (currentPlayerState_)
+    {
+    case IDLE:
+        Model::SetTransform(hIdleModel_, transform_);
+        Model::Draw(hIdleModel_);
+        break;
+    case MOVE:
+        Model::SetTransform(hMoveModel_, transform_);
+        Model::Draw(hMoveModel_);
+        break;
+    case ACTION:
+
+        break;
+    case EMOTE:
+        Emote_Draw();
+        break;
+    default:
+        break;
+    }
+    
 }
 
 //開放
@@ -89,73 +145,141 @@ void Player::ChangePlayerState(PLAYERSTATE nextState)
 
 void Player::OnEnterPlayerState(PLAYERSTATE state)
 {
-    switch (state)
-    {
-    case Player::IDLE:
-        break;
-    case Player::MOVE:
-        break;
-    case Player::ACTION:
-        break;
-    case Player::ANIMATIOIN:
-        break;
-    default:
-        break;
-    }
+    animationFlame_ = 0;
+    Model::SetAnimFrame(hIdleModel_, 0, idleEndFlame_, 1);
 }
 
 void Player::OnLeavePlayerState(PLAYERSTATE state)
 {
-    switch (state)
-    {
-    case Player::IDLE:
-        break;
-    case Player::MOVE:
-        break;
-    case Player::ACTION:
-        break;
-    case Player::ANIMATIOIN:
-        break;
-    default:
-        break;
-    }
 }
 
-void Player::ChangeAnimationState(ANIMATIONSTATE nextState)
+void Player::ChangeEmoteState(EMOTESTATE nextState)
 {
+    //開放して変更して初期化
+    OnLeaveEmoteState(currentEmoteState_);
+
+    currentEmoteState_ = nextState;
+
+    OnEnterEmoteState(currentEmoteState_);
 }
 
-void Player::OnEnterAnimationState(ANIMATIONSTATE state)
+void Player::OnEnterEmoteState(EMOTESTATE state)
 {
+    animationFlame_ = 0;
+    changeApplauseFlag_ = true;
+    Model::SetAnimFrame(hAnimeModel_[BOW], 0, applauseEndFlame_, 1);
 }
 
-void Player::OnLeaveAnimationState(ANIMATIONSTATE state)
+void Player::OnLeaveEmoteState(EMOTESTATE state)
 {
 }
 
 void Player::Idle_Update()
 {
-    if (Input::IsKey(DIK_A))
-    {
-        nextPlayerState_ = MOVE;
-    }
-    if (Input::IsKey(DIK_D))
-    {
-        nextPlayerState_ = MOVE;
-    }
-    if (Input::IsKey(DIK_W))
-    {
-        nextPlayerState_ = MOVE;
-    }
-    if (Input::IsKey(DIK_S))
-    {
-        nextPlayerState_ = MOVE;
-    }
+
+    CheckMoveKey();
+
+    CheckEmoteKey();
+
 }
 
 void Player::Move_Update()
 {
+    
+    //移動ボタンが押されてなければ
+    if (!Input::IsKey(DIK_A) && !Input::IsKey(DIK_D) && !Input::IsKey(DIK_W) && !Input::IsKey(DIK_S))
+    {
+        nextPlayerState_ = IDLE;
+
+    }
+
+    CheckEmoteKey();
+
     Move_Player();
+
+}
+
+void Player::Action_Update()
+{
+}
+
+void Player::Emote_Update()
+{
+
+    CheckEmoteKey();
+
+    if (currentEmoteState_ != nextEmoteState_) {
+        ChangeEmoteState(nextEmoteState_);
+    }
+
+    switch (currentEmoteState_)
+    {
+    case APPLAUSE:
+        if (animationFlame_ >= applauseEndFlame_ && changeApplauseFlag_ == true) {
+            Model::SetAnimFrame(hAnimeModel_[APPLAUSE], changeApplauseTiming_, applauseEndFlame_, 1);
+            changeApplauseFlag_ = false;
+        }
+        break;
+
+    case BOW:
+        if (animationFlame_ >= bowEndFlame_) {
+            ChangeToIdle();
+        }
+        break;
+
+    default:
+        break;
+    }
+}
+
+void Player::Emote_Draw()
+{
+
+    switch (currentEmoteState_)
+    {
+    case APPLAUSE:
+        Model::SetTransform(hAnimeModel_[APPLAUSE], transform_);
+        Model::Draw(hAnimeModel_[APPLAUSE]);
+        break;
+    case BOW:
+        Model::SetTransform(hAnimeModel_[BOW], transform_);
+        Model::Draw(hAnimeModel_[BOW]);
+        break;
+    default:
+        break;
+    }
+}
+
+void Player::CheckMoveKey()
+{
+    if (Input::IsKey(DIK_A) || Input::IsKey(DIK_D) || Input::IsKey(DIK_W) || Input::IsKey(DIK_S))
+    {
+        nextPlayerState_ = MOVE;
+    }
+
+}
+
+void Player::CheckEmoteKey()
+{
+    if (Input::IsKeyDown(DIK_1))
+    {
+        nextPlayerState_ = EMOTE;
+        nextEmoteState_ = APPLAUSE;
+    }
+    if (Input::IsKeyDown(DIK_2))
+    {
+        nextPlayerState_ = EMOTE;
+        nextEmoteState_ = BOW;
+    }
+
+}
+
+void Player::ChangeToIdle()
+{
+    nextPlayerState_ = IDLE;
+    //nextとcurrent一緒に変えちゃうのよくない気がする
+    nextEmoteState_ = NUM;
+    currentEmoteState_ = NUM;
 }
 
 void Player::Move_Player()
@@ -280,10 +404,3 @@ void Player::Move_Camera()
 
 }
 
-void Player::Action_Update()
-{
-}
-
-void Player::Animation_Update()
-{
-}
