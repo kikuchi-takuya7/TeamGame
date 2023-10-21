@@ -8,7 +8,7 @@ using namespace DirectX;
 
 //コンストラクタ
 SelectScene::SelectScene(GameObject* parent)
-	: GameObject(parent, "SelectScene"), hPict_(-1), hExit_(-1), hVolume_(-1), log(false)
+	: GameObject(parent, "SelectScene"), hPict_(-1), hExit_(-1), hVolume_(-1)
 {
 }
 
@@ -25,10 +25,10 @@ void SelectScene::Initialize()
 	assert(hPict_ >= 0);
 
 	//exitの画像データのロード
-	hExit_ = Image::Load("Exit.png");
+	/*hExit_ = Image::Load("Exit.png");
 	assert(hExit_ >= 0);
 
-	exit_Transform_.position_.x = -0.43f;
+	exit_Transform_.position_.x = -0.43f;*/
 
 	//volumeの画像データのロード
 	hVolume_ = Image::Load("Volume.png");
@@ -47,6 +47,11 @@ void SelectScene::Initialize()
 	store_->SetPosition(1100, 230);
 	store_->SetNextScene(STORE);
 	store_->SetIsFlash(false);
+
+	exit_ = Instantiate<Button>(this);
+	exit_->SetImage("Exit");
+	exit_->SetPosition(100, 350);
+	//exit_->SetLog(false);
 }
 
 //更新
@@ -73,6 +78,15 @@ void SelectScene::Update()
 		store_->Push(false);
 	}
 
+	if (exit_->MouseInArea(pos)) {
+		exit_->Push(true);
+		Dlog_ = true;
+		return;
+	}
+	else {
+		exit_->Push(false);
+		Dlog_ = false;
+	}
 }
 
 //描画
@@ -83,8 +97,8 @@ void SelectScene::Draw()
 
 	
 
-	Image::SetTransform(hExit_, exit_Transform_);
-	Image::Draw(hExit_);
+	/*Image::SetTransform(hExit_, exit_Transform_);
+	Image::Draw(hExit_);*/
 
 	Image::SetTransform(hVolume_, volume_Transform_);
 	Image::Draw(hVolume_);
@@ -93,6 +107,11 @@ void SelectScene::Draw()
 //開放
 void SelectScene::Release()
 {
+}
+
+bool SelectScene::GetDlog() const
+{
+	return Dlog_;
 }
 
 BOOL SelectScene::DialogProc(HWND hDlg, UINT msg, WPARAM wp, LPARAM lp)
