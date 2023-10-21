@@ -17,6 +17,7 @@
 #include "Imgui/imgui.h"
 #include "Imgui/imgui_impl_win32.h"
 #include "Imgui/imgui_impl_dx11.h"
+#include "Video.h"
 
 #pragma comment(lib,"Winmm.lib")
 
@@ -26,6 +27,7 @@ const char* WIN_CLASS_NAME = "SampleGame";	//ウィンドウクラス名
 //プロトタイプ宣言
 HWND InitApp(HINSTANCE hInstance, int screenWidth, int screenHeight, int nCmdShow);
 LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
+
 
 RootObject* pRootObject = new RootObject;
 
@@ -199,6 +201,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 //ウィンドウの作成
 HWND InitApp(HINSTANCE hInstance, int screenWidth, int screenHeight, int nCmdShow)
 {
+
 	//ウィンドウクラス（設計図）を作成
 	WNDCLASSEX wc;
 	wc.cbSize = sizeof(WNDCLASSEX);					//この構造体のサイズ

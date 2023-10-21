@@ -2,14 +2,17 @@
 #include "Engine/Image.h"
 #include "Engine/SceneManager.h"
 #include "Engine/Input.h"
+#include "Video.h"
 
 #include <windows.h>
 #include <dshow.h>
+
 
 #pragma comment(lib, "strmiids.lib")
 
 
 const LPCSTR fileName = "SaveFile\\SplashSaveData";
+Video videoPlayer;
 
 //コンストラクタ
 SplashScene::SplashScene(GameObject* parent)
@@ -22,9 +25,17 @@ SplashScene::~SplashScene()
 {
 }
 
+
+
 //初期化
 void SplashScene::Initialize()
 {
+
+	// Video クラスを初期化
+	videoPlayer.Initialize(hWnd);
+
+	// 動画を再生
+	videoPlayer.PlayVideo(L"TouhokuDenshi_splash.avi");
 	
 	hFile_ = CreateFile(
 		fileName,                 //ファイル名
@@ -145,44 +156,19 @@ void SplashScene::Initialize()
 
 	Leave();
 	
-
-	// COMの初期化
-CoInitialize(NULL);
-// ファイルパスを指定
-LPCWSTR filePath = L"TouhokuDenshi_splash.wmv";
-// インターフェースの宣言
-IGraphBuilder* pGraphBuilder = NULL;
-IMediaControl* pMediaControl = NULL;
-// グラフビルダーを作成
-CoCreateInstance(CLSID_FilterGraph, NULL, CLSCTX_INPROC, IID_IGraphBuilder, (void**)&pGraphBuilder);
-// メディアコントロールを取得
-pGraphBuilder->QueryInterface(IID_IMediaControl, (void**)&pMediaControl);
-// ファイルをグラフにレンダリング
-if (pGraphBuilder->RenderFile(filePath, NULL) == S_OK)
-{
-	// メディア再生を開始
-	pMediaControl->Run();
-	// ユーザーが再生を停止するまで待つ
-	/*MessageBox(NULL, L"再生中...クリックで停止", L"ビデオ再生", MB_OK);*/
-	// メディア再生を停止
-	pMediaControl->Stop();
-}
-else
-{
-	/*MessageBox(NULL, L"ビデオの再生に失敗しました。", L"エラー", MB_OK | MB_ICONERROR);*/
-}
-// インターフェースの解放
-pMediaControl->Release();
-pGraphBuilder->Release();
-// COMの終了
-CoUninitialize();
-//return 0;
+	
+	
 }
 
 
 //更新
 void SplashScene::Update()
 {
+
+	// 動画を停止
+	videoPlayer.StopVideo();
+
+
 	//一年生がいじりやすいようにしたけど実際にゲームプレイするときはここはコメントアウトしないとだめ
 	if(!IsEntered())
 		return;
@@ -212,6 +198,8 @@ void SplashScene::Update()
 	Image::SetAlpha(hdenshi_logo_, alpha_);
 
 
+
+
 }
 
 //描画
@@ -231,6 +219,7 @@ void SplashScene::Draw()
 //開放
 void SplashScene::Release()
 {
+	
 }
 
 void SplashScene::Imgui_Window()
