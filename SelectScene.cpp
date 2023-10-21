@@ -8,7 +8,7 @@ using namespace DirectX;
 
 //コンストラクタ
 SelectScene::SelectScene(GameObject* parent)
-	: GameObject(parent, "SelectScene"), hPict_(-1), hExit_(-1), hVolume_(-1), log(true)
+	: GameObject(parent, "SelectScene"), hPict_(-1), hExit_(-1), hVolume_(-1), log(false)
 {
 }
 
