@@ -2,6 +2,8 @@
 #include "Engine/SceneManager.h"
 #include "Engine/Input.h"
 #include "Engine/Image.h"
+#include  "resource.h"
+#include <DirectXMath.h>
 
 //コンストラクタ
 GameOverScene::GameOverScene(GameObject* parent)
@@ -31,22 +33,21 @@ void GameOverScene::Initialize()
 	backmenu_->SetImage("go_backmenu");
 	backmenu_->SetPosition(1655, 680);//ウィンドウの横幅1280,縦720
 	backmenu_->SetScale(1.3f, 1.5f, 1.0f);
-	backmenu_->SetAlphaNormal(0);
-	backmenu_->SetNextScene(SELECT);
-	backmenu_->SetIsFlash(false);
+	//backmenu_->SetNextScene(SELECT);
+	//backmenu_->SetIsFlash(false);
 }
 
 //更新
 void GameOverScene::Update()
 {
-	XMFLOAT3 pos = Input::GetMousePosition();
+	/*XMFLOAT3 pos = Input::GetMousePosition();
 	if (backmenu_->MouseInArea(pos)) {
 		backmenu_->Push(true);
 	}
 	else {
 		backmenu_->Push(false);
 
-	}
+	}*/
 
 	if (Input::IsMouseButtonDown(0))
 	{

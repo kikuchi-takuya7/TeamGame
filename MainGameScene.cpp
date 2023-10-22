@@ -26,7 +26,7 @@ void MainGameScene::Update()
 		SceneManager* pSceneManager = (SceneManager*)FindObject("SceneManager");
 		pSceneManager->ChangeScene(SCENE_ID_GAMEOVER);
 	}
-	if(Input::IsMouseButtonDown(2))
+	if(Input::IsMouseButtonDown(1))
 	{
 		SceneManager* pSceneManager = (SceneManager*)FindObject("SceneManager");
 		pSceneManager->ChangeScene(SCENE_ID_GAMECLEAR);
