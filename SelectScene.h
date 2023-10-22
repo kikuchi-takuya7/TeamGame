@@ -8,7 +8,6 @@ class SelectScene : public GameObject
 private:
 	int hPict_;    //‰æ‘œ”Ô†
 	Transform exit_Transform_;//Exit‚ÌˆÊ’u‚ğ’²®‚·‚é‚½‚ß‚Ì•Ï”
-	int hExit_;    //exit‚Ì‰æ‘œ”Ô†
 	int hStore_;   //store‚Ì‰æ‘œ”Ô†
 	Transform volume_Transform_;
 	int hVolume_;   //volume‚Ì‰æ‘œ”Ô†

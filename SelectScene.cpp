@@ -8,7 +8,7 @@ using namespace DirectX;
 
 //コンストラクタ
 SelectScene::SelectScene(GameObject* parent)
-	: GameObject(parent, "SelectScene"), hPict_(-1), hExit_(-1), hVolume_(-1)
+	: GameObject(parent, "SelectScene"), hPict_(-1), hVolume_(-1)
 {
 }
 
@@ -23,12 +23,6 @@ void SelectScene::Initialize()
 	//画像データのロード
 	hPict_ = Image::Load("haikei.png");
 	assert(hPict_ >= 0);
-
-	//exitの画像データのロード
-	/*hExit_ = Image::Load("Exit.png");
-	assert(hExit_ >= 0);
-
-	exit_Transform_.position_.x = -0.43f;*/
 
 	//volumeの画像データのロード
 	hVolume_ = Image::Load("Volume.png");
@@ -94,11 +88,6 @@ void SelectScene::Draw()
 {
 	Image::SetTransform(hPict_, transform_);
 	Image::Draw(hPict_);
-
-	
-
-	/*Image::SetTransform(hExit_, exit_Transform_);
-	Image::Draw(hExit_);*/
 
 	Image::SetTransform(hVolume_, volume_Transform_);
 	Image::Draw(hVolume_);
