@@ -69,6 +69,9 @@ private:
     //‚¸‚Á‚Æ”è‚³‚¹‚é‚½‚ß‚Ìƒtƒ‰ƒO
     bool changeApplauseFlag_;
 
+    float totalMouseMoveX_;
+    float totalMouseMoveY_;
+
 private:
 
     //state‚ğ•ÏX

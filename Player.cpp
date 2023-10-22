@@ -27,6 +27,8 @@ void Player::Initialize()
     bowEndFlame_ = 50;
     changeApplauseTiming_ = 20;
     changeApplauseFlag_ = true;
+    totalMouseMoveX_ = 0;
+    totalMouseMoveY_ = 0;
 
     //モデルデータのロード
     hIdleModel_ = Model::Load("PlayerFbx/taikianime.fbx");
@@ -63,7 +65,16 @@ void Player::Initialize()
     currentEmoteState_ = NUM;
     nextEmoteState_ = NUM;
 
-    
+    XMFLOAT3 camTar = transform_.position_;
+    camTar.y += 1.0f;
+    //camTar.z += 5.0f;
+    Camera::SetTarget(camTar);
+
+    XMFLOAT3 camPos = transform_.position_;
+    camPos.y += 3.0f;
+    camPos.z += -3.0f;
+    Camera::SetPosition(camPos);
+
 }
 
 //更新
@@ -167,7 +178,8 @@ void Player::OnEnterEmoteState(EMOTESTATE state)
 {
     animationFlame_ = 0;
     changeApplauseFlag_ = true;
-    Model::SetAnimFrame(hAnimeModel_[BOW], 0, applauseEndFlame_, 1);
+    Model::SetAnimFrame(hAnimeModel_[APPLAUSE], 0, applauseEndFlame_, 1);
+    Model::SetAnimFrame(hAnimeModel_[BOW], 0, bowEndFlame_, 1);
 }
 
 void Player::OnLeaveEmoteState(EMOTESTATE state)
@@ -196,6 +208,7 @@ void Player::Move_Update()
     CheckEmoteKey();
 
     Move_Player();
+
 
 }
 
@@ -340,20 +353,31 @@ void Player::Move_Player()
 void Player::Move_Camera()
 {
 
-    //transform.rotate_.y度回転させる行列を作成
-    XMMATRIX rotY = XMMatrixRotationY(XMConvertToRadians(transform_.rotate_.y));
 
-    XMMATRIX rotX = XMMatrixRotationX(XMConvertToRadians(transform_.rotate_.x));
+#if 0
+
+    XMFLOAT3 mouseMove = Input::GetMouseMove();
+
+    totalMouseMoveX_ += mouseMove.x;
+    totalMouseMoveY_ += mouseMove.y;
+
+    //度回転させる行列を作成
+    XMMATRIX rotY = XMMatrixRotationY(XMConvertToRadians(totalMouseMoveY_));
+    XMMATRIX rotX = XMMatrixRotationX(XMConvertToRadians(totalMouseMoveX_));
 
     //現在の位置をベクトル型に変換
     XMVECTOR pos = XMLoadFloat3(&transform_.position_);
 
-    //カメラの位置は常にポジションの後ろ
-    XMVECTOR vCam = { 0,5,-9,0 };
-    vCam = XMVector3TransformCoord(vCam, rotX * rotY);
-    Camera::SetPosition(pos + vCam);
+    XMFLOAT3 camPos = Camera::GetPosition();
 
+    XMVECTOR test = XMLoadFloat3(&camPos);
 
+    //移動ベクトルを変形 (洗車と同じ向きに回転) させる
+    test = XMVector3TransformCoord(test, rotY);
+
+    Camera::SetPosition(test);
+
+#else
     /////////////////////////////////////////////////////////////////
     // ⓵　現在のカメラの注視点と視点を使って、XZ平面上での、
     //      注視点から視点までのベクトル(toCameraPosXZ)と長さ(toCameraPosXZLen)を求める。
@@ -362,8 +386,8 @@ void Player::Move_Camera()
     XMFLOAT3 camTar = Camera::GetTarget();
     XMVECTOR toCameraPosXZ = camPos - camTar;
 
-    float height = XMVectorGetY(toCameraPosXZ);      //視点へのY方向の高さは、後で使うのでバックアップしておく。
-    toCameraPosXZ = XMVectorSetY(toCameraPosXZ, 0);  //XZ平面にするので、Yは0にする。
+    float height = XMVectorGetY(toCameraPosXZ);     //視点へのY方向の高さは、後で使うのでバックアップしておく。
+    toCameraPosXZ = XMVectorSetY(toCameraPosXZ, 0); //XZ平面にするので、Yは0にする。
     float toCameraPosXZLen = Length(toCameraPosXZ); //XZ平面上での視点と注視点の距離を求める。
     XMVECTOR toCamPosNormalize = XMVector3Normalize(toCameraPosXZ);          //単位ベクトル化。
     
@@ -374,14 +398,14 @@ void Player::Move_Camera()
     target += XMVectorSetY(target, 5.0f);
     target += XMVectorSetX(target, -5.0f);
     XMFLOAT3 floatTarget = transform_.position_;
-    floatTarget.y += 5.0f;
+    floatTarget.y += 2.0f;
     floatTarget.z += -5.0f;
 
     /////////////////////////////////////////////////////////////////
     // ⓷　新しい注視点と現在のカメラの視点を使って、XZ平面上での、
     //     注視点から視点までのベクトル(toNewCameraPos)を求める。
     /////////////////////////////////////////////////////////////////
-    XMVECTOR toNewCameraPos = transform_.position_ - floatTarget; //新しい注視点からカメラの始点へ向かうベクトルを求める。
+    XMVECTOR toNewCameraPos = floatTarget - camPos; //新しい注視点からカメラの始点へ向かうベクトルを求める。////////////////////////////////////////
     toNewCameraPos = XMVectorSetY(toNewCameraPos, 0.0f);              //XZ平面にするので、Yは0にする。
     XMVECTOR toNewCamPosNormalize = XMVector3Normalize(toNewCameraPos);         //単位ベクトル化。
 
@@ -401,6 +425,8 @@ void Player::Move_Camera()
     /////////////////////////////////////////////////////////////////
     Camera::SetPosition(newCamPos);
     Camera::SetTarget(floatTarget);
+
+#endif
 
 }
 
