@@ -6,6 +6,7 @@
 
 #include <windows.h>
 #include <dshow.h>
+#include <CommCtrl.h>
 
 
 #pragma comment(lib, "strmiids.lib")
