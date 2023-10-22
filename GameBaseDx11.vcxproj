@@ -176,6 +176,7 @@
     <ClCompile Include="PlayerState\StateAnimation.cpp" />
     <ClCompile Include="PlayerState\StateIdle.cpp" />
     <ClCompile Include="PlayerState\StateMove.cpp" />
+    <ClCompile Include="ResultScene.cpp" />
     <ClCompile Include="Room1.cpp" />
     <ClCompile Include="SelectScene.cpp" />
     <ClCompile Include="SplashScene.cpp" />

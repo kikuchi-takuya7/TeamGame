@@ -215,6 +215,7 @@
     <ClCompile Include="PlayerState\StateMove.cpp">
       <Filter>MainGame\PlayerState</Filter>
     </ClCompile>
+    <ClCompile Include="ResultScene.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\BoxCollider.h">
@@ -383,6 +384,7 @@
     <ClInclude Include="PlayerState\StateMove.h">
       <Filter>MainGame\PlayerState</Filter>
     </ClInclude>
+    <ClInclude Include="ResultScene.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Assets\Shader\Simple2D.hlsl">
