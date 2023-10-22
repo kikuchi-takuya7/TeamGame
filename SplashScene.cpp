@@ -2,7 +2,7 @@
 #include "Engine/Image.h"
 #include "Engine/SceneManager.h"
 #include "Engine/Input.h"
-#include "Video.h"
+
 
 #include <windows.h>
 #include <dshow.h>
@@ -13,7 +13,7 @@
 
 
 const LPCSTR fileName = "SaveFile\\SplashSaveData";
-Video videoPlayer;
+
 
 //コンストラクタ
 SplashScene::SplashScene(GameObject* parent)
@@ -32,20 +32,7 @@ SplashScene::~SplashScene()
 void SplashScene::Initialize()
 {
 
-	// Video クラスを初期化
-	videoPlayer.Initialize(hWnd);
-
-	// 動画を再生
-	videoPlayer.PlayVideo(L"TouhokuDenshi_splash.avi");
 	
-	hFile_ = CreateFile(
-		fileName,                 //ファイル名
-		GENERIC_READ,           //アクセスモード（書き込み用）
-		0,                      //共有（なし）
-		NULL,                   //セキュリティ属性（継承しない）
-		OPEN_ALWAYS,           //作成方法
-		FILE_ATTRIBUTE_NORMAL,  //属性とフラグ（設定なし）
-		NULL);
 
 	//ファイルのサイズを取得
 	DWORD fileSize = GetFileSize(hFile_, NULL);
@@ -166,8 +153,7 @@ void SplashScene::Initialize()
 void SplashScene::Update()
 {
 
-	// 動画を停止
-	videoPlayer.StopVideo();
+	
 
 
 	//一年生がいじりやすいようにしたけど実際にゲームプレイするときはここはコメントアウトしないとだめ

@@ -283,4 +283,6 @@ T* Instantiate(GameObject* pParent)
 	}
 	pNewObject->Initialize();
 	return pNewObject;
+
 }
+

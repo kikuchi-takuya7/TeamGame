@@ -13,7 +13,8 @@ enum SCENE_ID
 	SCENE_ID_GAMEOVER,
 	SCENE_ID_MAPEDITOR,
 	SCENE_ID_DEVELOP_SELECT,
-	SCENE_ID_STORE
+	SCENE_ID_STORE,
+	SCENE_ID_Video, //動画を流すシーン
 };
 
 //-----------------------------------------------------------
@@ -31,6 +32,7 @@ public:
 	void Update() override;
 	void Draw() override;
 	void Release() override;
+
 
 	//シーン切り替え（実際に切り替わるのはこの次のフレーム）
 	//引数：next	次のシーンのID

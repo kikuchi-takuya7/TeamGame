@@ -2,7 +2,9 @@
 
 
 
-Video::Video() : pGraphBuilder(nullptr), pMediaControl(nullptr), pMediaEvent(nullptr), hwnd(nullptr) {
+
+
+Video::Video(GameObject* parent) : pGraphBuilder(nullptr), pMediaControl(nullptr), pMediaEvent(nullptr), hwnd(nullptr), GameObject(parent, "Video") {
     CoInitialize(nullptr);
 }
 
@@ -11,19 +13,41 @@ Video::~Video() {
     CoUninitialize();
 }
 
-bool Video::Initialize(HWND hwnd) {
-    this->hwnd = hwnd;
+void Video::Initialize() {
+   
+
+   
+
+    // “®‰æ‚ðÄ¶
+    PlayVideo(L"TouhokuDenshi_splash.avi");
+
+   
 
     HRESULT hr = CoCreateInstance(CLSID_FilterGraph, NULL, CLSCTX_INPROC_SERVER, IID_IGraphBuilder, (void**)&pGraphBuilder);
     if (FAILED(hr)) {
-        return false;
+       // return false;
     }
 
     pGraphBuilder->QueryInterface(IID_IMediaControl, (void**)&pMediaControl);
     pGraphBuilder->QueryInterface(IID_IMediaEvent, (void**)&pMediaEvent);
 
-    return true;
+    //return true;
 }
+
+//XV
+void Video::Update()
+{
+    SceneManager* pSceneManager = (SceneManager*)FindObject("SceneManager");
+    pSceneManager->ChangeScene(SCENE_ID_TITLE);
+}
+
+//•`‰æ
+void Video::Draw()
+{
+
+    
+}
+
 
 void Video::PlayVideo(const wchar_t* videoFileName) {
     if (pGraphBuilder && pMediaControl) {

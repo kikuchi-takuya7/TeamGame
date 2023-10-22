@@ -2,15 +2,21 @@
 
 #include <windows.h>
 #include <dshow.h>
+#include "Engine/SceneManager.h"
 #pragma comment(lib, "strmiids.lib")
 
-class Video {
+class Video : public GameObject {
 public:
-    Video();
+    //コンストラクタ
+//引数：parent  親オブジェクト（SceneManager）
+    Video(GameObject* parent);
+  
     ~Video();
 
-    bool Initialize(HWND hwnd);
+    void Initialize();
+    void Update();
     void PlayVideo(const wchar_t* videoFileName);
+    void Draw();
     void StopVideo();
     void Release();
 
