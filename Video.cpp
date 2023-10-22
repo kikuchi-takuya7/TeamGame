@@ -13,8 +13,8 @@ Video::~Video() {
     CoUninitialize();
 }
 
-void Video::Initialize() {
-   
+void Video::Initialize(HWND hwnd) {
+    this->hwnd = hwnd;
 
    
 
@@ -22,23 +22,32 @@ void Video::Initialize() {
     PlayVideo(L"TouhokuDenshi_splash.avi");
 
    
-
     HRESULT hr = CoCreateInstance(CLSID_FilterGraph, NULL, CLSCTX_INPROC_SERVER, IID_IGraphBuilder, (void**)&pGraphBuilder);
     if (FAILED(hr)) {
-       // return false;
+        return;
     }
 
     pGraphBuilder->QueryInterface(IID_IMediaControl, (void**)&pMediaControl);
     pGraphBuilder->QueryInterface(IID_IMediaEvent, (void**)&pMediaEvent);
-
-    //return true;
 }
+
 
 //更新
 void Video::Update()
 {
-    SceneManager* pSceneManager = (SceneManager*)FindObject("SceneManager");
-    pSceneManager->ChangeScene(SCENE_ID_TITLE);
+    // 動画の再生状態を確認
+    if (pMediaEvent) {
+        long eventCode;
+        LONG_PTR param1, param2;
+        while (SUCCEEDED(pMediaEvent->GetEvent(&eventCode, &param1, &param2, 0))) {
+            if (eventCode == EC_COMPLETE) {
+                // 動画が終了した場合、シーンを切り替え
+                SceneManager* pSceneManager = (SceneManager*)FindObject("SceneManager");
+                pSceneManager->ChangeScene(SCENE_ID_TITLE);
+            }
+            pMediaEvent->FreeEventParams(eventCode, param1, param2);
+        }
+    }
 }
 
 //描画
@@ -78,4 +87,5 @@ void Video::Release() {
         pGraphBuilder->Release();
         pGraphBuilder = nullptr;
     }
+
 }

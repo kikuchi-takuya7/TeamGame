@@ -13,7 +13,7 @@ public:
   
     ~Video();
 
-    void Initialize();
+    void Initialize(HWND hwnd);
     void Update();
     void PlayVideo(const wchar_t* videoFileName);
     void Draw();
