@@ -236,6 +236,7 @@
     <ClInclude Include="PlayerState\StateIdle.h" />
     <ClInclude Include="PlayerState\StateMove.h" />
     <ClInclude Include="resource.h" />
+    <ClInclude Include="ResultScene.h" />
     <ClInclude Include="Room1.h" />
     <ClInclude Include="SelectScene.h" />
     <ClInclude Include="SplashScene.h" />
