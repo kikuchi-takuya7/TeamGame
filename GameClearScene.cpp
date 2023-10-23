@@ -21,14 +21,14 @@ void GameClearScene::Initialize()
 	hPict_ = Image::Load("ClearImage.jpg");
 	assert(hPict_ >= 0);
 
-	transform_.scale_ = XMFLOAT3(1.3f, 1.53f, 1.0f);
+	transform_.scale_ = XMFLOAT3(0.7f, 0.72f, 1.0f);
 }
 
 //更新
 void GameClearScene::Update()
 {
 	//スペースキーが押されていたら
-	if (Input::IsKey(DIK_SPACE))
+	if (Input::IsMouseButton(0))
 	{
 		SceneManager* pSceneManager = (SceneManager*)FindObject("SceneManager");
 		pSceneManager->ChangeScene(SCENE_ID_RESULT);
