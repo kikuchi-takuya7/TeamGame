@@ -14,7 +14,7 @@
 
 //コンストラクタ
 MapData::MapData(GameObject* parent)
-	: GameObject(parent, "MapData"),selecting_object(PATTERN_END),isSave_(false),nextObjectId_(0)
+	: GameObject(parent, "MapData"),selecting_object(PATTERN_END),isSave_(false),nextObjectId_(0),isNewSave_(false)
 {
 
     
@@ -36,7 +36,8 @@ void MapData::Initialize()
     }
     
     SaveManager* pSaveManager = Instantiate<SaveManager>(this);
-    pSaveManager->Load("SaveFile/SaveTest.json");
+    pSaveManager->OpenFile();
+    pSaveManager->Load();
 
     CheckDeleteObject();
     nextObjectId_ = MaxObjectId();
@@ -48,9 +49,6 @@ void MapData::Update()
 {
     //毎回チェックしないとデリートしたタイミングでエラー出る。多分RootObjectのUpdateで消されたかどうか確認してるから
     CheckDeleteObject();
-
-    //ちゃんとセーブされるのにロードできない。なんでやねん
-    //Model::AllRelease()を使えば行けそうっていうメモ
 
     //float w = (float)(Direct3D::screenWidth_ / 2.0f);
     //float h = (float)(Direct3D::screenHeight_ / 2.0f);
@@ -127,13 +125,6 @@ void MapData::Draw()
     Transform objPos;
     objPos.position_.y = 1.0f;
 
-    if (data.hit) {
-        //マウスの位置にオブジェクトを仮で表示したい
-        Model::SetTransform(hModel_[selecting_object], objPos);
-        Model::Draw(hModel_[selecting_object]);
-
-    }
-
 }
 
 //開放
@@ -164,6 +155,10 @@ void MapData::Imgui_Window()
             isSave_ = true;
         }
 
+        if (ImGui::Button("NewFile")) {
+            isNewSave_ = true;
+        }
+
         //Saveが押されたらここが表示される
         if (isSave_) {
             ImGui::SetNextWindowPos(ImVec2(600, 300), ImGuiCond_Once);//ImGuiCond_FirstUseEverこれを付けると初めて実行したときだけこの大きさに設定されて。それ以降はimgui.iniに保存される
@@ -172,8 +167,21 @@ void MapData::Imgui_Window()
             if (ImGui::Button("Save")) {
                 //CheckDeleteObject();
                 SaveManager* pSaveManager = Instantiate<SaveManager>(this);
-                pSaveManager->Save("SaveTest", createObjectList_);
+                pSaveManager->Save(createObjectList_);
                 isSave_ = false;
+            }
+            ImGui::End();
+        }
+
+        if (isNewSave_) {
+            ImGui::SetNextWindowPos(ImVec2(600, 300), ImGuiCond_Once);//ImGuiCond_FirstUseEverこれを付けると初めて実行したときだけこの大きさに設定されて。それ以降はimgui.iniに保存される
+            ImGui::SetNextWindowSize(ImVec2(100, 50), ImGuiCond_Once);
+            ImGui::Begin("OpenNewFile?", &isSave_);
+            if (ImGui::Button("Open")) {
+                //CheckDeleteObject();
+                SaveManager* pSaveManager = Instantiate<SaveManager>(this);
+                pSaveManager->NewCreateFile();
+                isNewSave_ = false;
             }
             ImGui::End();
         }

@@ -73,6 +73,8 @@ private:
 	//セーブするかのフラグ
 	bool isSave_;
 
+	bool isNewSave_;
+
 	int nextObjectId_;
 
 
