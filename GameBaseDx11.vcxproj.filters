@@ -193,7 +193,7 @@
     <ClCompile Include="Room1.cpp">
       <Filter>MapEditor\MapObject</Filter>
     </ClCompile>
-    <ClCompile Include="StoreScene.cpp" />
+    <ClCompile Include="StoreScene.cpp" />          
     <ClCompile Include="Player.cpp">
       <Filter>MainGame</Filter>
     </ClCompile>
@@ -216,6 +216,8 @@
       <Filter>MainGame\PlayerState</Filter>
     </ClCompile>
     <ClCompile Include="ResultScene.cpp" />
+      <Filter>Others</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\BoxCollider.h">
@@ -385,6 +387,8 @@
       <Filter>MainGame\PlayerState</Filter>
     </ClInclude>
     <ClInclude Include="ResultScene.h" />
+      <Filter>Others</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Assets\Shader\Simple2D.hlsl">
