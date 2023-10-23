@@ -6,6 +6,7 @@
 #include "../MainGameScene.h"
 #include "../GameClearScene.h"
 #include "../GameOverScene.h"
+#include "../ResultScene.h"
 #include "../DevelopSelectScene.h"
 #include "../StoreScene.h"
 #include "MapEditor/MapEditorScene.h"
@@ -52,6 +53,7 @@ void SceneManager::Update()
 		case SCENE_ID_MAIN: Instantiate<MainGameScene>(this); break;
 		case SCENE_ID_GAMECLEAR: Instantiate<GameClearScene>(this); break;
 		case SCENE_ID_GAMEOVER: Instantiate<GameOverScene>(this); break;
+		case SCENE_ID_RESULT: Instantiate<ResultScene>(this); break;
 		case SCENE_ID_MAPEDITOR: Instantiate<MapEditorScene>(this); break;
 		case SCENE_ID_DEVELOP_SELECT: Instantiate<DevelopSelectScene>(this); break;
 		case SCENE_ID_STORE: Instantiate<StoreScene>(this); break;

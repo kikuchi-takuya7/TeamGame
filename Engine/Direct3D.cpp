@@ -252,7 +252,7 @@ namespace Direct3D
 			D3D11_RASTERIZER_DESC rdc = {};
 			rdc.CullMode = D3D11_CULL_BACK;
 			rdc.FillMode = D3D11_FILL_SOLID;
-			rdc.FrontCounterClockwise = TRUE;
+			rdc.FrontCounterClockwise = FALSE;
 			pDevice_->CreateRasterizerState(&rdc, &shaderBundle[SHADER_3D].pRasterizerState);
 		}
 
@@ -394,7 +394,7 @@ namespace Direct3D
 		float clearColor[4] = { 0.1f, 0.2f, 0.2f, 1.0f };//R,G,B,A
 		
 		
-		pContext_->OMSetRenderTargets(1, &pRenderTargetView_, nullptr);
+		//pContext_->OMSetRenderTargets(1, &pRenderTargetView_, nullptr);
 
 		//‰æ–Ê‚ðƒNƒŠƒA
 		pContext_->ClearRenderTargetView(pRenderTargetView_, clearColor);

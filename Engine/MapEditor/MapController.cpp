@@ -42,15 +42,15 @@ void MapController::Update()
         transform_.rotate_.y += 1.0f;
     }
 
-    //transform.rotate_.y度回転させる行列を作成
-    XMMATRIX rotY = XMMatrixRotationY(XMConvertToRadians(transform_.rotate_.y));
-
     if (Input::IsKey(DIK_UPARROW) && transform_.rotate_.x <= 88) {
         transform_.rotate_.x += 1.0f;
     }
     if (Input::IsKey(DIK_DOWNARROW) && transform_.rotate_.x >= 0) {
         transform_.rotate_.x -= 1.0f;
     }
+
+    //transform.rotate_.y度回転させる行列を作成
+    XMMATRIX rotY = XMMatrixRotationY(XMConvertToRadians(transform_.rotate_.y));
 
     XMMATRIX rotX = XMMatrixRotationX(XMConvertToRadians(transform_.rotate_.x));
 
@@ -106,21 +106,6 @@ void MapController::Update()
     XMVECTOR vCam = { 0,0,-10,0 };
     vCam = XMVector3TransformCoord(vCam, rotX * rotY);
     Camera::SetPosition(pos + vCam);
-
-    //MapData* pMapData = (MapData*)FindObject("MapData");    //ステージオブジェクトを探す
-    //int hGroundModel = pMapData->GetModelHandle();    //モデル番号を取得
-
-    //RayCastData data;
-    //data.start = Input::GetMousePosition();   //レイの発射位置　カメラから座標とか取りたいから
-    //data.dir = XMFLOAT3(0,0,-1);       //レイの方向
-    //Model::RayCast(hGroundModel, &data); //レイを発射
-
-    ////レイが当たったら
-    //if (data.hit)
-    //{
-    //    //その分位置を下げる
-    //    transform_.position_.y -= data.dist;
-    //}
 }
 
 //描画
