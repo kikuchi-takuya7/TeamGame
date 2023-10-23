@@ -1,24 +1,28 @@
 #include "MainGameScene.h"
+#include "Player.h"
+#include "StageMap.h"
 #include "Engine/SceneManager.h"
 #include "Engine/Input.h"
 
-//ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+//ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 MainGameScene::MainGameScene(GameObject* parent)
 	: GameObject(parent, "MainGameScene")
 {
 }
 
-//ƒfƒXƒgƒ‰ƒNƒ^
+//ãƒ‡ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 MainGameScene::~MainGameScene()
 {
 }
 
-//‰Šú‰»
+//åˆæœŸåŒ–
 void MainGameScene::Initialize()
 {
+	Player* pPlayer = Instantiate<Player>(this);
+	//StageMap* pStageMap = Instantiate<StageMap>(this);
 }
 
-//XV
+//æ›´æ–°
 void MainGameScene::Update()
 {
 	if(Input::IsMouseButtonDown(0))
@@ -33,12 +37,12 @@ void MainGameScene::Update()
 	}
 }
 
-//•`‰æ
+//æç”»
 void MainGameScene::Draw()
 {
 }
 
-//ŠJ•ú
+//é–‹æ”¾
 void MainGameScene::Release()
 {
 }

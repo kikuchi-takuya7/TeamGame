@@ -1,4 +1,5 @@
 #include "Camera.h"
+#include "Direct3D.h"
 
 namespace Camera {
 	//変数
@@ -16,7 +17,7 @@ void Camera::Initialize()
 	target_ = XMVectorSet(0, 0, 0, 0);	//カメラの焦点
 
 	//プロジェクション行列
-	projMatrix_ = XMMatrixPerspectiveFovLH(XM_PIDIV4, (FLOAT)800 / (FLOAT)600, 0.1f, 100.0f);
+	projMatrix_ = XMMatrixPerspectiveFovLH(XM_PIDIV4, (FLOAT)Direct3D::screenWidth_ / (FLOAT)Direct3D::screenHeight_, 0.1f, 1000.0f);
 }
 
 //更新
@@ -24,6 +25,12 @@ void Camera::Update()
 {
 	//ビュー行列の作成
 	viewMatrix_ = XMMatrixLookAtLH(position_, target_, XMVectorSet(0, 1, 0, 0));
+	/*XMFLOAT3 position;
+	XMStoreFloat3(&position, position_);
+	XMFLOAT3 target;
+	XMStoreFloat3(&target, target_);
+	viewMatrix_ = XMMatrixLookAtLH(XMVectorSet(position.x, position.y, position.z, 0),
+	XMVectorSet(target.x, target.y, target.z, 0), XMVectorSet(0, 1, 0, 0));*/
 
 	//ビルボード行列
 	//（常にカメラの方を向くように回転させる行列。パーティクルでしか使わない）
@@ -70,6 +77,16 @@ XMFLOAT3 Camera::GetTarget()
 
 	XMStoreFloat3(&f, target_);
 	return f;
+}
+
+XMVECTOR Camera::GetPositionVector()
+{
+	return position_;
+}
+
+XMVECTOR Camera::GetTargetVector()
+{
+	return target_;
 }
 
 

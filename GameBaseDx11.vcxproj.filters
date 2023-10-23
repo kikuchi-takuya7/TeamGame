@@ -51,6 +51,9 @@
     <Filter Include="MapEditor\MapObject">
       <UniqueIdentifier>{95241bf1-31c3-428c-ad89-e331a88fc9a2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="MainGame\PlayerState">
+      <UniqueIdentifier>{0525c863-a407-4fe5-a63f-70a200b92fa7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine\BoxCollider.cpp">
@@ -190,8 +193,29 @@
     <ClCompile Include="Room1.cpp">
       <Filter>MapEditor\MapObject</Filter>
     </ClCompile>
-    <ClCompile Include="StoreScene.cpp" />
-    <ClCompile Include="ResultScene.cpp">
+    <ClCompile Include="StoreScene.cpp" />          
+    <ClCompile Include="Player.cpp">
+      <Filter>MainGame</Filter>
+    </ClCompile>
+    <ClCompile Include="StageMap.cpp">
+      <Filter>MainGame</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerState\PlayerState.cpp">
+      <Filter>MainGame\PlayerState</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerState\StateAnimation.cpp">
+      <Filter>MainGame\PlayerState</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerState\StateAction.cpp">
+      <Filter>MainGame\PlayerState</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerState\StateIdle.cpp">
+      <Filter>MainGame\PlayerState</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerState\StateMove.cpp">
+      <Filter>MainGame\PlayerState</Filter>
+    </ClCompile>
+    <ClCompile Include="ResultScene.cpp" />
       <Filter>Others</Filter>
     </ClCompile>
   </ItemGroup>
@@ -338,11 +362,32 @@
     </ClInclude>
     <ClInclude Include="StoreScene.h" />
     <ClInclude Include="resource.h" />
-    <ClInclude Include="ResultScene.h">
-      <Filter>Others</Filter>
-    </ClInclude>
     <ClInclude Include="MainGameScene.h">
       <Filter>MainGame</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>MainGame</Filter>
+    </ClInclude>
+    <ClInclude Include="StageMap.h">
+      <Filter>MainGame</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerState\PlayerState.h">
+      <Filter>MainGame\PlayerState</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerState\StateAnimation.h">
+      <Filter>MainGame\PlayerState</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerState\StateAction.h">
+      <Filter>MainGame\PlayerState</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerState\StateIdle.h">
+      <Filter>MainGame\PlayerState</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerState\StateMove.h">
+      <Filter>MainGame\PlayerState</Filter>
+    </ClInclude>
+    <ClInclude Include="ResultScene.h" />
+      <Filter>Others</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
