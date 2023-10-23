@@ -1,5 +1,7 @@
 #include "StoreScene.h"
 #include "Engine/Image.h"
+#include "Engine/Input.h"
+#include "Engine/SceneManager.h"
 
 StoreScene::StoreScene(GameObject* parent)
 	:GameObject(parent, "StoreScene"), hPict_(-1)
@@ -19,6 +21,10 @@ void StoreScene::Initialize()
 
 void StoreScene::Update()
 {
+	if (Input::IsKeyDown(DIK_RETURN)) {
+		SceneManager* pSceneManager = (SceneManager*)FindObject("SceneManager");
+		pSceneManager->ChangeScene(SCENE_ID_SELECT);
+	}
 }
 
 void StoreScene::Draw()
