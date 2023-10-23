@@ -19,7 +19,6 @@ private:
 	Transform ht;
 
 	int hPict_;    //‰æ‘œ”Ô†
-	//int hButton_;    //‰æ‘œ”Ô†
 
 	Button* backmenu_;
 };

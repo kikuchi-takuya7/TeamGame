@@ -25,12 +25,12 @@ void MainGameScene::Initialize()
 //更新
 void MainGameScene::Update()
 {
-	if(Input::IsMouseButtonDown(0))
+	if(Input::IsMouseButtonDown(0)) //左クリック
 	{
 		SceneManager* pSceneManager = (SceneManager*)FindObject("SceneManager");
 		pSceneManager->ChangeScene(SCENE_ID_GAMEOVER);
 	}
-	if(Input::IsMouseButtonDown(1))
+	if(Input::IsMouseButtonDown(1)) //右クリック
 	{
 		SceneManager* pSceneManager = (SceneManager*)FindObject("SceneManager");
 		pSceneManager->ChangeScene(SCENE_ID_GAMECLEAR);
