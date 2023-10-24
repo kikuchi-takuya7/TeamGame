@@ -14,7 +14,7 @@
 
 //コンストラクタ
 MapData::MapData(GameObject* parent)
-	: GameObject(parent, "MapData"),selecting_object(PATTERN_END),isSave_(false),nextObjectId_(0),isNewSave_(false)
+	: GameObject(parent, "MapData"),selecting_object(PATTERN_END),isSave_(false),nextObjectId_(0),isNewSave_(false),isLoad_(false)
 {
 
     
@@ -35,9 +35,9 @@ void MapData::Initialize()
         assert(hModel_.at(i) >= 0);
     }
     
-    SaveManager* pSaveManager = Instantiate<SaveManager>(this);
-    pSaveManager->OpenFile();
-    pSaveManager->Load();
+    pSaveManager_ = Instantiate<SaveManager>(this);
+    pSaveManager_->OpenFile();
+    pSaveManager_->Load();
 
     CheckDeleteObject();
     nextObjectId_ = MaxObjectId();
@@ -150,13 +150,45 @@ void MapData::Imgui_Window()
             ImGui::TreePop();
         }
 
+        if (ImGui::Button("NewFile")) {
+            isNewSave_ = true;
+        }
+
+        if (ImGui::Button("Load")) {
+            isLoad_ = true;
+        }
         
         if (ImGui::Button("Save")) {
             isSave_ = true;
         }
 
-        if (ImGui::Button("NewFile")) {
-            isNewSave_ = true;
+        
+
+        if (isNewSave_) {
+            ImGui::SetNextWindowPos(ImVec2(600, 300), ImGuiCond_Once);
+            ImGui::SetNextWindowSize(ImVec2(100, 50), ImGuiCond_Once);
+            ImGui::Begin("OpenNewFile?", &isNewSave_);
+            if (ImGui::Button("Open")) {
+                //CheckDeleteObject();
+                AllDeleteCreateObject();
+                pSaveManager_->NewCreateFile();
+                pSaveManager_->Save(createObjectList_);
+                isNewSave_ = false;
+            }
+            ImGui::End();
+        }
+
+        if (isLoad_) {
+            ImGui::SetNextWindowPos(ImVec2(600, 300), ImGuiCond_Once);//ImGuiCond_FirstUseEverこれを付けると初めて実行したときだけこの大きさに設定されて。それ以降はimgui.iniに保存される
+            ImGui::SetNextWindowSize(ImVec2(100, 50), ImGuiCond_Once);
+            ImGui::Begin("LoadOk?", &isSave_);
+            if (ImGui::Button("Load")) {
+                AllDeleteCreateObject();
+                pSaveManager_->OpenFile();
+                pSaveManager_->Load();
+                isLoad_ = false;
+            }
+            ImGui::End();
         }
 
         //Saveが押されたらここが表示される
@@ -166,25 +198,13 @@ void MapData::Imgui_Window()
             ImGui::Begin("SaveOk?",&isSave_);
             if (ImGui::Button("Save")) {
                 //CheckDeleteObject();
-                SaveManager* pSaveManager = Instantiate<SaveManager>(this);
-                pSaveManager->Save(createObjectList_);
+                pSaveManager_->Save(createObjectList_);
                 isSave_ = false;
             }
             ImGui::End();
         }
 
-        if (isNewSave_) {
-            ImGui::SetNextWindowPos(ImVec2(600, 300), ImGuiCond_Once);//ImGuiCond_FirstUseEverこれを付けると初めて実行したときだけこの大きさに設定されて。それ以降はimgui.iniに保存される
-            ImGui::SetNextWindowSize(ImVec2(100, 50), ImGuiCond_Once);
-            ImGui::Begin("OpenNewFile?", &isSave_);
-            if (ImGui::Button("Open")) {
-                //CheckDeleteObject();
-                SaveManager* pSaveManager = Instantiate<SaveManager>(this);
-                pSaveManager->NewCreateFile();
-                isNewSave_ = false;
-            }
-            ImGui::End();
-        }
+        
     }
 
 
@@ -192,6 +212,8 @@ void MapData::Imgui_Window()
     if (ImGui::CollapsingHeader("ObjectData"))
     {
         if (ImGui::TreeNode("Data")) {//Objectのツリーをクリックすると
+
+            //それぞれのオブジェクト毎のvectorインスタンス持っておけば二重for文でわざわざGameObject型に関数作らなくても行けるんじゃね？
             for (auto itr = createObjectList_.begin(); itr != createObjectList_.end(); itr++) {
             
             
@@ -211,6 +233,8 @@ GameObject* MapData::CreateObject()
 
     //forで回してFBXPATTERNとfilenameの要素の順番が一致したところでオブジェクトを作るのも想定したけどobjectNameとかがめんどくさくなるから無し
     //対応したenum型の数字になったらそのオブジェクトを作成してcreateObjectにプッシュバックする
+
+    //それぞれのオブジェクトのインスタンスをクラス変数にvectorで持って、あーだこーだすればなんかもっと楽できそうじゃね？
     switch (selecting_object)
     {
     case ROOM_1: {
@@ -292,6 +316,15 @@ void MapData::CheckDeleteObject()
         }
     }
 
+}
+
+void MapData::AllDeleteCreateObject()
+{
+    for (auto itr = createObjectList_.begin(); itr != createObjectList_.end();itr++) {
+        (*itr)->KillMe();
+    }
+
+    createObjectList_.clear();
 }
 
 void MapData::ChengeUp(GameObject* pTarget)

@@ -2,6 +2,7 @@
 #include "../GameObject.h"
 #include <vector>
 
+class SaveManager;
 
 //新しいファイルを追加したら、こことCreateObjectに要素を手動で追加する
 enum FBXPATTERN {
@@ -50,6 +51,8 @@ public:
 	//createObjectの中にdeleteされたオブジェクトがあるか
 	void CheckDeleteObject();
 
+	void AllDeleteCreateObject();
+
 	//オブジェクトの位置（CreateList）を上に上げる
 	void ChengeUp(GameObject* pTarget);
 	void ChengeDown(GameObject* pTarget);
@@ -70,8 +73,12 @@ private:
 	//作成したオブジェクトリスト
 	std::list<GameObject*> createObjectList_;
 
+	SaveManager* pSaveManager_;
+
 	//セーブするかのフラグ
 	bool isSave_;
+
+	bool isLoad_;
 
 	bool isNewSave_;
 

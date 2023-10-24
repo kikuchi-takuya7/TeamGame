@@ -45,16 +45,10 @@ void SaveManager::Release()
 
 void SaveManager::Save(std::list<GameObject*> list)
 {
-        
-    //ファイル作成の準備
-    string prevPath = "SaveFile/";
-    string filename = fileName_;
-    string Extension = ".json";
-    filename = prevPath + filename + Extension;
 
     //ファイルを開く
     std::ofstream writing_file;
-    writing_file.open(filename, std::ios::out);
+    writing_file.open(fileName_, std::ios::out);
 
     //MapDataで作ったオブジェクトのサイズ順にIDつけちゃってるからこっちで1から付け直さないとＩＤが被っちゃう
     //int ID = 1;

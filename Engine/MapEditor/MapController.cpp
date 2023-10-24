@@ -18,9 +18,6 @@ MapController::~MapController()
 //‰Šú‰»
 void MapController::Initialize()
 {
-    transform_.position_.x = 7.0f;
-    transform_.position_.z = 7.0f;
-
     transform_.rotate_.x = 45.0f;
 }
 

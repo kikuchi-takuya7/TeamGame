@@ -33,8 +33,10 @@ public:
 
     GameObject* CreateObj(std::string className);     // オブジェクト生成
 
+    //ファイルを開いてSaveManagerに保存する
     void OpenFile();
 
+    //新しくファイルを作る
     void NewCreateFile();
 
 private:
