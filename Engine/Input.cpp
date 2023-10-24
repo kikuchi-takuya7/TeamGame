@@ -74,6 +74,7 @@ namespace Input
 				flag = false;
 			}
 		}
+
 		if (flag == true) {
 			pMouseDevice_->Acquire();
 			memcpy(&prevMouseState_, &mouseState_, sizeof(mouseState_));

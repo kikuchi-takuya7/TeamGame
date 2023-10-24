@@ -2,10 +2,13 @@
 #include "Engine/Image.h"
 #include "Engine/Input.h"
 #include  "resource.h"
+#include <DirectXMath.h>
+
+using namespace DirectX;
 
 //コンストラクタ
 SelectScene::SelectScene(GameObject* parent)
-	: GameObject(parent, "SelectScene"), hPict_(-1), hExit_(-1), hPlay_(-1), hStore_(-1), hVolume_(-1)
+	: GameObject(parent, "SelectScene"), hPict_(-1), hVolume_(-1)
 {
 }
 
@@ -21,27 +24,28 @@ void SelectScene::Initialize()
 	hPict_ = Image::Load("haikei.png");
 	assert(hPict_ >= 0);
 
-	//playの画像データのロード
-	hPlay_ = Image::Load("Play.png");
-	assert(hPlay_ >= 0);
-
-	//storeの画像データのロード
-	hStore_ = Image::Load("Store.png");
-	assert(hStore_ >= 0);
-	
-	//exitの画像データのロード
-	hExit_ = Image::Load("Exit.png");
-	assert(hExit_ >= 0);
-
-	exit_Transform_.position_.x = -0.43f;
-
 	//volumeの画像データのロード
 	hVolume_ = Image::Load("Volume.png");
 	assert(hVolume_ >= 0);
 
 	volume_Transform_.position_.y = 0.1f;
 
-	
+	play_ = Instantiate<Button>(this);
+	play_->SetImage("Play");
+	play_->SetPosition(100, 500);//ウィンドウの横幅1280,縦720
+	play_->SetNextScene(MAIN);
+	play_->SetIsFlash(false);
+
+	store_ = Instantiate<Button>(this);
+	store_->SetImage("Store");
+	store_->SetPosition(1100, 230);
+	store_->SetNextScene(STORE);
+	store_->SetIsFlash(false);
+
+	exit_ = Instantiate<Button>(this);
+	exit_->SetImage("Exit");
+	exit_->SetPosition(100, 350);
+	//exit_->SetLog(false);
 }
 
 //更新
@@ -50,23 +54,33 @@ void SelectScene::Update()
 	SceneManager* pSceneManager = (SceneManager*)FindObject("SceneManager");
 	pSceneManager->ChangeScene(SCENE_ID_SELECT);
 
-	//Main画面に遷移
-	if (hPlay_) {
-		if (Input::IsMouseButtonDown(0)) {
-			SceneManager* pSceneManager = (SceneManager*)FindObject("SceneManager");
-			pSceneManager->ChangeScene(SCENE_ID_MAIN);
-		}
+	XMFLOAT3 pos = Input::GetMousePosition();
+	if (play_->MouseInArea(pos)) {
+		play_->Push(true);
+		return;
+	}
+	else {
+		play_->Push(false);
+
 	}
 
-	//Store画面に遷移
-	if (hStore_) {
-		if (Input::IsMouseButtonDown(0)) {
-			SceneManager* pSceneManager = (SceneManager*)FindObject("SceneManager");
-			pSceneManager->ChangeScene(SCENE_ID_STORE);
-		}
+	if (store_->MouseInArea(pos)) {
+		store_->Push(true);
+		return;
 	}
-	
+	else {
+		store_->Push(false);
+	}
 
+	if (exit_->MouseInArea(pos)) {
+		exit_->Push(true);
+		Dlog_ = true;
+		return;
+	}
+	else {
+		exit_->Push(false);
+		Dlog_ = false;
+	}
 }
 
 //描画
@@ -74,15 +88,6 @@ void SelectScene::Draw()
 {
 	Image::SetTransform(hPict_, transform_);
 	Image::Draw(hPict_);
-
-	Image::SetTransform(hPlay_, transform_);
-	Image::Draw(hPlay_);
-
-	Image::SetTransform(hStore_, transform_);
-	Image::Draw(hStore_);
-
-	Image::SetTransform(hExit_, exit_Transform_);
-	Image::Draw(hExit_);
 
 	Image::SetTransform(hVolume_, volume_Transform_);
 	Image::Draw(hVolume_);
@@ -93,13 +98,18 @@ void SelectScene::Release()
 {
 }
 
+bool SelectScene::GetDlog() const
+{
+	return Dlog_;
+}
+
 BOOL SelectScene::DialogProc(HWND hDlg, UINT msg, WPARAM wp, LPARAM lp)
 {
 	switch (msg)
 	{
 	case WM_INITDIALOG:
 		//ボタンの初期値
-		SendMessage(GetDlgItem(hDlg, IDC_YES), BM_CLICK, BST_PUSHED, 0);
+		SendMessage(GetDlgItem(hDlg, IDC_YES), BM_SETCHECK, BST_CHECKED, 0);
 		
 		return 0;
 	case WM_COMMAND:

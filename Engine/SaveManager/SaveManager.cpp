@@ -3,6 +3,7 @@
 #include "../json-develop/include/nlohmann/json.hpp"
 #include "../../TestWall.h"
 #include "../../TestFloor.h"
+#include "../../Room1.h"
 #include "../MapEditor/MapData.h"
 #include <fstream>
 
@@ -167,6 +168,14 @@ GameObject* SaveManager::CreateObj(std::string className)
     }
     else if (className == "TestFloor") {
         TestFloor* object = Instantiate<TestFloor>(this->GetParent());
+
+        if (this->GetParent()->GetObjectName() == "MapData")
+            ((MapData*)this->GetParent())->AddCreateObject(object);
+
+        return object;
+    }
+    else if (className == "Room1") {
+        Room1* object = Instantiate<Room1>(this->GetParent());
 
         if (this->GetParent()->GetObjectName() == "MapData")
             ((MapData*)this->GetParent())->AddCreateObject(object);

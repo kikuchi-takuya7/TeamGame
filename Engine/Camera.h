@@ -29,6 +29,12 @@ namespace Camera
 	//焦点を取得
 	XMFLOAT3 GetTarget();
 
+	//位置を取得
+	XMVECTOR GetPositionVector();
+
+	//焦点を取得
+	XMVECTOR GetTargetVector();
+	
 	//ビュー行列を取得
 	XMMATRIX GetViewMatrix();
 
@@ -39,5 +45,7 @@ namespace Camera
 	XMMATRIX GetBillboardMatrix();
 
 	XMFLOAT3 GetScreenPosition(XMFLOAT3 pos3d);
+
+
 
 };
