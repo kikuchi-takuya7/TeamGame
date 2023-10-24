@@ -12,7 +12,7 @@ using string = std::string;
 
 //コンストラクタ
 SaveManager::SaveManager(GameObject* parent)
-    :GameObject(parent, "SaveManager")
+    :GameObject(parent, "SaveManager"),fileName_{"新規ファイル.json"}
 {
 }
 
@@ -24,7 +24,7 @@ SaveManager::~SaveManager()
 //初期化
 void SaveManager::Initialize()
 {
-
+    
 }
 
 //更新
@@ -43,18 +43,12 @@ void SaveManager::Release()
     //m_SaveObjctList_.clear();
 }
 
-void SaveManager::Save(std::string fileName,std::list<GameObject*> list)
+void SaveManager::Save(std::list<GameObject*> list)
 {
-        
-    //ファイル作成の準備
-    string prevPath = "SaveFile/";
-    string filename = fileName;
-    string Extension = ".json";
-    filename = prevPath + filename + Extension;
 
     //ファイルを開く
     std::ofstream writing_file;
-    writing_file.open(filename, std::ios::out);
+    writing_file.open(fileName_, std::ios::out);
 
     //MapDataで作ったオブジェクトのサイズ順にIDつけちゃってるからこっちで1から付け直さないとＩＤが被っちゃう
     //int ID = 1;
@@ -92,11 +86,11 @@ void SaveManager::AddSaveObj(GameObject* obj)
     //m_SaveObjctList_.push_back(obj);
 }
 
-void SaveManager::Load(std::string fileName)
+void SaveManager::Load()
 {
 
     //読み込みに失敗した場合はエラーを表示する
-    std::ifstream ifs(fileName.c_str());
+    std::ifstream ifs(fileName_);
 
     //eofが上手く使えないからファイルの行数分だけ先にいただく
     int fileLine = 0;
@@ -123,7 +117,7 @@ void SaveManager::Load(std::string fileName)
     //入力の時に改行してるから一つ減らす
     fileLine--;
 
-    ifs.open(fileName.c_str(), std::ios::in);
+    ifs.open(fileName_, std::ios::in);
 
     //ファイルのラインの数だけ回す
     for (int i = 0; i < fileLine;i++) {
@@ -180,5 +174,49 @@ GameObject* SaveManager::CreateObj(std::string className)
         return object;
     }
     return NULL;   // 指定のクラスが無い
+}
+
+void SaveManager::OpenFile()
+{
+
+    //「ファイルを保存」ダイアログの設定
+    OPENFILENAME ofn;                         	//名前をつけて保存ダイアログの設定用構造体
+    ZeroMemory(&ofn, sizeof(ofn));            	//構造体初期化
+    ofn.lStructSize = sizeof(OPENFILENAME);   	//構造体のサイズ
+    ofn.lpstrFilter = TEXT("マップデータ(*.json)\0*.json\0")        //─┬ファイルの種類
+        TEXT("すべてのファイル(*.*)\0*.*\0\0");     //─┘
+    ofn.lpstrFile = fileName_;               	//ファイル名
+    ofn.nMaxFile = MAX_PATH;               	//パスの最大文字数
+    ofn.Flags = OFN_FILEMUSTEXIST;   		//フラグ（同名ファイルが存在したら上書き確認）
+    ofn.lpstrDefExt = "json";                  	//デフォルト拡張子
+
+    //「ファイルを保存」ダイアログ
+    BOOL selFile;
+    selFile = GetOpenFileName(&ofn);
+
+    //キャンセルしたら中断
+    if (selFile == FALSE) return;
+
+}
+
+void SaveManager::NewCreateFile()
+{
+    //「ファイルを保存」ダイアログの設定
+    OPENFILENAME ofn;                         	//名前をつけて保存ダイアログの設定用構造体
+    ZeroMemory(&ofn, sizeof(ofn));            	//構造体初期化
+    ofn.lStructSize = sizeof(OPENFILENAME);   	//構造体のサイズ
+    ofn.lpstrFilter = TEXT("マップデータ(*.json)\0*.json\0")        //─┬ファイルの種類
+        TEXT("すべてのファイル(*.*)\0*.*\0\0");     //─┘
+    ofn.lpstrFile = fileName_;               	//ファイル名
+    ofn.nMaxFile = MAX_PATH;               	//パスの最大文字数
+    ofn.Flags = OFN_OVERWRITEPROMPT;   		//フラグ（同名ファイルが存在したら上書き確認）
+    ofn.lpstrDefExt = "json";                  	//デフォルト拡張子
+
+    //「ファイルを保存」ダイアログ
+    BOOL selFile;
+    selFile = GetSaveFileName(&ofn);
+
+    //キャンセルしたら中断
+    if (selFile == FALSE) return;
 }
 

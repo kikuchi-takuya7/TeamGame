@@ -25,15 +25,23 @@ public:
     //開放
     void Release() override;
 
-    void Save(std::string fileName, std::list<GameObject*> list);
+    void Save(std::list<GameObject*> list);
 
     void AddSaveObj(GameObject* obj);
 
-    void Load(std::string fileName);
+    void Load();
 
     GameObject* CreateObj(std::string className);     // オブジェクト生成
 
+    //ファイルを開いてSaveManagerに保存する
+    void OpenFile();
+
+    //新しくファイルを作る
+    void NewCreateFile();
+
 private:
+
+    char fileName_[MAX_PATH];
 
     /*template <class T>
     T* CreateObject(GameObject* pParent)
