@@ -72,6 +72,8 @@ private:
     float totalMouseMoveX_;
     float totalMouseMoveY_;
 
+    
+
 private:
 
     //state‚ğ•ÏX

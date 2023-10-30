@@ -109,7 +109,7 @@ void Player::Update()
     }
 
     
-    //Move_Camera();
+    Move_Camera();
 
 }
 
@@ -354,28 +354,37 @@ void Player::Move_Camera()
 {
 
 
-#if 0
+#if 1
+
+    XMFLOAT3 camTar = transform_.position_;
+    camTar.y += 1.0f;
+    //camTar.z += 5.0f;
+    Camera::SetTarget(camTar);
+
+    XMFLOAT3 currentCamPos = Camera::GetPosition();
+    /*currentCamPos.y += 3.0f;
+    currentCamPos.z += -3.0f;*/
+    
 
     XMFLOAT3 mouseMove = Input::GetMouseMove();
 
-    totalMouseMoveX_ += mouseMove.x;
-    totalMouseMoveY_ += mouseMove.y;
+    totalMouseMoveX_ = mouseMove.y;
+    totalMouseMoveY_ = mouseMove.x;
+
+    float mouseMoveX = mouseMove.x;
 
     //度回転させる行列を作成
-    XMMATRIX rotY = XMMatrixRotationY(XMConvertToRadians(totalMouseMoveY_));
-    XMMATRIX rotX = XMMatrixRotationX(XMConvertToRadians(totalMouseMoveX_));
+    XMMATRIX rotY = XMMatrixRotationY(XMConvertToRadians(mouseMoveX));
+    XMMATRIX rotX = XMMatrixRotationX(XMConvertToRadians(mouseMoveX));
 
-    //現在の位置をベクトル型に変換
-    XMVECTOR pos = XMLoadFloat3(&transform_.position_);
+    //ベクトル型に変換
+    XMVECTOR camPos = XMLoadFloat3(&currentCamPos);
 
-    XMFLOAT3 camPos = Camera::GetPosition();
-
-    XMVECTOR test = XMLoadFloat3(&camPos);
 
     //移動ベクトルを変形 (洗車と同じ向きに回転) させる
-    test = XMVector3TransformCoord(test, rotY);
+    camPos = XMVector3TransformCoord(camPos, rotY);
 
-    Camera::SetPosition(test);
+    Camera::SetPosition(camPos);
 
 #else
     /////////////////////////////////////////////////////////////////
