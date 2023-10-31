@@ -51,65 +51,6 @@ void MapData::Update()
     //毎回チェックしないとデリートしたタイミングでエラー出る。多分RootObjectのUpdateで消されたかどうか確認してるから
     CheckDeleteObject();
 
-
-
-    //float w = (float)(Direct3D::screenWidth_ / 2.0f);
-    //float h = (float)(Direct3D::screenHeight_ / 2.0f);
-    //float offsetX = 0;
-    //float offsetY = 0;
-    //float minZ = 0;
-    //float maxZ = 1;
-
-    ////ビューポート作成
-    //XMMATRIX vp =
-    //{
-    //    w                ,0                ,0           ,0,
-    //    0                ,-h               ,0           ,0,
-    //    0                ,0                ,maxZ - minZ ,0,
-    //    offsetX + w      ,offsetY + h      ,minZ        ,1
-    //};
-
-    ////ビューポートを逆行列に
-    //XMMATRIX invVP = XMMatrixInverse(nullptr, vp);
-    ////プロジェクション変換
-    //XMMATRIX invProj = XMMatrixInverse(nullptr, Camera::GetProjectionMatrix());
-    ////びゅー変換
-    //XMMATRIX invView = XMMatrixInverse(nullptr, Camera::GetViewMatrix());
-
-    //XMFLOAT3 mousePosFront = Input::GetMousePosition();
-    //mousePosFront.z = 0.0;
-    //XMFLOAT3 mousePosBack = Input::GetMousePosition();
-    //mousePosBack.z = 1.0f;
-
-    ////1,mousePosFrontをベクトルに変換
-    //XMVECTOR vMouseFront = XMLoadFloat3(&mousePosFront);
-    ////2. 1にinvVP,invPrj,invViewをかける
-    //vMouseFront = XMVector3TransformCoord(vMouseFront, invVP * invProj * invView);
-    ////3,mousePosBackをベクトルに変換
-    //XMVECTOR vMouseBack = XMLoadFloat3(&mousePosBack);
-    ////4,3にinvVP,invPrj,invVeewをかける
-    //vMouseBack = XMVector3TransformCoord(vMouseBack, invVP * invProj * invView);
-    ////5,2から4に向かってレイを打つ（とりあえず）
-
-    //int changeX = 0;
-    //int	changeZ = 0;
-    //float minDist = 9999;
-
-
-    //RayCastData data;
-    //XMStoreFloat3(&data.start, vMouseFront);
-    //XMStoreFloat3(&data.dir, vMouseBack - vMouseFront);
-
-    //Model::RayCast(hModel_[0], &data);
-
-    //if (data.hit) {
-    //    data.hit = false;
-
-    //}
-
-    //Transform objPos;
-    //objPos.position_.y = 1.0f;
-
     //左クリックされた
     if (Input::IsMouseButtonDown(0))
     {
@@ -175,7 +116,6 @@ void MapData::Imgui_Window()
             ImGui::SetNextWindowSize(ImVec2(100, 50), ImGuiCond_Once);
             ImGui::Begin("OpenNewFile?", &isNewSave_);
             if (ImGui::Button("Open")) {
-                //CheckDeleteObject();
                 AllDeleteCreateObject();
                 pSaveManager_->NewCreateFile();
                 pSaveManager_->Save(createObjectList_);
@@ -204,7 +144,6 @@ void MapData::Imgui_Window()
             ImGui::SetNextWindowSize(ImVec2(100, 50), ImGuiCond_Once);
             ImGui::Begin("SaveOk?",&isSave_);
             if (ImGui::Button("Save")) {
-                //CheckDeleteObject();
                 pSaveManager_->Save(createObjectList_);
                 isSave_ = false;
             }
@@ -215,7 +154,7 @@ void MapData::Imgui_Window()
     }
 
 
-    //ここに各オブジェクトのTransformとかまとめて処理したかったけど、listがGameObject型だからそれぞれのisDelete_とアクセスできないし一旦やめた
+    //ここに各オブジェクトのTransformとかまとめて処理したかったけど、listがGameObject型だからそれぞれのisDelete_とアクセスできないしやめた
     if (ImGui::CollapsingHeader("ObjectData"))
     {
         if (ImGui::TreeNode("Data")) {//Objectのツリーをクリックすると
@@ -244,13 +183,6 @@ GameObject* MapData::CreateObject()
     //それぞれのオブジェクトのインスタンスをクラス変数にvectorで持って、あーだこーだすればなんかもっと楽できそうじゃね？
     switch (selecting_object)
     {
-    //case SCHOOL: {
-    //    School* pSchool = Instantiate<School>(this);
-    //    AddCreateObject(pSchool);
-    //    pSchool->SetObjectID(nextObjectId_); //作ったオブジェクト順に識別するためのIDを付ける
-    //    return pSchool;
-    //    break;
-    //}
     case ROOM_1: {
         Room1* pObject = CreateInstance<Room1>();
         return pObject;
