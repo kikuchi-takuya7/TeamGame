@@ -41,5 +41,6 @@ private:
 
 	SCENESELECT scene_;
 
+	int hModel_;
 
 };

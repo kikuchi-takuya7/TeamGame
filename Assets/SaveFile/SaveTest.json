@@ -1,3 +1,2 @@
-{"Transform":[3.2790000438690186,0.0,6.557000160217285,0.0,0.0,0.0,1.0,1.0,1.0],"objectID":"1","objectName":"TestFloor"}
-{"Transform":[4.916999816894531,0.8199999928474426,4.918000221252441,0.0,0.0,0.0,1.0,1.0,1.0],"objectID":"2","objectName":"TestWall"}
-{"Transform":[0.0,0.0,0.0,0.0,0.0,0.0,1.0,1.0,1.0],"objectID":"4","objectName":"Room1"}
+{"Transform":[1.6390000581741333,0.0,0.0,0.0,0.0,0.0,1.0,1.0,1.0],"objectID":"2","objectName":"TestFloor"}
+{"Transform":[-1.6390000581741333,0.0,0.0,0.0,0.0,0.0,1.0,1.0,1.0],"objectID":"4","objectName":"TestWall"}
