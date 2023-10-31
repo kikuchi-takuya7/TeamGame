@@ -61,8 +61,7 @@ public:
 
 	void AllDeleteCreateObject();
 
-	//
-	//オブジェクトの位置（CreateList）を上げたり下げたりする
+	//オブジェクトの位置（CreateList）を上に上げる
 	void ChengeUp(GameObject* pTarget);
 	void ChengeDown(GameObject* pTarget);
 
