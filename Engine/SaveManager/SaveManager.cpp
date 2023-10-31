@@ -51,8 +51,6 @@ void SaveManager::Save(std::list<GameObject*> list)
     std::ofstream writing_file;
     writing_file.open(fileName_, std::ios::out);
 
-    //MapDataで作ったオブジェクトのサイズ順にIDつけちゃってるからこっちで1から付け直さないとＩＤが被っちゃう
-    //int ID = 1;
     for (auto itr = list.begin(); itr != list.end();itr++) {
 
 

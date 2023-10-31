@@ -50,6 +50,8 @@ void MapData::Update()
     //毎回チェックしないとデリートしたタイミングでエラー出る。多分RootObjectのUpdateで消されたかどうか確認してるから
     CheckDeleteObject();
 
+
+
     //float w = (float)(Direct3D::screenWidth_ / 2.0f);
     //float h = (float)(Direct3D::screenHeight_ / 2.0f);
     //float offsetX = 0;
@@ -162,8 +164,6 @@ void MapData::Imgui_Window()
             isSave_ = true;
         }
 
-        
-
         if (isNewSave_) {
             ImGui::SetNextWindowPos(ImVec2(600, 300), ImGuiCond_Once);
             ImGui::SetNextWindowSize(ImVec2(100, 50), ImGuiCond_Once);
@@ -256,6 +256,7 @@ GameObject* MapData::CreateObject()
         AddCreateObject(pTestWall);
         pTestWall->SetObjectID(nextObjectId_); //作ったオブジェクト順に識別するためのIDを付ける
         return pTestWall;
+        break;
     }
     case PATTERN_END: {
         break;
@@ -389,4 +390,9 @@ int MapData::MaxObjectId()
     }
 
     return ID;
+}
+
+void MapData::BackUpSave()
+{
+
 }

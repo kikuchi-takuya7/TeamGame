@@ -1,15 +1,21 @@
 #pragma once
 #include "../GameObject.h"
-#include <vector>
+#include <stack>
 
 class SaveManager;
 
 //新しいファイルを追加したら、こことCreateObjectに要素を手動で追加する
 enum FBXPATTERN {
-	ROOM_1,//仮で作ったからこれと上の奴はクリックしない方が良い
+	ROOM_1,
 	TESTFLOOR,
 	TESTWALL,
 	PATTERN_END
+};
+
+struct BACKUPDATA {
+	std::string objectName;
+	int objectId;
+	Transform objectTrans;
 };
 
 //■■シーンを管理するクラス
@@ -60,6 +66,9 @@ public:
 	//ロードしたすべてのIDを調べて最大値を知っておく
 	int MaxObjectId();
 
+	//オブジェクトが動かされた時にバックアップをとる関数
+	void BackUpSave();
+
 private:
 
 	std::vector<int> hModel_;
@@ -72,6 +81,10 @@ private:
 
 	//作成したオブジェクトリスト
 	std::list<GameObject*> createObjectList_;
+
+	std::pair<>
+
+	std::stack<BACKUPDATA> objectBackUp_;
 
 	SaveManager* pSaveManager_;
 
