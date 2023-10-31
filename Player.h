@@ -90,7 +90,7 @@ private:
     void OnEnterEmoteState(EMOTESTATE state);
     void OnLeaveEmoteState(EMOTESTATE state);
 
-
+    //それぞれのstateのアップデート関数
     void Idle_Update();
     void Move_Update();
     void Action_Update();
