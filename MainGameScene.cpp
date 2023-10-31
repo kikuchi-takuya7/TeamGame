@@ -17,7 +17,7 @@ MainGameScene::~MainGameScene()
 void MainGameScene::Initialize()
 {
 	Player* pPlayer = Instantiate<Player>(this);
-	//StageMap* pStageMap = Instantiate<StageMap>(this);
+	StageMap* pStageMap = Instantiate<StageMap>(this);
 }
 
 //XV

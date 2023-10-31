@@ -358,19 +358,17 @@ void Player::Move_Camera()
 
     XMFLOAT3 camTar = transform_.position_;
     camTar.y += 1.0f;
-    //camTar.z += 5.0f;
     Camera::SetTarget(camTar);
 
     XMFLOAT3 currentCamPos = Camera::GetPosition();
-    /*currentCamPos.y += 3.0f;
-    currentCamPos.z += -3.0f;*/
-    
+      
 
     XMFLOAT3 mouseMove = Input::GetMouseMove();
 
     totalMouseMoveX_ = mouseMove.y;
     totalMouseMoveY_ = mouseMove.x;
 
+    float mouseMoveY = mouseMove.y;
     float mouseMoveX = mouseMove.x;
 
     //度回転させる行列を作成
@@ -379,7 +377,6 @@ void Player::Move_Camera()
 
     //ベクトル型に変換
     XMVECTOR camPos = XMLoadFloat3(&currentCamPos);
-
 
     //移動ベクトルを変形 (洗車と同じ向きに回転) させる
     camPos = XMVector3TransformCoord(camPos, rotY);
@@ -393,8 +390,8 @@ void Player::Move_Camera()
     /////////////////////////////////////////////////////////////////
     XMFLOAT3 camPos = Camera::GetPosition();
     XMFLOAT3 camTar = Camera::GetTarget();
-    XMVECTOR toCameraPosXZ = camPos - camTar;
 
+    XMVECTOR toCameraPosXZ = camPos - camTar;
     float height = XMVectorGetY(toCameraPosXZ);     //視点へのY方向の高さは、後で使うのでバックアップしておく。
     toCameraPosXZ = XMVectorSetY(toCameraPosXZ, 0); //XZ平面にするので、Yは0にする。
     float toCameraPosXZLen = Length(toCameraPosXZ); //XZ平面上での視点と注視点の距離を求める。
@@ -406,15 +403,16 @@ void Player::Move_Camera()
     XMVECTOR target = XMLoadFloat3(&transform_.position_);
     target += XMVectorSetY(target, 5.0f);
     target += XMVectorSetX(target, -5.0f);
-    XMFLOAT3 floatTarget = transform_.position_;
-    floatTarget.y += 2.0f;
-    floatTarget.z += -5.0f;
+    //XMFLOAT3 floatTarget = transform_.position_;
+    //floatTarget.y += 2.0f;
+    //floatTarget.z += -5.0f;
 
     /////////////////////////////////////////////////////////////////
     // ⓷　新しい注視点と現在のカメラの視点を使って、XZ平面上での、
     //     注視点から視点までのベクトル(toNewCameraPos)を求める。
     /////////////////////////////////////////////////////////////////
-    XMVECTOR toNewCameraPos = floatTarget - camPos; //新しい注視点からカメラの始点へ向かうベクトルを求める。////////////////////////////////////////
+
+    XMVECTOR toNewCameraPos = camPos - target; //新しい注視点からカメラの始点へ向かうベクトルを求める。////////////////////////////////////////
     toNewCameraPos = XMVectorSetY(toNewCameraPos, 0.0f);              //XZ平面にするので、Yは0にする。
     XMVECTOR toNewCamPosNormalize = XMVector3Normalize(toNewCameraPos);         //単位ベクトル化。
 
@@ -423,17 +421,17 @@ void Player::Move_Camera()
     /////////////////////////////////////////////////////////////////
     //ちょっとづつ追尾。
     float weight = 0.7f;  //このウェイトの値は0.0～1.0の値をとる。1.0に近づくほど追尾が強くなる。
-    toNewCamPosNormalize = toNewCamPosNormalize * weight + toCameraPosXZ * (1.0f - weight);
+    toNewCamPosNormalize = toNewCamPosNormalize * weight + toCamPosNormalize * (1.0f - weight);
     toNewCamPosNormalize = XMVector3Normalize(toNewCamPosNormalize);
     toNewCamPosNormalize *= toCameraPosXZLen;
     toNewCamPosNormalize = XMVectorSetY(toNewCamPosNormalize, height);              //高さを戻す。
-    XMVECTOR newCamPos = target + toCamPosNormalize;  //これで新しい視点が決定。
+    XMVECTOR newCamPos = target + toNewCamPosNormalize;  //これで新しい視点が決定。
 
     /////////////////////////////////////////////////////////////////
     // ⓹　視点と注視点をカメラに設定して終わり。
     /////////////////////////////////////////////////////////////////
     Camera::SetPosition(newCamPos);
-    Camera::SetTarget(floatTarget);
+    Camera::SetTarget(target);
 
 #endif
 
