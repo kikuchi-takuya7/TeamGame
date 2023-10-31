@@ -4,6 +4,7 @@
 #include "../../TestWall.h"
 #include "../../TestFloor.h"
 #include "../../Room1.h"
+#include "../../School.h"
 #include "../MapEditor/MapData.h"
 #include <fstream>
 
@@ -157,27 +158,19 @@ GameObject* SaveManager::CreateObj(std::string className)
 {
     //ロードしたobjectNameに対応するオブジェクトを作成し、SaveManagerを呼び出したのがMapDataならcreateObjectに入れる
     if (className == "TestWall") {
-        TestWall* object = Instantiate<TestWall>(this->GetParent());
-
-        if (this->GetParent()->GetObjectName() == "MapData")
-            ((MapData*)this->GetParent())->AddCreateObject(object);
-  
+        TestWall* object = CreateObject<TestWall>();
         return object;
     }
     else if (className == "TestFloor") {
-        TestFloor* object = Instantiate<TestFloor>(this->GetParent());
-
-        if (this->GetParent()->GetObjectName() == "MapData")
-            ((MapData*)this->GetParent())->AddCreateObject(object);
-
+        TestFloor* object = CreateObject<TestFloor>();
         return object;
     }
     else if (className == "Room1") {
-        Room1* object = Instantiate<Room1>(this->GetParent());
-
-        if (this->GetParent()->GetObjectName() == "MapData")
-            ((MapData*)this->GetParent())->AddCreateObject(object);
-
+        Room1* object = CreateObject<Room1>();
+        return object;
+    }
+    else if (className == "School") {
+        School* object = CreateObject<School>();
         return object;
     }
     return NULL;   // 指定のクラスが無い

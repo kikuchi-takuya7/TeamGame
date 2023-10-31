@@ -1,5 +1,6 @@
 #pragma once
 #include "../GameObject.h"
+#include "../MapEditor/MapData.h"
 
 
 //ŸŸŸ‚ğŠÇ—‚·‚éƒNƒ‰ƒX
@@ -43,8 +44,8 @@ private:
 
     char fileName_[MAX_PATH];
 
-    /*template <class T>
-    T* CreateObject(GameObject* pParent)
+    template <class T>
+    T* CreateObject()
     {
         T* object = Instantiate<T>(this->GetParent());
 
@@ -52,7 +53,7 @@ private:
             ((MapData*)this->GetParent())->AddCreateObject(object);
 
         return object;
-    }*/
+    }
     
 };
 

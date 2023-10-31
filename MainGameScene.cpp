@@ -20,6 +20,7 @@ void MainGameScene::Initialize()
 {
 	Player* pPlayer = Instantiate<Player>(this);
 	//StageMap* pStageMap = Instantiate<StageMap>(this);
+
 }
 
 //更新

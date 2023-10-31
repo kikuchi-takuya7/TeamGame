@@ -1,11 +1,13 @@
 #pragma once
 #include "../GameObject.h"
 #include <stack>
+#include <vector>
 
 class SaveManager;
 
 //新しいファイルを追加したら、こことCreateObjectに要素を手動で追加する
 enum FBXPATTERN {
+	//SCHOOL,
 	ROOM_1,
 	TESTFLOOR,
 	TESTWALL,
@@ -82,9 +84,9 @@ private:
 	//作成したオブジェクトリスト
 	std::list<GameObject*> createObjectList_;
 
-	std::pair<>
+	//std::pair<>
 
-	std::stack<BACKUPDATA> objectBackUp_;
+	//std::stack<BACKUPDATA> objectBackUp_;
 
 	SaveManager* pSaveManager_;
 
@@ -97,6 +99,14 @@ private:
 
 	int nextObjectId_;
 
-
+	//インスタンスを作成してobjectListに入れるテンプレート
+	template <class T>
+	T* CreateInstance()
+	{
+		T* pObject = Instantiate<T>(this);
+		AddCreateObject(pObject);
+		pObject->SetObjectID(nextObjectId_); //作ったオブジェクト順に識別するためのIDを付ける
+		return pObject;
+	}
 
 };

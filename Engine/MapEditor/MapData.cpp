@@ -10,6 +10,7 @@
 #include "../../TestWall.h"
 #include "../../TestFloor.h"
 #include "../../Room1.h"
+#include "../../School.h"
 
 
 //コンストラクタ
@@ -126,7 +127,8 @@ void MapData::Draw()
 
     Transform objPos;
     objPos.position_.y = 1.0f;
-
+    Model::SetTransform(hModel_.at(selecting_object), objPos);
+    Model::Draw(hModel_.at(selecting_object));
 }
 
 //開放
@@ -152,18 +154,22 @@ void MapData::Imgui_Window()
             ImGui::TreePop();
         }
 
+        //新規作成
         if (ImGui::Button("NewFile")) {
             isNewSave_ = true;
         }
 
+        //ロード
         if (ImGui::Button("Load")) {
             isLoad_ = true;
         }
         
+        //セーブ
         if (ImGui::Button("Save")) {
             isSave_ = true;
         }
 
+        //新規作成
         if (isNewSave_) {
             ImGui::SetNextWindowPos(ImVec2(600, 300), ImGuiCond_Once);
             ImGui::SetNextWindowSize(ImVec2(100, 50), ImGuiCond_Once);
@@ -178,6 +184,7 @@ void MapData::Imgui_Window()
             ImGui::End();
         }
 
+        //ロード
         if (isLoad_) {
             ImGui::SetNextWindowPos(ImVec2(600, 300), ImGuiCond_Once);//ImGuiCond_FirstUseEverこれを付けると初めて実行したときだけこの大きさに設定されて。それ以降はimgui.iniに保存される
             ImGui::SetNextWindowSize(ImVec2(100, 50), ImGuiCond_Once);
@@ -237,25 +244,26 @@ GameObject* MapData::CreateObject()
     //それぞれのオブジェクトのインスタンスをクラス変数にvectorで持って、あーだこーだすればなんかもっと楽できそうじゃね？
     switch (selecting_object)
     {
+    //case SCHOOL: {
+    //    School* pSchool = Instantiate<School>(this);
+    //    AddCreateObject(pSchool);
+    //    pSchool->SetObjectID(nextObjectId_); //作ったオブジェクト順に識別するためのIDを付ける
+    //    return pSchool;
+    //    break;
+    //}
     case ROOM_1: {
-        Room1* pRoom = Instantiate<Room1>(this);
-        AddCreateObject(pRoom);
-        pRoom->SetObjectID(nextObjectId_); //作ったオブジェクト順に識別するためのIDを付ける
-        return pRoom;
+        Room1* pObject = CreateInstance<Room1>();
+        return pObject;
         break;
     }
     case TESTFLOOR: {
-        TestFloor* pTestFloor = Instantiate<TestFloor>(this);
-        AddCreateObject(pTestFloor);
-        pTestFloor->SetObjectID(nextObjectId_); //作ったオブジェクト順に識別するためのIDを付ける
-        return pTestFloor;
+        TestFloor* pObject = CreateInstance<TestFloor>();
+        return pObject;
         break;
     }
     case TESTWALL: {
-        TestWall* pTestWall = Instantiate<TestWall>(this);
-        AddCreateObject(pTestWall);
-        pTestWall->SetObjectID(nextObjectId_); //作ったオブジェクト順に識別するためのIDを付ける
-        return pTestWall;
+        TestWall* pObject = CreateInstance<TestWall>();
+        return pObject;
         break;
     }
     case PATTERN_END: {
