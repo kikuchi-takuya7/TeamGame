@@ -126,7 +126,7 @@ void MapData::Draw()
         return;
 
     Transform objPos;
-    objPos.position_.y = 1.0f;
+    //objPos.position_.y = 1.0f;
     Model::SetTransform(hModel_.at(selecting_object), objPos);
     Model::Draw(hModel_.at(selecting_object));
 }
@@ -155,7 +155,7 @@ void MapData::Imgui_Window()
         }
 
         //V‹Kì¬
-        if (ImGui::Button("NewFile")) {
+        if (ImGui::Button("CreateNewFile")) {
             isNewSave_ = true;
         }
 
@@ -173,8 +173,8 @@ void MapData::Imgui_Window()
         if (isNewSave_) {
             ImGui::SetNextWindowPos(ImVec2(600, 300), ImGuiCond_Once);
             ImGui::SetNextWindowSize(ImVec2(100, 50), ImGuiCond_Once);
-            ImGui::Begin("OpenNewFile?", &isNewSave_);
-            if (ImGui::Button("Open")) {
+            ImGui::Begin("CreateNewFile?", &isNewSave_);
+            if (ImGui::Button("Create")) {
                 //CheckDeleteObject();
                 AllDeleteCreateObject();
                 pSaveManager_->NewCreateFile();
