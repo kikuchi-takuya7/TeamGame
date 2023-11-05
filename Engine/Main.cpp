@@ -18,6 +18,9 @@
 #include "Imgui/imgui_impl_win32.h"
 #include "Imgui/imgui_impl_dx11.h"
 #include "Video.h"
+#include "../Video.h"
+#include <dwmapi.h>
+
 
 #pragma comment(lib,"Winmm.lib")
 
@@ -39,6 +42,32 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 //#if defined(DEBUG) | defined(_DEBUG)
 //	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 //#endif
+	
+//動画のうんたらかんたら
+	Video video(hwnd);
+
+	// AVIファイルのパスを指定して初期化
+	if (video.Initialize("TouhokuDenshi_splash.avi")) {
+		video.Play();
+	}
+
+	MSG msg;
+	while (true) {
+		while (PeekMessage(&msg, NULL, 0U, 0U, PM_REMOVE)) {
+			TranslateMessage(&msg);
+			DispatchMessage(&msg);
+		}
+
+		video.Update();
+
+		if (msg.message == WM_QUIT) {
+			break;
+		}
+	}
+
+	
+
+
 
 	srand((unsigned)time(NULL));
 	SetCurrentDirectory("Assets");
@@ -193,6 +222,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	pRootObject->ReleaseSub();
 	SAFE_DELETE(pRootObject);
 	Direct3D::Release();
+
+	
 
 	return 0;
 }
