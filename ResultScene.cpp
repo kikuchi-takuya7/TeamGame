@@ -1,4 +1,6 @@
 #include "ResultScene.h"
+#include "Engine/SceneManager.h"
+#include "Engine/Input.h"
 
 //コンストラクタ
 ResultScene::ResultScene(GameObject* parent)
