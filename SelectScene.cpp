@@ -103,6 +103,11 @@ bool SelectScene::GetDlog() const
 	return Dlog_;
 }
 
+void SelectScene::SetDlog(bool log)
+{
+	Dlog_ = log;
+}
+
 BOOL SelectScene::DialogProc(HWND hDlg, UINT msg, WPARAM wp, LPARAM lp)
 {
 	switch (msg)

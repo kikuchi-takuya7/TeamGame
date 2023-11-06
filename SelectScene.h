@@ -27,5 +27,6 @@ public:
 	void Draw() override;
 	void Release() override;
 	bool GetDlog() const;
+	void SetDlog(bool log);
 	BOOL CALLBACK DialogProc(HWND hDlg, UINT msg, WPARAM wp, LPARAM lp);
 };

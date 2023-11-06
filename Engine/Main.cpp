@@ -85,6 +85,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	//すべてのゲームオブジェクトの親となるオブジェクト
 	pRootObject->Initialize();
 
+	pSelectScene = (SelectScene*)pRootObject->FindChildObject("SelectScene");
+
 	//メッセージループ（何か起きるのを待つ）
 	MSG msg;
 	ZeroMemory(&msg, sizeof(msg));
@@ -155,12 +157,15 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 				//全オブジェクトを描画
 				//ルートオブジェクトのDrawを呼んだあと、自動的に子、孫のUpdateが呼ばれる
 				pRootObject->DrawSub();
-
-				bool DlogValue = pSelectScene->GetDlog();
-				if (DlogValue) {
-					HWND hDlg = CreateDialog(hInstance, MAKEINTRESOURCE(IDD_DIALOG1), hWnd, (DLGPROC)DialogProc);
-					ShowWindow(hDlg, SW_SHOWNORMAL);
+				
+				if (pSelectScene != NULL) {
+					bool DlogValue = pSelectScene->GetDlog();
+					if (DlogValue) {
+						HWND hDlg = CreateDialog(hInstance, MAKEINTRESOURCE(IDD_DIALOG1), hWnd, (DLGPROC)DialogProc);
+						ShowWindow(hDlg, SW_SHOWNORMAL);
+					}
 				}
+				
 
 //でバックの時だけ
 #ifdef _DEBUG
