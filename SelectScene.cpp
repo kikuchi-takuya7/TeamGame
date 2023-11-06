@@ -73,9 +73,8 @@ void SelectScene::Update()
 	}
 
 	if (exit_->MouseInArea(pos)) {
-		exit_->Push(true);
-		Dlog_ = true;
-		return;
+		if (Input::IsMouseButtonDown(0))
+			Dlog_ = true;
 	}
 	else {
 		exit_->Push(false);
