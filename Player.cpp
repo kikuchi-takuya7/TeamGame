@@ -32,20 +32,23 @@ void Player::Initialize()
     hIdleModel_ = Model::Load("PlayerFbx/stand-by.fbx");
     assert(hIdleModel_ >= 0);
 
-    hMoveModel_ = Model::Load("PlayerFbx/runmotion.fbx");
+    hMoveModel_ = Model::Load("PlayerFbx/run.fbx");
     assert(hMoveModel_ >= 0);
 
     //アニメーションが追加されたらこことhのenumに名前を追加する
     std::string emoteModelName[] = {
-        "hakusyu.fbx",
-        "ojigi.fbx",
+        "applause",
+        "bow",
+        "walk",
+        "dent"
     };
 
     std::string fName_Base = "PlayerFbx/";
+    std::string fName_Exten = ".fbx";
 
     //モデルデータのロード
-    for (int i = 0; i < 2; i++) {
-        hAnimeModel_[i] = Model::Load(fName_Base + emoteModelName[i]);
+    for (int i = 0; i < NUM; i++) {
+        hAnimeModel_[i] = Model::Load(fName_Base + emoteModelName[i] + fName_Exten);
         assert(hAnimeModel_[i] >= 0);
     }
 
