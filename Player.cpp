@@ -29,7 +29,7 @@ void Player::Initialize()
     changeApplauseFlag_ = true;
 
     //モデルデータのロード
-    hIdleModel_ = Model::Load("PlayerFbx/taikianime.fbx");
+    hIdleModel_ = Model::Load("PlayerFbx/stand-by.fbx");
     assert(hIdleModel_ >= 0);
 
     hMoveModel_ = Model::Load("PlayerFbx/runmotion.fbx");
@@ -44,7 +44,7 @@ void Player::Initialize()
     std::string fName_Base = "PlayerFbx/";
 
     //モデルデータのロード
-    for (int i = 0; i < NUM; i++) {
+    for (int i = 0; i < 2; i++) {
         hAnimeModel_[i] = Model::Load(fName_Base + emoteModelName[i]);
         assert(hAnimeModel_[i] >= 0);
     }
@@ -375,9 +375,6 @@ void Player::Move_Camera()
 
     MouseMoveY_ = mouseMove.y;
     MouseMoveX_ = mouseMove.x;
-
-    float mouseMoveY = mouseMove.y;
-    float mouseMoveX = mouseMove.x;
 
     //度回転させる行列を作成
     //rotYはY軸に回転させる。横方向の移動距離を横回転に変換

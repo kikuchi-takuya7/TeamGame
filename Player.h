@@ -38,6 +38,8 @@ private:
     enum EMOTESTATE {
         APPLAUSE = 0,//”Žè
         BOW,//‚¨Ž«‹V
+        WALK,//•à‚­
+        DENT,//‚Ö‚±‚Þ
         NUM
     };
 
