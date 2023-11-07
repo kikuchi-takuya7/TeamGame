@@ -27,8 +27,6 @@ void Player::Initialize()
     bowEndFlame_ = 50;
     changeApplauseTiming_ = 20;
     changeApplauseFlag_ = true;
-    totalMouseMoveX_ = 0;
-    totalMouseMoveY_ = 0;
 
     //モデルデータのロード
     hIdleModel_ = Model::Load("PlayerFbx/taikianime.fbx");
@@ -297,6 +295,10 @@ void Player::ChangeToIdle()
 
 void Player::Move_Player()
 {
+
+    //カメラの処理
+    //カメラの方向にWで前に行くためにここにカメラの処理を書く必要があったかもしれない
+
     XMFLOAT3 fMove = XMFLOAT3(0, 0, 0);
 
     if (Input::IsKey(DIK_A))
@@ -326,6 +328,8 @@ void Player::Move_Player()
     transform_.position_.x += fMove.x;
     transform_.position_.z += fMove.z;
 
+    //fMoveにカメラが移動した分の回転行列をかける？
+    //ifでWASDを押したときだけその方向に向く処理を追加した方がいいかも
 
     //短いほうの角度だけ求める向き方向
     XMVECTOR vLength = XMVector3Length(vMove);
@@ -348,6 +352,10 @@ void Player::Move_Player()
 
         transform_.rotate_.y = XMConvertToDegrees(angle);
     }
+
+
+    
+
 }
 
 void Player::Move_Camera()
@@ -362,24 +370,25 @@ void Player::Move_Camera()
 
     XMFLOAT3 currentCamPos = Camera::GetPosition();
       
-
+    //Xが横方向の移動距離で、Yが縦方向の移動距離だから間違わないように
     XMFLOAT3 mouseMove = Input::GetMouseMove();
 
-    totalMouseMoveX_ = mouseMove.y;
-    totalMouseMoveY_ = mouseMove.x;
+    MouseMoveY_ = mouseMove.y;
+    MouseMoveX_ = mouseMove.x;
 
     float mouseMoveY = mouseMove.y;
     float mouseMoveX = mouseMove.x;
 
     //度回転させる行列を作成
-    XMMATRIX rotY = XMMatrixRotationY(XMConvertToRadians(mouseMoveX));
-    XMMATRIX rotX = XMMatrixRotationX(XMConvertToRadians(mouseMoveX));
+    //rotYはY軸に回転させる。横方向の移動距離を横回転に変換
+    XMMATRIX rotY = XMMatrixRotationY(XMConvertToRadians(MouseMoveX_));
+    XMMATRIX rotX = XMMatrixRotationX(XMConvertToRadians(MouseMoveY_));
 
     //ベクトル型に変換
     XMVECTOR camPos = XMLoadFloat3(&currentCamPos);
 
     //移動ベクトルを変形 (洗車と同じ向きに回転) させる
-    camPos = XMVector3TransformCoord(camPos, rotY);
+    camPos = XMVector3TransformCoord(camPos, rotY*rotX);
 
     Camera::SetPosition(camPos);
 
