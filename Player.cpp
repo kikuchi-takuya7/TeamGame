@@ -345,10 +345,13 @@ void Player::Move_Player()
 
     //斜め移動でも足が速くならないように。なってる気がする
     XMVECTOR vMove = XMLoadFloat3(&fMove);
+    vMove = XMVector3TransformCoord(vMove, rotY_);
     vMove = XMVector3Normalize(vMove);
     XMStoreFloat3(&fMove, vMove);
     fMove.x /= 10;
     fMove.z /= 10;
+
+
 
     transform_.position_.x += fMove.x;
     transform_.position_.z += fMove.z;
@@ -398,19 +401,16 @@ void Player::Move_Camera()
     //Xが横方向の移動距離で、Yが縦方向の移動距離だから間違わないように
     XMFLOAT3 mouseMove = Input::GetMouseMove();
 
-    MouseMoveY_ = mouseMove.y;
-    MouseMoveX_ = mouseMove.x;
-
     //度回転させる行列を作成
     //rotYはY軸に回転させる。横方向の移動距離を横回転に変換
-    XMMATRIX rotY = XMMatrixRotationY(XMConvertToRadians(MouseMoveX_));
-    XMMATRIX rotX = XMMatrixRotationX(XMConvertToRadians(MouseMoveY_));
+    rotY_ = XMMatrixRotationY(XMConvertToRadians(mouseMove.x));
+    rotX_ = XMMatrixRotationX(XMConvertToRadians(mouseMove.y));
 
     //ベクトル型に変換
     XMVECTOR camPos = XMLoadFloat3(&currentCamPos);
 
-    //移動ベクトルを変形 (洗車と同じ向きに回転) させる
-    camPos = XMVector3TransformCoord(camPos, rotY*rotX);
+    //ベクトルを変形させる
+    camPos = XMVector3TransformCoord(camPos, rotY_*rotX_);
 
     Camera::SetPosition(camPos);
 

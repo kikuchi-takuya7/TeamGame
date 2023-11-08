@@ -73,8 +73,8 @@ private:
     bool dentLoopFlag_;
 
 
-    float MouseMoveX_;
-    float MouseMoveY_;
+    XMMATRIX rotY_;
+    XMMATRIX rotX_;
 
     
 
