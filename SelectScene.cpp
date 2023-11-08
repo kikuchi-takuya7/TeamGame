@@ -45,7 +45,6 @@ void SelectScene::Initialize()
 	exit_ = Instantiate<Button>(this);
 	exit_->SetImage("Exit");
 	exit_->SetPosition(100, 350);
-	//exit_->SetLog(false);
 }
 
 //更新
@@ -80,6 +79,10 @@ void SelectScene::Update()
 		exit_->Push(false);
 		Dlog_ = false;
 	}
+
+	if (buttonId == IDC_YES) {
+		pSceneManager->ChangeScene(SCENE_ID_TITLE);
+	}
 }
 
 //描画
@@ -112,11 +115,9 @@ BOOL SelectScene::DialogProc(HWND hDlg, UINT msg, WPARAM wp, LPARAM lp)
 	switch (msg)
 	{
 	case WM_INITDIALOG:
-		//ボタンの初期値
-		SendMessage(GetDlgItem(hDlg, IDC_YES), BM_SETCHECK, BST_CHECKED, 0);
-		
 		return 0;
 	case WM_COMMAND:
+		buttonId = LOWORD(wp);
 		return 0;
 	}
 	return 0;

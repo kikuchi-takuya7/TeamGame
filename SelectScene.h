@@ -12,6 +12,7 @@ private:
 	Transform volume_Transform_;
 	int hVolume_;   //volume‚Ì‰æ‘œ”Ô†
 	bool Dlog_;
+	int buttonId;  //ƒ{ƒ^ƒ“‚ÌIDæ“¾
 
 	Button* play_;
 	Button* store_;
