@@ -25,9 +25,11 @@ void Player::Initialize()
     moveEndFlame_ = 100;
     emoteEndFlame_[APPLAUSE] = 100;
     emoteEndFlame_[BOW] = 50;
-    emoteEndFlame_[DENT] = 300;
+    emoteEndFlame_[DENT] = 100;
     changeApplauseTiming_ = 20;
-    changeApplauseFlag_ = true;
+    applauseLoopFlag_ = false;
+    changeDentTiming_ = 50;
+    dentLoopFlag_ = false;
 
     //モデルデータのロード
     hIdleModel_ = Model::Load("PlayerFbx/stand-by.fbx");
@@ -56,9 +58,11 @@ void Player::Initialize()
 
     Model::SetAnimFrame(hIdleModel_, 0, idleEndFlame_, 1);
     Model::SetAnimFrame(hMoveModel_, 0, moveEndFlame_, 1);
-    Model::SetAnimFrame(hAnimeModel_[APPLAUSE], 0, emoteEndFlame_[APPLAUSE], 1);
-    Model::SetAnimFrame(hAnimeModel_[BOW], 0, emoteEndFlame_[BOW], 1);
-    Model::SetAnimFrame(hAnimeModel_[DENT], 0, emoteEndFlame_[DENT], 1);
+
+    //それぞれのエモートの初期化
+    for (int i = 0; i < NUM; i++) {
+        Model::SetAnimFrame(hAnimeModel_[i], 0, emoteEndFlame_[i], 1);
+    }
 
     transform_.position_.z = -5;
     transform_.rotate_.y = 180;
@@ -180,9 +184,11 @@ void Player::ChangeEmoteState(EMOTESTATE nextState)
 void Player::OnEnterEmoteState(EMOTESTATE state)
 {
     animationFlame_ = 0;
-    changeApplauseFlag_ = true;
+    applauseLoopFlag_ = false;
+    dentLoopFlag_ = false;
     Model::SetAnimFrame(hAnimeModel_[APPLAUSE], 0, emoteEndFlame_[APPLAUSE], 1);
     Model::SetAnimFrame(hAnimeModel_[BOW], 0, emoteEndFlame_[BOW], 1);
+    Model::SetAnimFrame(hAnimeModel_[DENT], 0, emoteEndFlame_[DENT], 1);
 }
 
 void Player::OnLeaveEmoteState(EMOTESTATE state)
@@ -231,9 +237,9 @@ void Player::Emote_Update()
     switch (currentEmoteState_)
     {
     case APPLAUSE:
-        if (animationFlame_ >= emoteEndFlame_[currentEmoteState_] && changeApplauseFlag_ == true) {
+        if (animationFlame_ >= emoteEndFlame_[currentEmoteState_] && applauseLoopFlag_ == false) {
             Model::SetAnimFrame(hAnimeModel_[currentEmoteState_], changeApplauseTiming_, emoteEndFlame_[currentEmoteState_], 1);
-            changeApplauseFlag_ = false;
+            applauseLoopFlag_ = true;
         }
         break;
 
@@ -244,8 +250,9 @@ void Player::Emote_Update()
         break;
 
     case DENT:
-        if (animationFlame_ >= emoteEndFlame_[currentEmoteState_]) {
-            ChangeToIdle();
+        if (animationFlame_ >= emoteEndFlame_[currentEmoteState_] && dentLoopFlag_ == false) {
+            Model::SetAnimFrame(hAnimeModel_[currentEmoteState_], changeDentTiming_, emoteEndFlame_[currentEmoteState_], 1);
+            dentLoopFlag_ = true;
         }
 
     default:

@@ -53,7 +53,7 @@ private:
     int hMoveModel_;
     int hAnimeModel_[EMOTESTATE::NUM];
 
-    //ゲームが始まってからのフレーム数
+    //ゲームが始まってからのフレーム数。時間とかに使って
     int gameFlame_;
 
     //アニメーションとかが始まってからのフレーム数
@@ -66,9 +66,12 @@ private:
 
     //拍手が手を合わせるタイミングのフレーム
     int changeApplauseTiming_;
+    int changeDentTiming_;
 
-    //ずっと拍手させるためのフラグ
-    bool changeApplauseFlag_;
+    //ずっと拍手させるためのフラグ.falseが初期値でtrueならループするようになってる
+    bool applauseLoopFlag_;
+    bool dentLoopFlag_;
+
 
     float MouseMoveX_;
     float MouseMoveY_;
