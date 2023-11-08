@@ -23,8 +23,9 @@ void Player::Initialize()
     animationFlame_ = 0;
     idleEndFlame_ = 100;
     moveEndFlame_ = 100;
-    applauseEndFlame_ = 100;
-    bowEndFlame_ = 50;
+    emoteEndFlame_[APPLAUSE] = 100;
+    emoteEndFlame_[BOW] = 50;
+    emoteEndFlame_[DENT] = 300;
     changeApplauseTiming_ = 20;
     changeApplauseFlag_ = true;
 
@@ -39,7 +40,7 @@ void Player::Initialize()
     std::string emoteModelName[] = {
         "applause",
         "bow",
-        "walk",
+        //"walk",
         "dent"
     };
 
@@ -55,8 +56,9 @@ void Player::Initialize()
 
     Model::SetAnimFrame(hIdleModel_, 0, idleEndFlame_, 1);
     Model::SetAnimFrame(hMoveModel_, 0, moveEndFlame_, 1);
-    Model::SetAnimFrame(hAnimeModel_[APPLAUSE], 0, moveEndFlame_, 1);
-    Model::SetAnimFrame(hAnimeModel_[BOW], 0, bowEndFlame_, 1);
+    Model::SetAnimFrame(hAnimeModel_[APPLAUSE], 0, emoteEndFlame_[APPLAUSE], 1);
+    Model::SetAnimFrame(hAnimeModel_[BOW], 0, emoteEndFlame_[BOW], 1);
+    Model::SetAnimFrame(hAnimeModel_[DENT], 0, emoteEndFlame_[DENT], 1);
 
     transform_.position_.z = -5;
     transform_.rotate_.y = 180;
@@ -179,8 +181,8 @@ void Player::OnEnterEmoteState(EMOTESTATE state)
 {
     animationFlame_ = 0;
     changeApplauseFlag_ = true;
-    Model::SetAnimFrame(hAnimeModel_[APPLAUSE], 0, applauseEndFlame_, 1);
-    Model::SetAnimFrame(hAnimeModel_[BOW], 0, bowEndFlame_, 1);
+    Model::SetAnimFrame(hAnimeModel_[APPLAUSE], 0, emoteEndFlame_[APPLAUSE], 1);
+    Model::SetAnimFrame(hAnimeModel_[BOW], 0, emoteEndFlame_[BOW], 1);
 }
 
 void Player::OnLeaveEmoteState(EMOTESTATE state)
@@ -229,17 +231,22 @@ void Player::Emote_Update()
     switch (currentEmoteState_)
     {
     case APPLAUSE:
-        if (animationFlame_ >= applauseEndFlame_ && changeApplauseFlag_ == true) {
-            Model::SetAnimFrame(hAnimeModel_[APPLAUSE], changeApplauseTiming_, applauseEndFlame_, 1);
+        if (animationFlame_ >= emoteEndFlame_[currentEmoteState_] && changeApplauseFlag_ == true) {
+            Model::SetAnimFrame(hAnimeModel_[currentEmoteState_], changeApplauseTiming_, emoteEndFlame_[currentEmoteState_], 1);
             changeApplauseFlag_ = false;
         }
         break;
 
     case BOW:
-        if (animationFlame_ >= bowEndFlame_) {
+        if (animationFlame_ >= emoteEndFlame_[currentEmoteState_]) {
             ChangeToIdle();
         }
         break;
+
+    case DENT:
+        if (animationFlame_ >= emoteEndFlame_[currentEmoteState_]) {
+            ChangeToIdle();
+        }
 
     default:
         break;
@@ -259,6 +266,9 @@ void Player::Emote_Draw()
         Model::SetTransform(hAnimeModel_[BOW], transform_);
         Model::Draw(hAnimeModel_[BOW]);
         break;
+    case DENT:
+        Model::SetTransform(hAnimeModel_[DENT], transform_);
+        Model::Draw(hAnimeModel_[DENT]);
     default:
         break;
     }
@@ -284,6 +294,11 @@ void Player::CheckEmoteKey()
     {
         nextPlayerState_ = EMOTE;
         nextEmoteState_ = BOW;
+    }
+    if (Input::IsKeyDown(DIK_3))
+    {
+        nextPlayerState_ = EMOTE;
+        nextEmoteState_ = DENT;
     }
 
 }

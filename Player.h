@@ -38,7 +38,7 @@ private:
     enum EMOTESTATE {
         APPLAUSE = 0,//拍手
         BOW,//お辞儀
-        WALK,//歩く
+        //WALK,//歩く
         DENT,//へこむ
         NUM
     };
@@ -62,8 +62,7 @@ private:
     //それぞれのアニメーションの終わりフレーム
     int idleEndFlame_;
     int moveEndFlame_;
-    int applauseEndFlame_;
-    int bowEndFlame_;
+    int emoteEndFlame_[NUM];
 
     //拍手が手を合わせるタイミングのフレーム
     int changeApplauseTiming_;
