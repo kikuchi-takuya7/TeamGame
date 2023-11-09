@@ -115,7 +115,7 @@ void Player::Update()
         break;
     }
 
-    Move_Player();
+    
     Move_Camera();
 
 }
@@ -216,7 +216,7 @@ void Player::Move_Update()
 
     CheckEmoteKey();
 
-    
+    Move_Player();
 
 
 }
