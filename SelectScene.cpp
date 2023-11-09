@@ -117,9 +117,7 @@ BOOL SelectScene::DialogProc(HWND hDlg, UINT msg, WPARAM wp, LPARAM lp)
 	case WM_COMMAND:
 		buttonId = LOWORD(wp);
 		if (buttonId == IDC_YES) {
-			SceneManager* pSceneManager = (SceneManager*)FindObject("SceneManager");
-			pSceneManager->ChangeScene(SCENE_ID_TITLE);
-			EndDialog(hDlg, IDC_YES);
+			PostQuitMessage(0);  //ƒvƒƒOƒ‰ƒ€I—¹
 			return TRUE;
 		}
 		else if (buttonId == IDC_NO) {
