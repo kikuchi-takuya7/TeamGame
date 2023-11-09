@@ -80,9 +80,7 @@ void SelectScene::Update()
 		Dlog_ = false;
 	}
 
-	if (buttonId == IDC_YES) {
-		pSceneManager->ChangeScene(SCENE_ID_TITLE);
-	}
+	
 }
 
 //•`‰æ
@@ -118,6 +116,16 @@ BOOL SelectScene::DialogProc(HWND hDlg, UINT msg, WPARAM wp, LPARAM lp)
 		return 0;
 	case WM_COMMAND:
 		buttonId = LOWORD(wp);
+		if (buttonId == IDC_YES) {
+			SceneManager* pSceneManager = (SceneManager*)FindObject("SceneManager");
+			pSceneManager->ChangeScene(SCENE_ID_TITLE);
+			EndDialog(hDlg, IDC_YES);
+			return TRUE;
+		}
+		else if (buttonId == IDC_NO) {
+			EndDialog(hDlg, IDC_NO);
+			return TRUE;
+		}
 		return 0;
 	}
 	return 0;
