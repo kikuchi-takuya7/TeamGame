@@ -64,8 +64,8 @@ void Player::Initialize()
         Model::SetAnimFrame(hAnimeModel_[i], 0, emoteEndFlame_[i], 1);
     }
 
-    transform_.position_.z = -5;
-    transform_.rotate_.y = 180;
+    //transform_.position_.z = -5;
+    //transform_.rotate_.y = 180;
 
     currentPlayerState_ = IDLE;
     nextPlayerState_ = IDLE;
@@ -321,8 +321,29 @@ void Player::ChangeToIdle()
 void Player::Move_Player()
 {
 
-    //カメラの処理
     //カメラの方向にWで前に行くためにここにカメラの処理を書く必要があったかもしれない
+    XMFLOAT3 currentCamPos = Camera::GetPosition();
+
+    //Xが横方向の移動距離で、Yが縦方向の移動距離だから間違わないように
+    XMFLOAT3 mouseMove = Input::GetMouseMove();
+
+    //度回転させる行列を作成
+    //rotYはY軸に回転させる。横方向の移動距離を横回転に変換
+    XMMATRIX rotY = XMMatrixRotationY(XMConvertToRadians(mouseMove.x));
+    XMMATRIX rotX = XMMatrixRotationX(XMConvertToRadians(mouseMove.y));
+
+    //回転させた総合を出せばカメラの方向がわかる？
+    rotY_ += rotY;
+    rotX_ += rotX;
+
+    //ベクトル型に変換
+    XMVECTOR camPos = XMLoadFloat3(&currentCamPos);
+
+    //ベクトルを変形させる
+    camPos = XMVector3TransformCoord(camPos, rotY * rotX);
+
+    
+
 
     XMFLOAT3 fMove = XMFLOAT3(0, 0, 0);
 
@@ -343,18 +364,25 @@ void Player::Move_Player()
         fMove.z = -0.1f;
     }
 
+    
+
     //斜め移動でも足が速くならないように。なってる気がする
     XMVECTOR vMove = XMLoadFloat3(&fMove);
+    
+    //Vectorにしたタイミングで回転行列をかける
     vMove = XMVector3TransformCoord(vMove, rotY_);
     vMove = XMVector3Normalize(vMove);
     XMStoreFloat3(&fMove, vMove);
     fMove.x /= 10;
     fMove.z /= 10;
 
-
-
     transform_.position_.x += fMove.x;
     transform_.position_.z += fMove.z;
+
+
+    //カメラもプレイヤーと同じように動かす
+    XMVECTOR camMove = XMLoadFloat3(&fMove);
+    Camera::SetPosition(camPos + camMove);
 
     //fMoveにカメラが移動した分の回転行列をかける？
     //ifでWASDを押したときだけその方向に向く処理を追加した方がいいかも
@@ -403,18 +431,26 @@ void Player::Move_Camera()
 
     //度回転させる行列を作成
     //rotYはY軸に回転させる。横方向の移動距離を横回転に変換
-    rotY_ = XMMatrixRotationY(XMConvertToRadians(mouseMove.x));
-    rotX_ = XMMatrixRotationX(XMConvertToRadians(mouseMove.y));
+    XMMATRIX rotY = XMMatrixRotationY(XMConvertToRadians(mouseMove.x));
+    XMMATRIX rotX = XMMatrixRotationX(XMConvertToRadians(mouseMove.y));
+
+    //回転させた総合を出せばカメラの方向がわかる？
+    rotY_ += rotY;
+    rotX_ += rotX;
 
     //ベクトル型に変換
     XMVECTOR camPos = XMLoadFloat3(&currentCamPos);
 
     //ベクトルを変形させる
-    camPos = XMVector3TransformCoord(camPos, rotY_*rotX_);
+    camPos = XMVector3TransformCoord(camPos, rotY*rotX);
 
     Camera::SetPosition(camPos);
 
 #else
+
+    //パクったサイト
+    //https://qiita.com/TakayukiKiyohara/items/df6aa0501be03a4caee8
+    
     /////////////////////////////////////////////////////////////////
     // ⓵　現在のカメラの注視点と視点を使って、XZ平面上での、
     //      注視点から視点までのベクトル(toCameraPosXZ)と長さ(toCameraPosXZLen)を求める。
