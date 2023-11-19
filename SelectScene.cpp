@@ -8,7 +8,7 @@ using namespace DirectX;
 
 //コンストラクタ
 SelectScene::SelectScene(GameObject* parent)
-	: GameObject(parent, "SelectScene"), hPict_(-1), hVolume_(-1)
+	: GameObject(parent, "SelectScene"), hPict_(-1), hVolume_(-1), hExit_(-1)
 {
 }
 
@@ -29,6 +29,9 @@ void SelectScene::Initialize()
 	assert(hVolume_ >= 0);
 
 	volume_Transform_.position_.y = 0.1f;
+
+	hExit_ = Image::Load("Exit_zoom.png");
+	assert(hExit_ >= 0);
 
 	play_ = Instantiate<Button>(this);
 	play_->SetImage("Play");
@@ -91,6 +94,12 @@ void SelectScene::Draw()
 
 	Image::SetTransform(hVolume_, volume_Transform_);
 	Image::Draw(hVolume_);
+
+	XMFLOAT3 pos = Input::GetMousePosition();
+	if (exit_->MouseInArea(pos)) {
+		Image::SetTransform(hExit_, exit_Transform_);
+		Image::Draw(hExit_);
+	}
 }
 
 //開放

@@ -11,6 +11,7 @@ private:
 	int hStore_;   //store‚Ì‰æ‘œ”Ô†
 	Transform volume_Transform_;
 	int hVolume_;   //volume‚Ì‰æ‘œ”Ô†
+	int hExit_;
 	bool Dlog_;
 	int buttonId;  //ƒ{ƒ^ƒ“‚ÌIDæ“¾
 
