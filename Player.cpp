@@ -360,7 +360,6 @@ void Player::Move_Player()
     transform_.position_.z += fMove.z;
 
 
-    
     currentCamPos = fMove + currentCamPos;
 
     //ベクトル型に変換
@@ -370,6 +369,10 @@ void Player::Move_Player()
     camPos = XMVector3TransformCoord(camPos, rotY_ * rotX_);
 
     Camera::SetPosition(camPos);
+
+    XMFLOAT3 camTar = transform_.position_;
+    camTar.y += 1.0f;
+    Camera::SetTarget(camTar);
 
     //短いほうの角度だけ求める向き方向
     XMVECTOR vLength = XMVector3Length(vMove);
@@ -389,12 +392,8 @@ void Player::Move_Player()
             angle *= -1;
         }
 
-
         transform_.rotate_.y = XMConvertToDegrees(angle);
     }
-
-
-    
 
 }
 
@@ -404,7 +403,7 @@ void Player::Move_Camera()
 
 #if 1
 
-    XMFLOAT3 currentCamPos = Camera::GetPosition();
+    
       
     //Xが横方向の移動距離で、Yが縦方向の移動距離だから間違わないように
     XMFLOAT3 mouseMove = Input::GetMouseMove();
@@ -421,6 +420,8 @@ void Player::Move_Camera()
     //これでやろうとするとマウスが動いてないときはこの値のまま入っちゃうからだめ
     //XMVECTOR vCam = { 0,0,-5,0 };
 
+    XMFLOAT3 currentCamPos = Camera::GetPosition();
+
     //ベクトル型に変換
     XMVECTOR camPos = XMLoadFloat3(&currentCamPos);
 
@@ -429,9 +430,9 @@ void Player::Move_Camera()
 
     Camera::SetPosition(camPos);
 
-    XMFLOAT3 camTar = transform_.position_;
+    /*XMFLOAT3 camTar = transform_.position_;
     camTar.y += 1.0f;
-    Camera::SetTarget(camTar);
+    Camera::SetTarget(camTar);*/
 
 #else
 
