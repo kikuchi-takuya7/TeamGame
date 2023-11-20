@@ -1,8 +1,12 @@
 #pragma once
 #include "Engine/GameObject.h"
+#include "Engine/Text.h"
 
 class ResultScene : public GameObject
 {
+private:
+    int hPict_;    //画像番号
+	Text* pText;
 public:
 	//コンストラクタ
 	//引数：parent  親オブジェクト（SceneManager）

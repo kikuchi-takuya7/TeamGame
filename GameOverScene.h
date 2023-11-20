@@ -1,5 +1,6 @@
 #pragma once
 #include "Engine/GameObject.h"
+#include "Engine/Button.h"
 
 class GameOverScene : public GameObject
 {
@@ -12,4 +13,12 @@ public:
 	void Update() override;
 	void Draw() override;
 	void Release() override;
+
+private:
+	Transform hk;
+	Transform ht;
+
+	int hPict_;    //‰æ‘œ”Ô†
+
+	Button* backmenu_;
 };
