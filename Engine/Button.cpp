@@ -159,6 +159,11 @@ void Button::SetIsFlash(bool flash)
 	isFlash_ = flash;
 }
 
+int Button::GetImageHandle() const
+{
+	return hImage_;
+}
+
 void Button::ChangeAlpha()
 {
 	if (!alphaFlag_) {

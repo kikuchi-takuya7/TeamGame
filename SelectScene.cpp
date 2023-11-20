@@ -100,6 +100,9 @@ void SelectScene::Draw()
 		Image::SetTransform(hExit_, exit_Transform_);
 		Image::Draw(hExit_);
 	}
+	else {
+		
+	}
 }
 
 //ŠJ•ú
