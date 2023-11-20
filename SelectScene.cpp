@@ -8,7 +8,7 @@ using namespace DirectX;
 
 //コンストラクタ
 SelectScene::SelectScene(GameObject* parent)
-	: GameObject(parent, "SelectScene"), hPict_(-1), hVolume_(-1)//, hExit_(-1)
+	: GameObject(parent, "SelectScene"), hPict_(-1), hVolume_(-1)
 {
 }
 
@@ -30,23 +30,23 @@ void SelectScene::Initialize()
 
 	volume_Transform_.position_.y = 0.1f;
 
-	/*hExit_ = Image::Load("Exit_zoom.png");
-	assert(hExit_ >= 0);
-
-	exit_Transform_.position_.x -= 0.42f;
-	exit_Transform_.position_.y += 0.03f;*/
-
 	play_ = Instantiate<Button>(this);
 	play_->SetImage("Play");
 	play_->SetPosition(100, 500);//ウィンドウの横幅1280,縦720
 	play_->SetNextScene(MAIN);
 	play_->SetIsFlash(false);
 
+	playz_ = Instantiate<Button>(this);
+	playz_->SetPosition(100, 500);
+
 	store_ = Instantiate<Button>(this);
 	store_->SetImage("Store");
 	store_->SetPosition(1100, 230);
 	store_->SetNextScene(STORE);
 	store_->SetIsFlash(false);
+
+	storez_ = Instantiate<Button>(this);
+	storez_->SetPosition(1100, 230);
 
 	exit_ = Instantiate<Button>(this);
 	exit_->SetImage("Exit");
@@ -64,19 +64,25 @@ void SelectScene::Update()
 
 	XMFLOAT3 pos = Input::GetMousePosition();
 	if (play_->MouseInArea(pos)) {
+		playz_->SetImage("Play_zoom");
+
 		play_->Push(true);
 		return;
 	}
 	else {
+		playz_->SetImage("Play");
 		play_->Push(false);
 
 	}
 
 	if (store_->MouseInArea(pos)) {
+		storez_->SetImage("Store_zoom");
+
 		store_->Push(true);
 		return;
 	}
 	else {
+		storez_->SetImage("Store");
 		store_->Push(false);
 	}
 
@@ -104,15 +110,6 @@ void SelectScene::Draw()
 	Image::SetTransform(hVolume_, volume_Transform_);
 	Image::Draw(hVolume_);
 
-	/*XMFLOAT3 pos = Input::GetMousePosition();
-	if (exit_->MouseInArea(pos)) {
-		Image::SetTransform(hExit_, exit_Transform_);
-		Image::Draw(hExit_);
-	}
-	else {
-		Image::SetTransform(exit_->GetImageHandle(), exit_Transform_);
-		Image::Draw(exit_->GetImageHandle());
-	}*/
 }
 
 //開放
