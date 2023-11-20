@@ -11,13 +11,14 @@ private:
 	int hStore_;   //storeの画像番号
 	Transform volume_Transform_;
 	int hVolume_;   //volumeの画像番号
-	int hExit_;
+	//int hExit_;
 	bool Dlog_;
 	int buttonId;  //ボタンのID取得
 
 	Button* play_;
 	Button* store_;
 	Button* exit_;
+	Button* exitz_;
 	
 public:
 	//コンストラクタ
