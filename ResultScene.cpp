@@ -19,7 +19,8 @@ void ResultScene::Initialize()
 
     //Text::Initialize("char_kodomo.png", 64, 64, 16);
     pText = new Text;
-    pText->Initialize("charkodomo.png", 16, 16, 16);
+    pText->Initialize("charkodomo.png", 48, 48, 10);
+
 }
 
 //更新
@@ -32,7 +33,8 @@ void ResultScene::Draw()
 {
     Image::SetTransform(hPict_, transform_);
     Image::Draw(hPict_);
-    pText->Draw(30, 30, "0:12:65");
+    pText->Draw(30, 30, "0:26:95");
+    //Text.cppの67でscaleいじれる？
 }
 
 //開放
