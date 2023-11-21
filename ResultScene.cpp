@@ -19,7 +19,7 @@ void ResultScene::Initialize()
 
     //Text::Initialize("char_kodomo.png", 64, 64, 16);
     pText = new Text;
-    pText->Initialize("char_kodomo.png", 64, 64, 16);
+    pText->Initialize("charkodomo.png", 16, 16, 16);
 }
 
 //XV
@@ -32,7 +32,7 @@ void ResultScene::Draw()
 {
     Image::SetTransform(hPict_, transform_);
     Image::Draw(hPict_);
-    pText->Draw(30, 30, "!1AQaq");
+    pText->Draw(30, 30, "0:12:65");
 }
 
 //ŠJ•ú
