@@ -2,17 +2,15 @@
 #include "Engine/Image.h"
 #include "Engine/SceneManager.h"
 #include "Engine/Input.h"
+#include "Video.h"
 
 
-#include <windows.h>
-#include <dshow.h>
-#include <CommCtrl.h>
 
-
-#pragma comment(lib, "strmiids.lib")
 
 
 const LPCSTR fileName = "SaveFile\\SplashSaveData";
+//動画再生用（テスト）
+Video video;
 
 
 //コンストラクタ
@@ -31,7 +29,13 @@ SplashScene::~SplashScene()
 //初期化
 void SplashScene::Initialize()
 {
+	////動画再生用（テスト）
+	//Video video;
 
+	video.Initialize();
+	/*video.LoadFile(L"TouhokuDenshi_splash.avi");
+	video.Play();
+	video.WaitForCompletion();*/
 	
 
 	//ファイルのサイズを取得
@@ -197,6 +201,10 @@ void SplashScene::Draw()
 
 	Image::SetTransform(hdenshi_logo_, Denshi_Trams_);//東北電子ロゴ用のTransform変数に変える
 	Image::Draw(hdenshi_logo_);
+
+	video.LoadFile(L"TouhokuDenshi_splash.avi");
+	video.Play();
+	video.WaitForCompletion();
 
 	
 

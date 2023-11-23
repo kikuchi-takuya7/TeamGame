@@ -1,28 +1,28 @@
 #pragma once
 
-#include <windows.h>
+#include <Windows.h>
 #include <dshow.h>
-#include "Engine/SceneManager.h"
-#pragma comment(lib, "strmiids.lib")
+#include "Engine/GameObject.h"
 
 class Video : public GameObject {
+private:
+    IGraphBuilder* pGraph;
+    IMediaControl* pControl;
+    IMediaEvent* pEvent;
+
 public:
-    //コンストラクタ
-//引数：parent  親オブジェクト（SceneManager）
+    // ユーザーが定義したコンストラクター
     Video(GameObject* parent);
-  
+    // 既定のコンストラクター
+    Video();
     ~Video();
 
-    void Initialize(HWND hwnd);
-    void Update();
-    void PlayVideo(const wchar_t* videoFileName);
-    void Draw();
-    void StopVideo();
-    void Release();
+    // 新しい関数を定義
+    bool InitializeVideo();
+    bool LoadFile(const wchar_t* filePath);
+    void Play();
+    void WaitForCompletion();
 
 private:
-    IGraphBuilder* pGraphBuilder;
-    IMediaControl* pMediaControl;
-    IMediaEvent* pMediaEvent;
-    HWND hwnd;
+    void ReleaseInterfaces();
 };

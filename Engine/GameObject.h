@@ -7,6 +7,7 @@
 #include "BoxCollider.h"
 #include "Transform.h"
 #include "Imgui/Imgui.h"
+#include"Video.h"
 
 using namespace DirectX;
 
@@ -35,6 +36,7 @@ public:
 
 	//デストラクタ
 	virtual ~GameObject();
+	//virtual void Initialize();
 
 	//各オブジェクトで必ず作る関数
 	virtual void Initialize(void) {}

@@ -1,91 +1,91 @@
 #include "Video.h"
+#include <iostream>
 
 
 
 
 
-Video::Video(GameObject* parent) : pGraphBuilder(nullptr), pMediaControl(nullptr), pMediaEvent(nullptr), hwnd(nullptr), GameObject(parent, "Video") {
-    CoInitialize(nullptr);
-}
 
-Video::~Video() {
-    Release();
-    CoUninitialize();
-}
+// ユーザーが定義したコンストラクター
+Video::Video(GameObject* parent) :
+    pGraph(nullptr), pControl(nullptr), pEvent(nullptr) {}
 
-void Video::Initialize(HWND hwnd) {
-    this->hwnd = hwnd;
+// 既定のコンストラクターの実装
+Video::Video() :
+    pGraph(nullptr), pControl(nullptr), pEvent(nullptr) {}
 
    
-
-    // 動画を再生
-    PlayVideo(L"TouhokuDenshi_splash.avi");
-
    
-    HRESULT hr = CoCreateInstance(CLSID_FilterGraph, NULL, CLSCTX_INPROC_SERVER, IID_IGraphBuilder, (void**)&pGraphBuilder);
-    if (FAILED(hr)) {
-        return;
-    }
 
-    pGraphBuilder->QueryInterface(IID_IMediaControl, (void**)&pMediaControl);
-    pGraphBuilder->QueryInterface(IID_IMediaEvent, (void**)&pMediaEvent);
+    Video::~Video() {
+        ReleaseInterfaces();
 }
 
 
-//更新
-void Video::Update()
-{
-    // 動画の再生状態を確認
-    if (pMediaEvent) {
-        long eventCode;
-        LONG_PTR param1, param2;
-        while (SUCCEEDED(pMediaEvent->GetEvent(&eventCode, &param1, &param2, 0))) {
-            if (eventCode == EC_COMPLETE) {
-                // 動画が終了した場合、シーンを切り替え
-                SceneManager* pSceneManager = (SceneManager*)FindObject("SceneManager");
-                pSceneManager->ChangeScene(SCENE_ID_TITLE);
-            }
-            pMediaEvent->FreeEventParams(eventCode, param1, param2);
+    bool Video::InitializeVideo()
+    {
+        HRESULT hr = CoInitialize(NULL);
+        //エラー表示
+        if (FAILED(hr)) {
+            std::cout << "ERROR - Could not initialize COM library" << std::endl;
+            return false;
         }
-    }
-}
 
-//描画
-void Video::Draw()
-{
+        hr = CoCreateInstance(CLSID_FilterGraph, NULL, CLSCTX_INPROC_SERVER, IID_IGraphBuilder, (void**)&pGraph);
+        //エラー表示
+        if (FAILED(hr)) {
+            std::cout << "ERROR - Could not create the Filter Graph Manager." << std::endl;
+            return false;
+        }
 
-    
-}
+        hr = pGraph->QueryInterface(IID_IMediaControl, (void**)&pControl);
+        //エラー表示
+        if (FAILED(hr)) {
+            std::cout << "ERROR - Could not obtain IMediaControl interface." << std::endl;
+            return false;
+        }
 
+        hr = pGraph->QueryInterface(IID_IMediaEvent, (void**)&pEvent);
+        //エラー表示
+        if (FAILED(hr)) {
+            std::cout << "ERROR - Could not obtain IMediaEvent interface." << std::endl;
+            return false;
+        }
 
-void Video::PlayVideo(const wchar_t* videoFileName) {
-    if (pGraphBuilder && pMediaControl) {
-        pGraphBuilder->RenderFile(videoFileName, NULL);
-        pMediaControl->Run();
-    }
-}
-
-void Video::StopVideo() {
-    if (pMediaControl) {
-        pMediaControl->Stop();
-    }
-}
-
-void Video::Release() {
-    if (pMediaControl) {
-        pMediaControl->StopWhenReady();
-        pMediaControl->Release();
-        pMediaControl = nullptr;
+        return true;
     }
 
-    if (pMediaEvent) {
-        pMediaEvent->Release();
-        pMediaEvent = nullptr;
+    bool Video::LoadFile(const wchar_t* filePath)
+    {
+        HRESULT hr = pGraph->RenderFile(filePath, NULL);
+        return SUCCEEDED(hr);
     }
 
-    if (pGraphBuilder) {
-        pGraphBuilder->Release();
-        pGraphBuilder = nullptr;
+    void Video::Play() {
+        pControl->Run();
     }
 
-}
+    void Video::WaitForCompletion() {
+        long evCode;
+        pEvent->WaitForCompletion(INFINITE, &evCode);
+    }
+
+    void Video::ReleaseInterfaces() {
+        if (pControl) {
+            pControl->Release();
+            pControl = nullptr;
+        }
+
+        if (pEvent) {
+            pEvent->Release();
+            pEvent = nullptr;
+        }
+
+        if (pGraph) {
+            pGraph->Release();
+            pGraph = nullptr;
+        }
+
+        CoUninitialize();
+    }
+

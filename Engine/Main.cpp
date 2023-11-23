@@ -17,7 +17,8 @@
 #include "Imgui/imgui.h"
 #include "Imgui/imgui_impl_win32.h"
 #include "Imgui/imgui_impl_dx11.h"
-#include "Video.h"
+
+#include "../Video.h"
 
 #pragma comment(lib,"Winmm.lib")
 
@@ -54,6 +55,24 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 	//char path[] = "D:\project\imgui-master\examples\example_win32_directx11\Debug\example_win32_directx11.exe";
 	//system(path);
+
+	////動画再生用（テスト）
+	//Video video;
+
+	//video.Initialize();
+	//video.LoadFile(L"TouhokuDenshi_splash.avi");
+	//video.Play();
+	//video.WaitForCompletion();
+	/*if (video.Initialize()) {
+		if (video.LoadFile(L"TouhokuDenshi_splash.avi")) {
+			video.Play();
+			video.WaitForCompletion();
+		}
+	}*/
+
+
+
+
 
 	//Direct3D準備
 	Direct3D::Initialize(hWnd, screenWidth, screenHeight);
