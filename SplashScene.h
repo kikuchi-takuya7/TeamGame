@@ -32,8 +32,7 @@ private:
 	int limit_;//フレームに変換する
 	int time_;
 
-	//動画用
-	HWND hWnd; // ウィンドウハンドルを保持するメンバ変数
+	
 	
 };
 

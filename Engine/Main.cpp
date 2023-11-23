@@ -43,13 +43,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 //	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 //#endif
 	
-//動画のうんたらかんたら
-	Video video(hwnd);
 
-	// AVIファイルのパスを指定して初期化
-	if (video.Initialize("TouhokuDenshi_splash.avi")) {
-		video.Play();
-	}
+
+	
 
 	MSG msg;
 	while (true) {
@@ -58,7 +54,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			DispatchMessage(&msg);
 		}
 
-		video.Update();
+		
 
 		if (msg.message == WM_QUIT) {
 			break;
@@ -116,8 +112,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 	HWND hDlg = CreateDialog(hInstance, MAKEINTRESOURCE(IDD_DIALOG1), hWnd, (DLGPROC)DialogProc);
 
-	//メッセージループ（何か起きるのを待つ）
-	MSG msg;
+	
 	ZeroMemory(&msg, sizeof(msg));
 	while (msg.message != WM_QUIT)
 	{
