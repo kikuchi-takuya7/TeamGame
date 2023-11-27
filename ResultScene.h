@@ -7,6 +7,7 @@ class ResultScene : public GameObject
 private:
     int hPict_;    //画像番号
 	Text* pText;
+	int sec = 0;  //MainGameから持ってくる？
 public:
 	//コンストラクタ
 	//引数：parent  親オブジェクト（SceneManager）

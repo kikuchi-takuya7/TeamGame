@@ -10,7 +10,7 @@ static const int FPS = 60;
 ResultScene::ResultScene(GameObject* parent)
 	: GameObject(parent, "ResultScene"), hPict_(-1), pText(nullptr)
 {
-    GameObject* Timer = new GameObject();
+    //GameObject* Timer = new GameObject();
 }
 
 //‰Šú‰»
@@ -22,7 +22,6 @@ void ResultScene::Initialize()
 
     pText = new Text;
     pText->Initialize("charkodomo.png", 48, 48, 10);
-
 }
 
 //XV
@@ -41,7 +40,6 @@ void ResultScene::Draw()
     Image::SetTransform(hPict_, transform_);
     Image::Draw(hPict_);
 
-    int sec = 0;  //MainGame‚©‚çŽ‚Á‚Ä‚­‚éH
     pText->SetScale(1.8f);
     pText->Draw(130, 450, sec);  //0:00:00
 }
