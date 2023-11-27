@@ -73,11 +73,12 @@ private:
     bool dentLoopFlag_;
 
 
+
     XMMATRIX rotY_;
     XMMATRIX rotX_;
-    //ˆÚ“®—Ê‚ğ•½sˆÚ“®s—ñ‚É‚µ‚Ä‚©‚¯‚Ä‚İ‚½‚ç‚Ç‚¤‚È‚é‚©
-    XMMATRIX moveMatrix_;
 
+
+    float totalMoveMouse_;
     
 
 private:
