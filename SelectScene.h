@@ -12,6 +12,7 @@ private:
 	int hVolume_;   //volumeの画像番号
 	bool Dlog_;
 	int buttonId;  //ボタンのID取得
+	int hSound_;   //サウンド番号
 
 	Button* play_;
 	Button* store_;

@@ -2,13 +2,14 @@
 #include "Engine/Image.h"
 #include "Engine/Input.h"
 #include  "resource.h"
+#include "Engine/Audio.h"
 #include <DirectXMath.h>
 
 using namespace DirectX;
 
 //コンストラクタ
 SelectScene::SelectScene(GameObject* parent)
-	: GameObject(parent, "SelectScene"), hPict_(-1), hVolume_(-1)
+	: GameObject(parent, "SelectScene"), hPict_(-1), hVolume_(-1), hSound_(-1)
 {
 }
 
@@ -20,6 +21,10 @@ SelectScene::~SelectScene()
 //初期化
 void SelectScene::Initialize()
 {
+	//サウンドデータのロード
+	hSound_ = Audio::Load("A1_01001.WAV");
+	assert(hSound_ >= 0);
+
 	//画像データのロード
 	hPict_ = Image::Load("haikei.png");
 	assert(hPict_ >= 0);
@@ -96,6 +101,10 @@ void SelectScene::Update()
 		exitz_->SetImage("Exit");
 		exit_->Push(false);
 		Dlog_ = false;
+	}
+
+	if (Input::IsKeyDown(DIK_UP)) {
+		Audio::Play(hSound_);
 	}
 
 	
