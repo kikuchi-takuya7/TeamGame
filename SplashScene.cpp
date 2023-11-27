@@ -28,15 +28,19 @@ SplashScene::~SplashScene()
 //èâä˙âª
 void SplashScene::Initialize()
 {
-     video.InitializeVideo();
-	/* video.LoadFile();*/
-	 const wchar_t* filePath = L"TouhokuDenshi_splash.avi";
-	 video.LoadFile(filePath);
-	 
+
+	video.Initialize();
 
 
-	 video.Play();
-	 video.WaitForCompletion();
+ //    video.InitializeVideo();
+	///* video.LoadFile();*/
+	// const wchar_t* filePath = L"TouhokuDenshi_splash.avi";
+	// video.LoadFile(filePath);
+	// 
+
+
+	// video.Play();
+	// video.WaitForCompletion();
 	 
 
 

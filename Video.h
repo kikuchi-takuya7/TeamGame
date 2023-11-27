@@ -11,18 +11,21 @@ private:
     IMediaEvent* pEvent;
 
 public:
+    void Initialize();
+   
+
     // ユーザーが定義したコンストラクタ
     Video(GameObject* parent);
-    // 既定のコンストラクタ
+  // 既定のコンストラクタ
     Video();
-    ~Video();
-
-    // 新しい関数を定義
-    bool InitializeVideo();
-    bool LoadFile(const wchar_t* filePath);
-    void Play();
-    void WaitForCompletion();
-
-private:
-    void ReleaseInterfaces();
+   ~Video();
+//
+//    // 新しい関数を定義
+//    bool InitializeVideo();
+//    bool LoadFile(const wchar_t* filePath);
+//    void Play();
+//    void WaitForCompletion();
+//
+//private:
+//    void ReleaseInterfaces();
 };
