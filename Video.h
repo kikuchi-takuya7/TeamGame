@@ -11,9 +11,9 @@ private:
     IMediaEvent* pEvent;
 
 public:
-    // ユーザーが定義したコンストラクター
+    // ユーザーが定義したコンストラクタ
     Video(GameObject* parent);
-    // 既定のコンストラクター
+    // 既定のコンストラクタ
     Video();
     ~Video();
 

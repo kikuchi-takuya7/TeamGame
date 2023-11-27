@@ -6,7 +6,7 @@
 
 
 
-// ユーザーが定義したコンストラクター
+// ユーザーが定義したコンストラクタ
 Video::Video(GameObject* parent) :
     pGraph(nullptr), pControl(nullptr), pEvent(nullptr) {}
 

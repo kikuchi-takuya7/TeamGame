@@ -8,9 +8,7 @@
 
 
 
-const LPCSTR fileName = "SaveFile\\SplashSaveData";
-//動画再生用（テスト）
-Video video;
+//const LPCSTR fileName = "SaveFile\\SplashSaveData";
 
 
 //コンストラクタ
@@ -29,127 +27,7 @@ SplashScene::~SplashScene()
 //初期化
 void SplashScene::Initialize()
 {
-	////動画再生用（テスト）
-	//Video video;
 
-	video.Initialize();
-	/*video.LoadFile(L"TouhokuDenshi_splash.avi");
-	video.Play();
-	video.WaitForCompletion();*/
-	
-
-	//ファイルのサイズを取得
-	DWORD fileSize = GetFileSize(hFile_, NULL);
-
-	//ファイルのサイズ分メモリを確保
-	char* data;
-	data = new char[fileSize];
-
-	DWORD dwBytes = 0; //読み込み位置
-
-	ReadFile(
-		hFile_,     //ファイルハンドル
-		data,      //データを入れる変数
-		fileSize,  //読み込むサイズ
-		&dwBytes,  //読み込んだサイズ
-		NULL);     //オーバーラップド構造体（今回は使わない）
-
-
-	char* tmp = new char[fileSize];
-	int c = 0, sw = 0;
-
-	//新しくロードするデータを増やしたい場合はcaseを一つ増やしてその変数にtmpの内容をstofなりで入れればいい
-	for (DWORD i = 0; i < fileSize; i++) {
-
-		if (data[i] == ' ') {
-			switch (sw)
-			{
-			case 0:
-				sos_Trans_.position_.x = std::stof(tmp);
-				break;
-			case 1:
-				sos_Trans_.position_.y = std::stof(tmp);
-				break;
-			case 2:
-				sos_Trans_.position_.z = std::stof(tmp);
-				break;
-			case 3:
-				sos_Trans_.rotate_.x = std::stof(tmp);
-				break;
-			case 4:
-				sos_Trans_.rotate_.y = std::stof(tmp);
-				break;
-			case 5:
-				sos_Trans_.rotate_.z = std::stof(tmp);
-				break;
-			case 6:
-				sos_Trans_.scale_.x = std::stof(tmp);
-				sos_Trans_.scale_.y = std::stof(tmp);
-				sos_Trans_.scale_.z = std::stof(tmp);
-				break;
-				//東北電子ロゴ用のロードするコードを描く。上に書いたように書けば行けるはず
-			case 7:
-				Denshi_Trams_.position_.x = std::stof(tmp);
-				break;
-			case 8:
-				Denshi_Trams_.position_.y = std::stof(tmp);
-				break;
-			case 9:
-				Denshi_Trams_.position_.z = std::stof(tmp);
-				break;
-			case 10:
-				Denshi_Trams_.rotate_.x = std::stof(tmp);
-				break;
-			case 11:
-				Denshi_Trams_.rotate_.y = std::stof(tmp);
-				break;
-			case 12:
-				Denshi_Trams_.rotate_.z = std::stof(tmp);
-				break;
-			case 13:
-				Denshi_Trams_.scale_.x = std::stof(tmp);
-				Denshi_Trams_.scale_.y = std::stof(tmp);
-				Denshi_Trams_.scale_.z = std::stof(tmp);
-				break;
-			case 14:
-				alpha_ = std::stoi(tmp);
-				break;
-			case 15:
-				limitTmp_ = std::stof(tmp);
-				break;
-			default:
-				break;
-			}
-			sw++;
-			c = 0;
-			continue;
-		}
-		tmp[c] = data[i];
-		c++;
-	}
-	delete[] tmp;
-	delete[] data;
-
-	CloseHandle(hFile_);
-
-	//クラス変数に宣言 
-	//Transform rogTransform_;
-
-	//Setting_Transform(rogTransform_, );//-0.413,0,0,0,1.0f,255
-	
-	//sos画像データのロード
-	hsos_logo_ = Image::Load("sos_logo.png");
-	assert(hsos_logo_ >= 0);
-	//東北電子画像データのロード
-	hdenshi_logo_ = Image::Load("Tohokudenshi_logo.png");
-	assert(hdenshi_logo_ >= 0);
-
-	limit_ = limitTmp_ * 60 + 1;//時間をフレームに
-
-	Leave();
-	
-	
-	
 }
 
 
@@ -157,58 +35,13 @@ void SplashScene::Initialize()
 void SplashScene::Update()
 {
 
-	
-
-
-	//一年生がいじりやすいようにしたけど実際にゲームプレイするときはここはコメントアウトしないとだめ
-	if(!IsEntered())
-		return;
-
-	if (alphaFlag_ == false) {
-		alpha_ += 3;
-	}
-	else {
-		time_++;
-	}
-
-	if (alpha_ >= 255) {
-		alpha_ = 255;
-		alphaFlag_ = true;
-	}
-
-	if (time_ >= limit_)
-		alpha_ -= 3;
-
-
-	if (alpha_ < 0) {
-		SceneManager* pSceneManager = (SceneManager*)FindObject("SceneManager");
-		pSceneManager->ChangeScene(SCENE_ID_TITLE);
-	}
-
-	Image::SetAlpha(hsos_logo_, alpha_);
-	Image::SetAlpha(hdenshi_logo_, alpha_);
-
-
-
 
 }
 
 //描画
 void SplashScene::Draw()
 {
-	Image::SetTransform(hsos_logo_, sos_Trans_);
-	Image::Draw(hsos_logo_);
 
-	Image::SetTransform(hdenshi_logo_, Denshi_Trams_);//東北電子ロゴ用のTransform変数に変える
-	Image::Draw(hdenshi_logo_);
-
-	video.LoadFile(L"TouhokuDenshi_splash.avi");
-	video.Play();
-	video.WaitForCompletion();
-
-	
-
-	
 }
 
 //開放
@@ -217,7 +50,7 @@ void SplashScene::Release()
 	
 }
 
-void SplashScene::Imgui_Window()
+/*void SplashScene::Imgui_Window()
 {
 	ImGui::Begin("DataWindow");
 	if (ImGui::CollapsingHeader("Splash"))
@@ -294,4 +127,4 @@ void SplashScene::Imgui_Window()
 
 	}
 
-}
+}*/
