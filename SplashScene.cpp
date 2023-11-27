@@ -9,6 +9,7 @@
 
 
 //const LPCSTR fileName = "SaveFile\\SplashSaveData";
+Video video;
 
 
 //コンストラクタ
@@ -27,6 +28,17 @@ SplashScene::~SplashScene()
 //初期化
 void SplashScene::Initialize()
 {
+     video.InitializeVideo();
+	/* video.LoadFile();*/
+	 const wchar_t* filePath = L"TouhokuDenshi_splash.avi";
+	 video.LoadFile(filePath);
+	 
+
+
+	 video.Play();
+	 video.WaitForCompletion();
+	 
+
 
 }
 
@@ -46,6 +58,11 @@ void SplashScene::Draw()
 
 //開放
 void SplashScene::Release()
+{
+	
+}
+
+void SplashScene::Imgui_Window()
 {
 	
 }

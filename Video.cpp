@@ -1,11 +1,6 @@
 #include "Video.h"
 #include <iostream>
 
-
-
-
-
-
 // ユーザーが定義したコンストラクタ
 Video::Video(GameObject* parent) :
     pGraph(nullptr), pControl(nullptr), pEvent(nullptr) {}
@@ -13,9 +8,6 @@ Video::Video(GameObject* parent) :
 // 既定のコンストラクターの実装
 Video::Video() :
     pGraph(nullptr), pControl(nullptr), pEvent(nullptr) {}
-
-   
-   
 
     Video::~Video() {
         ReleaseInterfaces();
