@@ -2,12 +2,15 @@
 #include "Engine/SceneManager.h"
 #include "Engine/Input.h"
 #include "Engine/Image.h"
-#include "Engine/Text.h"
+#include "Engine/Timer.h"
+
+static const int FPS = 60;
 
 //コンストラクタ
 ResultScene::ResultScene(GameObject* parent)
 	: GameObject(parent, "ResultScene"), hPict_(-1), pText(nullptr)
 {
+    GameObject* Timer = new GameObject();
 }
 
 //初期化
@@ -17,7 +20,6 @@ void ResultScene::Initialize()
     hPict_ = Image::Load("ReBack.png");
     assert(hPict_ >= 0);
 
-    //Text::Initialize("char_kodomo.png", 64, 64, 16);
     pText = new Text;
     pText->Initialize("charkodomo.png", 48, 48, 10);
 
@@ -33,8 +35,10 @@ void ResultScene::Draw()
 {
     Image::SetTransform(hPict_, transform_);
     Image::Draw(hPict_);
-    pText->Draw(30, 30, "0:26:95");
-    //Text.cppの67でscaleいじれる？
+
+    int sec = 0;  //MainGameから持ってくる？
+    pText->SetScale(1.8f);
+    pText->Draw(130, 450, sec);  //0:00:00
 }
 
 //開放
