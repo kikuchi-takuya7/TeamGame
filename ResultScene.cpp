@@ -10,7 +10,6 @@ static const int FPS = 60;
 ResultScene::ResultScene(GameObject* parent)
 	: GameObject(parent, "ResultScene"), hPict_(-1), pText(nullptr)
 {
-    //GameObject* Timer = new GameObject();
 }
 
 //‰Šú‰»
