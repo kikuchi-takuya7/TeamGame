@@ -75,6 +75,8 @@ private:
 
     XMMATRIX rotY_;
     XMMATRIX rotX_;
+    //ˆÚ“®—Ê‚ð•½sˆÚ“®s—ñ‚É‚µ‚Ä‚©‚¯‚Ä‚Ý‚½‚ç‚Ç‚¤‚È‚é‚©
+    XMMATRIX moveMatrix_;
 
     
 

@@ -350,11 +350,16 @@ void Player::Move_Player()
     XMVECTOR vMove = XMLoadFloat3(&fMove);
     
     //Vectorにしたタイミングで回転行列をかけてみる
-    vMove = XMVector3TransformCoord(vMove, rotY_);
+    //vMove = XMVector3TransformCoord(vMove, rotY_);
     vMove = XMVector3Normalize(vMove);
     XMStoreFloat3(&fMove, vMove);
     fMove.x /= 10;
     fMove.z /= 10;
+
+    //XMMatrixLookAtLH
+
+    //
+    //moveMatrix_ = XMMatrixTranslation(fMove.x, fMove.y, fMove.z);
 
     transform_.position_.x += fMove.x;
     transform_.position_.z += fMove.z;
@@ -370,9 +375,9 @@ void Player::Move_Player()
 
     Camera::SetPosition(camPos);
 
-    XMFLOAT3 camTar = transform_.position_;
+    /*XMFLOAT3 camTar = transform_.position_;
     camTar.y += 1.0f;
-    Camera::SetTarget(camTar);
+    Camera::SetTarget(camTar);*/
 
     //短いほうの角度だけ求める向き方向
     XMVECTOR vLength = XMVector3Length(vMove);
@@ -413,6 +418,8 @@ void Player::Move_Camera()
     XMMATRIX rotY = XMMatrixRotationY(XMConvertToRadians(mouseMove.x));
     XMMATRIX rotX = XMMatrixRotationX(XMConvertToRadians(mouseMove.y));
 
+    XMMATRIX rotMatrix = rotY * rotX;
+
     //回転させた総合を出せばカメラの方向がわかる？
     rotY_ = rotY;
     rotX_ = rotX;
@@ -426,13 +433,14 @@ void Player::Move_Camera()
     XMVECTOR camPos = XMLoadFloat3(&currentCamPos);
 
     //ベクトルを変形させる
-    camPos = XMVector3TransformCoord(camPos, rotY*rotX);
+    camPos = XMVector3TransformCoord(camPos, rotMatrix);
 
     Camera::SetPosition(camPos);
+    
 
-    /*XMFLOAT3 camTar = transform_.position_;
+    XMFLOAT3 camTar = transform_.position_;
     camTar.y += 1.0f;
-    Camera::SetTarget(camTar);*/
+    Camera::SetTarget(camTar);
 
 #else
 
