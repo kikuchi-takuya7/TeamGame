@@ -28,6 +28,11 @@ void ResultScene::Initialize()
 //XV
 void ResultScene::Update()
 {
+    if (Input::IsMouseButtonDown(0)) 
+    {
+        SceneManager* pSceneManager = (SceneManager*)FindObject("SceneManager");
+        pSceneManager->ChangeScene(SCENE_ID_TITLE);
+    }
 }
 
 //•`‰æ
