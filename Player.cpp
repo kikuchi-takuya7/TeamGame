@@ -350,17 +350,10 @@ void Player::Move_Player()
     //斜め移動でも足が速くならないように。なってる気がする
     XMVECTOR vMove = XMLoadFloat3(&fMove);
     
-    //Vectorにしたタイミングで回転行列をかけてみる
-    //vMove = XMVector3TransformCoord(vMove, rotY_);
     vMove = XMVector3Normalize(vMove);
     XMStoreFloat3(&fMove, vMove);
     fMove.x /= 10;
     fMove.z /= 10;
-
-    //XMMatrixLookAtLH
-
-    //
-    //moveMatrix_ = XMMatrixTranslation(fMove.x, fMove.y, fMove.z);
 
     transform_.position_.x += fMove.x;
     transform_.position_.z += fMove.z;
@@ -370,9 +363,6 @@ void Player::Move_Player()
 
     //ベクトル型に変換
     XMVECTOR camPos = XMLoadFloat3(&currentCamPos);
-
-    //ベクトルを変形させる
-    camPos = XMVector3TransformCoord(camPos, rotY_ * rotX_);
 
     Camera::SetPosition(camPos);
 
