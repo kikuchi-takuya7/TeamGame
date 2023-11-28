@@ -103,7 +103,7 @@ void SelectScene::Update()
 		Dlog_ = false;
 	}
 
-	if (Input::IsKeyDown(DIK_UP)) {
+	if (Input::IsKeyDown(DIK_SPACE)) {
 		Audio::Play(hSound_);
 	}
 
