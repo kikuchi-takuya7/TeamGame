@@ -30,7 +30,7 @@ void Player::Initialize()
     applauseLoopFlag_ = false;
     changeDentTiming_ = 50;
     dentLoopFlag_ = false;
-    totalMoveMouse_ = 0;
+    //totalMoveMouse_ = 0;
 
     //モデルデータのロード
     hIdleModel_ = Model::Load("PlayerFbx/stand-by.fbx");
@@ -359,12 +359,12 @@ void Player::Move_Player()
     transform_.position_.z += fMove.z;
 
 
-    currentCamPos = fMove + currentCamPos;
+    //currentCamPos = fMove + currentCamPos;
 
-    //ベクトル型に変換
-    XMVECTOR camPos = XMLoadFloat3(&currentCamPos);
+    ////ベクトル型に変換
+    //XMVECTOR camPos = XMLoadFloat3(&currentCamPos);
 
-    Camera::SetPosition(camPos);
+    //Camera::SetPosition(camPos);
 
     //短いほうの角度だけ求める向き方向
     XMVECTOR vLength = XMVector3Length(vMove);
@@ -400,8 +400,6 @@ void Player::Move_Camera()
     //Xが横方向の移動距離で、Yが縦方向の移動距離だから間違わないように
     XMFLOAT3 mouseMove = Input::GetMouseMove();
 
-    totalMoveMouse_ += mouseMove.y;
-
     //度回転させる行列を作成
     //rotYはY軸に回転させる。横方向の移動距離を横回転に変換
     XMMATRIX rotY = XMMatrixRotationY(XMConvertToRadians(mouseMove.x));
@@ -413,11 +411,14 @@ void Player::Move_Camera()
     rotY_ = rotY;
     rotX_ = rotX;
 
-
-    XMFLOAT3 currentCamPos = Camera::GetPosition();
-
     //ベクトル型に変換
-    XMVECTOR camPos = XMLoadFloat3(&currentCamPos);
+    XMVECTOR camPos = { transform_.position_.x, transform_.position_.y + 3, transform_.position_.z + 5,0};
+
+    XMVECTOR cam = Camera::GetPositionVector();
+    float camLen = Length(cam);
+
+
+
 
     //ベクトルを変形させる
     camPos = XMVector3TransformCoord(camPos, rotMatrix);
