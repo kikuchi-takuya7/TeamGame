@@ -80,7 +80,7 @@ void Player::Initialize()
 
     XMFLOAT3 camPos = transform_.position_;
     camPos.y += 3.0f;
-    camPos.z += -3.0f;
+    camPos.z += -5.0f;
     Camera::SetPosition(camPos);
 
 }
@@ -396,10 +396,6 @@ void Player::Move_Camera()
 
 #if 1
 
-    
-      
-    
-
     XMVECTOR cam = Camera::GetPositionVector();
     float camLen = Length(cam);
     cam = XMVector3Normalize(cam);
@@ -411,18 +407,25 @@ void Player::Move_Camera()
 
     //度回転させる行列を作成
     //rotYはY軸に回転させる。横方向の移動距離を横回転に変換
-    XMMATRIX rotY = XMMatrixRotationY(XMConvertToRadians(angle));
-    XMMATRIX rotY2 = XMMatrixRotationY(XMConvertToRadians(mouseMove.x));
-    //XMMATRIX rotX = XMMatrixRotationX(XMConvertToRadians(mouseMove.y));
+    XMMATRIX rotY2 = XMMatrixRotationY(XMConvertToRadians(angle));
+    XMMATRIX rotY = XMMatrixRotationY(XMConvertToRadians(mouseMove.x));
+    XMMATRIX rotX = XMMatrixRotationX(XMConvertToRadians(mouseMove.y));
 
-    //XMMATRIX rotMatrix = rotY * rotX;
+    XMMATRIX rotMatrix = rotY;
 
-    //ベクトル型に変換
-    XMVECTOR camPos = { transform_.position_.x, transform_.position_.y + 3.0f, transform_.position_.z + 5.0f};
+    XMFLOAT3 tmp = transform_.position_;
 
+    XMVECTOR v = XMLoadFloat3(&tmp);
 
-    //ベクトルを変形させる
-    camPos = XMVector3TransformCoord(camPos, rotY*rotY2);
+    //プレイヤーからカメラに向かうベクトルを求める
+    XMVECTOR camPos = cam - v;
+
+    //ベクトルを回転させる
+    camPos = XMVector3TransformCoord(camPos, rotMatrix);
+
+    
+    //プレイヤーの位置＋上のやつがカメラの位置
+    camPos = v + camPos;
 
     Camera::SetPosition(camPos);
     
