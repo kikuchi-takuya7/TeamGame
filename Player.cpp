@@ -347,10 +347,11 @@ void Player::Move_Player()
    //カメラの方向にWで前に行くためにここにカメラの処理を書く必要があったかもしれない
     XMFLOAT3 currentCamPos = Camera::GetPosition();
 
-    //斜め移動でも足が速くならないように。なってる気がする
+    //斜め移動でも足が速くならないように
     XMVECTOR vMove = XMLoadFloat3(&fMove);
     
     vMove = XMVector3Normalize(vMove);
+    playerForward_ = vMove;
     XMStoreFloat3(&fMove, vMove);
     fMove.x /= 10;
     fMove.z /= 10;
@@ -372,7 +373,7 @@ void Player::Move_Player()
 
     if (length != 0) {
         XMVECTOR vFront = { 0,0,1,0 };
-        //vMove = XMVector3Normalize(vMove);
+        vMove = XMVector3Normalize(vMove);
 
         XMVECTOR vDot = XMVector3Dot(vFront, vMove);
         float dot = XMVectorGetX(vDot);
@@ -397,37 +398,42 @@ void Player::Move_Camera()
 
     
       
+    
+
+    XMVECTOR cam = Camera::GetPositionVector();
+    float camLen = Length(cam);
+    cam = XMVector3Normalize(cam);
+    XMVECTOR tmpVec = XMVector3Dot(cam, playerForward_);
+    float angle = XMVectorGetX(tmpVec);
+
     //Xが横方向の移動距離で、Yが縦方向の移動距離だから間違わないように
     XMFLOAT3 mouseMove = Input::GetMouseMove();
 
     //度回転させる行列を作成
     //rotYはY軸に回転させる。横方向の移動距離を横回転に変換
-    XMMATRIX rotY = XMMatrixRotationY(XMConvertToRadians(mouseMove.x));
-    XMMATRIX rotX = XMMatrixRotationX(XMConvertToRadians(mouseMove.y));
+    XMMATRIX rotY = XMMatrixRotationY(XMConvertToRadians(angle));
+    XMMATRIX rotY2 = XMMatrixRotationY(XMConvertToRadians(mouseMove.x));
+    //XMMATRIX rotX = XMMatrixRotationX(XMConvertToRadians(mouseMove.y));
 
-    XMMATRIX rotMatrix = rotY * rotX;
-
-    //回転させた総合を出せばカメラの方向がわかる？
-    rotY_ = rotY;
-    rotX_ = rotX;
+    //XMMATRIX rotMatrix = rotY * rotX;
 
     //ベクトル型に変換
-    XMVECTOR camPos = { transform_.position_.x, transform_.position_.y + 3, transform_.position_.z + 5,0};
-
-    XMVECTOR cam = Camera::GetPositionVector();
-    float camLen = Length(cam);
-
-
+    XMVECTOR camPos = { transform_.position_.x, transform_.position_.y + 3.0f, transform_.position_.z + 5.0f};
 
 
     //ベクトルを変形させる
-    camPos = XMVector3TransformCoord(camPos, rotMatrix);
+    camPos = XMVector3TransformCoord(camPos, rotY*rotY2);
 
     Camera::SetPosition(camPos);
     
     XMFLOAT3 camTar = transform_.position_;
     camTar.y += 1.0f;
     Camera::SetTarget(camTar);
+
+
+    
+
+
 
 #else
 

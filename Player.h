@@ -77,6 +77,7 @@ private:
     XMMATRIX rotY_;
     XMMATRIX rotX_;
 
+    XMVECTOR playerForward_;
 
     float totalMoveMouse_;
     
