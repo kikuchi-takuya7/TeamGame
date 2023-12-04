@@ -13,11 +13,12 @@ public:
 	void Update() override;
 	void Draw() override;
 	void Release() override;
-	void Imgui_Window() override;
+	//void Imgui_Window() override;
+	bool Finished();//Ready‚ªI‚í‚Á‚½‚çtrue
 	
 	
 private:
-
+	int hImage;
 	int hsos_logo_; //sosƒƒS‰æ‘œ”Ô†
 	int hdenshi_logo_; //“Œ–k“dqƒƒS‰æ‘œ”Ô†
 

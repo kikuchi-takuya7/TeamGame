@@ -3,12 +3,45 @@
 #include "Engine/SceneManager.h"
 #include "Engine/Input.h"
 
-const LPCSTR fileName = "SaveFile\\SplashSaveData";
+//const LPCSTR fileName = "SaveFile\\SplashSaveData";
+
+
+namespace {
+	float startX;//移動開始X座標
+	float endX;//移動終了X座標
+	float totalTime;//移動時間
+	float currentTime;//現在の時間
+	int seq_line;//今実行している行
+	float seq_time;//シーケンスを実行している時間
+	enum ACT {//やることをコマンド化
+		A_SLIDEIN = 1,
+		A_WAIT,
+		A_SLIDEOUT,
+		A_END
+	};
+	struct  Sequence {
+		float time;//時間
+		ACT action;//やること
+		float param;//必要な値
+	};
+	//流れを書いていく
+	Sequence tbl[] = {
+		{0.0f,A_SLIDEIN,5.0f},//スライドイン
+		{3.0f,A_WAIT,0.0f},//１秒待ってから
+		{4.0f,A_SLIDEOUT,-5.0f},//スライドアウト
+		{5.0f,A_END,0.0f}//ここで消える
+	};
+	ACT currentAction;
+	bool canMove;
+};
 
 //コンストラクタ
 SplashScene::SplashScene(GameObject* parent)
 	: GameObject(parent, "SplashScene"), hdenshi_logo_(-1), hsos_logo_(-1), alpha_(0), alphaFlag_(false), countDown_(false), limitTmp_(2.0), limit_(0), time_(0)
 {
+	seq_line = -1;
+	seq_time = 0.0f;
+	canMove = false;
 }
 
 //デストラクタ
@@ -19,158 +52,60 @@ SplashScene::~SplashScene()
 //初期化
 void SplashScene::Initialize()
 {
-
-	hFile_ = CreateFile(
-		fileName,                 //ファイル名
-		GENERIC_READ,           //アクセスモード（書き込み用）
-		0,                      //共有（なし）
-		NULL,                   //セキュリティ属性（継承しない）
-		OPEN_ALWAYS,           //作成方法
-		FILE_ATTRIBUTE_NORMAL,  //属性とフラグ（設定なし）
-		NULL);
-
-	//ファイルのサイズを取得
-	DWORD fileSize = GetFileSize(hFile_, NULL);
-
-	//ファイルのサイズ分メモリを確保
-	char* data;
-	data = new char[fileSize];
-
-	DWORD dwBytes = 0; //読み込み位置
-
-	ReadFile(
-		hFile_,     //ファイルハンドル
-		data,      //データを入れる変数
-		fileSize,  //読み込むサイズ
-		&dwBytes,  //読み込んだサイズ
-		NULL);     //オーバーラップド構造体（今回は使わない）
-
-
-	char* tmp = new char[fileSize];
-	int c = 0, sw = 0;
-
-	//新しくロードするデータを増やしたい場合はcaseを一つ増やしてその変数にtmpの内容をstofなりで入れればいい
-	for (DWORD i = 0; i < fileSize; i++) {
-
-		if (data[i] == ' ') {
-			switch (sw)
-			{
-			case 0:
-				sos_Trans_.position_.x = std::stof(tmp);
-				break;
-			case 1:
-				sos_Trans_.position_.y = std::stof(tmp);
-				break;
-			case 2:
-				sos_Trans_.position_.z = std::stof(tmp);
-				break;
-			case 3:
-				sos_Trans_.rotate_.x = std::stof(tmp);
-				break;
-			case 4:
-				sos_Trans_.rotate_.y = std::stof(tmp);
-				break;
-			case 5:
-				sos_Trans_.rotate_.z = std::stof(tmp);
-				break;
-			case 6:
-				sos_Trans_.scale_.x = std::stof(tmp);
-				sos_Trans_.scale_.y = std::stof(tmp);
-				sos_Trans_.scale_.z = std::stof(tmp);
-				break;
-				//東北電子ロゴ用のロードするコードを描く。上に書いたように書けば行けるはず
-			case 7:
-				Denshi_Trams_.position_.x = std::stof(tmp);
-				break;
-			case 8:
-				Denshi_Trams_.position_.y = std::stof(tmp);
-				break;
-			case 9:
-				Denshi_Trams_.position_.z = std::stof(tmp);
-				break;
-			case 10:
-				Denshi_Trams_.rotate_.x = std::stof(tmp);
-				break;
-			case 11:
-				Denshi_Trams_.rotate_.y = std::stof(tmp);
-				break;
-			case 12:
-				Denshi_Trams_.rotate_.z = std::stof(tmp);
-				break;
-			case 13:
-				Denshi_Trams_.scale_.x = std::stof(tmp);
-				Denshi_Trams_.scale_.y = std::stof(tmp);
-				Denshi_Trams_.scale_.z = std::stof(tmp);
-				break;
-			case 14:
-				alpha_ = std::stoi(tmp);
-				break;
-			case 15:
-				limitTmp_ = std::stof(tmp);
-				break;
-			default:
-				break;
-			}
-			sw++;
-			c = 0;
-			continue;
-		}
-		tmp[c] = data[i];
-		c++;
-	}
-	delete[] tmp;
-	delete[] data;
-
-	CloseHandle(hFile_);
-
-	//クラス変数に宣言 
-	//Transform rogTransform_;
-
-	//Setting_Transform(rogTransform_, );//-0.413,0,0,0,1.0f,255
+	hImage = Image::Load("sos_logo.png");
+	startX = 5.0f;
+	endX = 0;
+	totalTime = 3.0f;
+	currentTime = 0.0f;
+	transform_.position_.x = startX;  // 初期X座標を設定
 	
-	//sos画像データのロード
-	hsos_logo_ = Image::Load("sos_logo.png");
-	assert(hsos_logo_ >= 0);
-	//東北電子画像データのロード
-	hdenshi_logo_ = Image::Load("Tohokudenshi_logo.png");
-	assert(hdenshi_logo_ >= 0);
-
-	limit_ = limitTmp_ * 60 + 1;//時間をフレームに
-
-	Leave();
 }
+float easeInCubic(float x) {
+	return x * x * x;
+}
+
 
 //更新
 void SplashScene::Update()
 {
-	//一年生がいじりやすいようにしたけど実際にゲームプレイするときはここはコメントアウトしないとだめ
-	if(!IsEntered())
-		return;
+	seq_time += 1.0f / 60.0f;//時間を進める
+	if (seq_time >= tbl[seq_line + 1].time) {//次の行を実行する
+		seq_line++;
+		switch (tbl[seq_line].action) {
+		case A_END:
+			KillMe();
+			break;
+		case A_SLIDEIN:
+			startX = tbl[seq_line].param;
+			endX = 0;
+			totalTime = tbl[seq_line + 1].time - seq_time;
+			currentTime = 0.0f;
+			break;
+		case A_WAIT:
+			startX = transform_.position_.x;
+			endX = transform_.position_.x;
+			totalTime = tbl[seq_line + 1].time - seq_time;
+			currentTime = 0.0f;
+			break;
+		case A_SLIDEOUT:
+			startX = transform_.position_.x;
+			endX = tbl[seq_line].param;
+			totalTime = tbl[seq_line + 1].time - seq_time;
+			currentTime = 0.0f;
+			break;
 
-	if (alphaFlag_ == false) {
-		alpha_ += 3;
+		}
+		//その行の実行をする
+
 	}
-	else {
-		time_++;
-	}
+	currentTime += 1.0f / 60.0f;//１フレーム分の時間を進ませる
+	if (currentTime > totalTime)
+		currentTime = totalTime;
+	float t = currentTime / totalTime;//ここを0.0～1.0の範囲にする
+	float val = easeInCubic(t);
+	transform_.position_.x = val * (endX - startX) + startX;
 
-	if (alpha_ >= 255) {
-		alpha_ = 255;
-		alphaFlag_ = true;
-	}
-
-	if (time_ >= limit_)
-		alpha_ -= 3;
-
-
-	if (alpha_ < 0) {
-		SceneManager* pSceneManager = (SceneManager*)FindObject("SceneManager");
-		pSceneManager->ChangeScene(SCENE_ID_TITLE);
-	}
-
-	Image::SetAlpha(hsos_logo_, alpha_);
-	Image::SetAlpha(hdenshi_logo_, alpha_);
-
+	
 
 }
 
@@ -180,12 +115,20 @@ void SplashScene::Draw()
 	Image::SetTransform(hsos_logo_, sos_Trans_);
 	Image::Draw(hsos_logo_);
 
-	Image::SetTransform(hdenshi_logo_, Denshi_Trams_);//東北電子ロゴ用のTransform変数に変える
-	Image::Draw(hdenshi_logo_);
+	//Image::SetTransform(hdenshi_logo_, Denshi_Trams_);//東北電子ロゴ用のTransform変数に変える
+	//Image::Draw(hdenshi_logo_);
 
 	
 
 	
+}
+bool SplashScene::Finished()
+{
+	return seq_line >= sizeof(tbl) / sizeof(tbl[0]) - 1;
+	//return canMove;
+	/*if (currentTime >= totalTime)
+		return true;
+	return false;*/
 }
 
 //開放
@@ -193,7 +136,7 @@ void SplashScene::Release()
 {
 }
 
-void SplashScene::Imgui_Window()
+/*void SplashScene::Imgui_Window()
 {
 	ImGui::Begin("DataWindow");
 	if (ImGui::CollapsingHeader("Splash"))
@@ -270,4 +213,4 @@ void SplashScene::Imgui_Window()
 
 	}
 
-}
+}*/
