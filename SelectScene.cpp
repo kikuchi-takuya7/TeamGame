@@ -107,7 +107,10 @@ void SelectScene::Update()
 		Audio::Play(hSound_);
 	}
 
-	
+	if (Input::IsKeyDown(DIK_UP))
+	{
+		Audio::SetVolume(hSound_, 10.0f);
+	}
 }
 
 //•`‰æ

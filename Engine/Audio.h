@@ -21,6 +21,9 @@ namespace Audio
 	//引数：handle	鳴らしたいサウンドの番号
 	void Play(int ID);
 
+	//音量を設定
+	void SetVolume(int ID, float volume);
+
 	//停止
 	//引数：handle	止めたいサウンドの番号
 	void Stop(int ID);
