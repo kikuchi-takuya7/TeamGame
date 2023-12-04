@@ -3,6 +3,7 @@
 #include "Engine/Input.h"
 #include "Engine/Image.h"
 #include "Engine/Timer.h"
+#include <string>
 
 static const int FPS = 60;
 
@@ -21,6 +22,13 @@ void ResultScene::Initialize()
 
     pText = new Text;
     pText->Initialize("charkodomo.png", 48, 48, 10);
+
+    s = sec % 60;
+    m = sec / 60;
+    //std::string sam = (std::string)s;
+    //std::string mam = m;
+
+   
 }
 
 //XV
@@ -40,7 +48,10 @@ void ResultScene::Draw()
     Image::Draw(hPict_);
 
     pText->SetScale(1.8f);
-    pText->Draw(130, 450, sec);  //0:00:00
+    pText->Draw(210, 500,m);  //0:00:00
+    pText->Draw(260, 500, ":");  //0:00:00
+    pText->Draw(330, 500,s);  //0:00:00
+    
 }
 
 //ŠJ•ú

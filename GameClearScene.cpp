@@ -27,7 +27,7 @@ void GameClearScene::Initialize()
 //更新
 void GameClearScene::Update()
 {
-	//スペースキーが押されていたら
+	//マウスでクリックしたら
 	if (Input::IsMouseButton(0))
 	{
 		SceneManager* pSceneManager = (SceneManager*)FindObject("SceneManager");
