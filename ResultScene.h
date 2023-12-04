@@ -8,9 +8,9 @@ private:
     int hPict_;    //画像番号
 	Text* pText;
 	int sec = 210;  //MainGameから持ってくる？
-	int m;
-	int s;
-	std::string j = "123789";
+	int minuts;
+	int seconds;
+
 public:
 	//コンストラクタ
 	//引数：parent  親オブジェクト（SceneManager）
