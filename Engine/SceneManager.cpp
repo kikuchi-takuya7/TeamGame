@@ -10,6 +10,7 @@
 #include "../DevelopSelectScene.h"
 #include "../StoreScene.h"
 #include "MapEditor/MapEditorScene.h"
+#include "../TeamLogoScene.h"
 #include "Model.h"
 #include "Image.h"
 #include "Audio.h"
@@ -27,7 +28,7 @@ void SceneManager::Initialize()
 	//最初のシーンを準備
 	currentSceneID_ = SCENE_ID_DEVELOP_SELECT;
 	nextSceneID_ = currentSceneID_;
-	Instantiate<DevelopSelectScene>(this);
+	Instantiate<TeamLogoScene>(this);
 }
 
 //更新
@@ -57,6 +58,7 @@ void SceneManager::Update()
 		case SCENE_ID_MAPEDITOR: Instantiate<MapEditorScene>(this); break;
 		case SCENE_ID_DEVELOP_SELECT: Instantiate<DevelopSelectScene>(this); break;
 		case SCENE_ID_STORE: Instantiate<StoreScene>(this); break;
+		case SCENE_ID_TEAM: Instantiate<TeamLogoScene>(this); break;
 		}
 		Audio::Initialize();
 		currentSceneID_ = nextSceneID_;
