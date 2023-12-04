@@ -3,7 +3,9 @@
 
 enum NEXTSCENE {
 	NONE = -1,
-	SELECT
+	SELECT,
+	MAIN,
+	STORE
 };
 
 class Button : public GameObject {
@@ -51,6 +53,7 @@ private:
 	//中心とサイズ
 	XMFLOAT3 center_;
 	XMFLOAT3 size_;
+	XMFLOAT3 size_2;
 
 	//画像の点滅に関する変数
 	int alpha_;//黒いStartの透明度

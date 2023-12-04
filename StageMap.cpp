@@ -16,7 +16,8 @@ StageMap::~StageMap()
 void StageMap::Initialize()
 {
     SaveManager* pSaveManager = Instantiate<SaveManager>(this);
-    pSaveManager->Load("SaveFile/SaveTest.json");
+    pSaveManager->OpenFile();
+    pSaveManager->Load();
 }
 
 //XV

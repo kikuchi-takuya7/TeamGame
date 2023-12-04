@@ -1,15 +1,18 @@
 #include "DevelopSelectScene.h"
 #include "Engine/SceneManager.h"
+#include "Engine/Model.h"
 
 //コンストラクタ
 DevelopSelectScene::DevelopSelectScene(GameObject* parent)
-	: GameObject(parent, "DevelopSelectScene"),scene_(NONE)
+	: GameObject(parent, "DevelopSelectScene"),scene_(NONE),hModel_(-1)
 {
 }
 
 //初期化
 void DevelopSelectScene::Initialize()
 {
+	/*hModel_ = Model::Load("Map/school.fbx");
+	assert(hModel_ >= 0);*/
 }
 
 //更新
@@ -70,6 +73,8 @@ void DevelopSelectScene::Update()
 //描画
 void DevelopSelectScene::Draw()
 {
+	/*Model::SetTransform(hModel_, transform_);
+	Model::Draw(hModel_);*/
 }
 
 //開放

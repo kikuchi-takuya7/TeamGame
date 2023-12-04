@@ -1,44 +1,45 @@
-#include "Room1.h"
+#include "School.h"
+#include "School.h"
 #include "Engine/MapEditor/MapData.h"
 #include "Engine/Model.h"
 
 //コンストラクタ
-Room1::Room1(GameObject* parent)
-	:GameObject(parent, "Room1"), hModel_(-1), isDelete_(false), isClose_(false)
+School::School(GameObject* parent)
+	:GameObject(parent, "School"), hModel_(-1), isDelete_(false), isClose_(false)
 {
 }
 
 //デストラクタ
-Room1::~Room1()
+School::~School()
 {
 }
 
 //初期化
-void Room1::Initialize()
+void School::Initialize()
 {
 	//モデルデータのロード
-	hModel_ = Model::Load("Map/stage.fbx");
-	assert(hModel_ >= 0);
+	/*hModel_ = Model::Load("Map/school.fbx");
+	assert(hModel_ >= 0);*/
 }
 
 //更新
-void Room1::Update()
+void School::Update()
 {
 }
 
 //描画
-void Room1::Draw()
+void School::Draw()
 {
-	Model::SetTransform(hModel_, transform_);
-	Model::Draw(hModel_);
+	/*Model::SetTransform(hModel_, transform_);
+	Model::Draw(hModel_);*/
 }
 
 //開放
-void Room1::Release()
+void School::Release()
 {
 }
 
-void Room1::Imgui_Window()
+void School::Imgui_Window()
 {
 
 	//ImGui::Begin("DataWindow");
@@ -46,7 +47,7 @@ void Room1::Imgui_Window()
 
 }
 
-void Room1::Imgui_Data_Edit()
+void School::Imgui_Data_Edit()
 {
 	ImGui::Begin("DataWindow");
 
@@ -98,17 +99,17 @@ void Room1::Imgui_Data_Edit()
 	ImGui::End();
 }
 
-bool Room1::IsKillCheck()
+bool School::IsKillCheck()
 {
 	return isDelete_;
 }
 
-void Room1::DeleteMe()
+void School::DeleteMe()
 {
 	isDelete_ = true;
 }
 
-void Room1::DeleteStop()
+void School::DeleteStop()
 {
 	isDelete_ = false;
 }

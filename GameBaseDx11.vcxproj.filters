@@ -147,24 +147,6 @@
     <ClCompile Include="Engine\Imgui\imgui.cpp">
       <Filter>01Engine\Imgui</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Imgui\imgui_demo.cpp">
-      <Filter>01Engine\Imgui</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Imgui\imgui_draw.cpp">
-      <Filter>01Engine\Imgui</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Imgui\imgui_impl_dx11.cpp">
-      <Filter>01Engine\Imgui</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Imgui\imgui_impl_win32.cpp">
-      <Filter>01Engine\Imgui</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Imgui\imgui_tables.cpp">
-      <Filter>01Engine\Imgui</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Imgui\imgui_widgets.cpp">
-      <Filter>01Engine\Imgui</Filter>
-    </ClCompile>
     <ClCompile Include="Engine\SaveManager\SaveManager.cpp">
       <Filter>01Engine\SaveManager</Filter>
     </ClCompile>
@@ -215,7 +197,30 @@
     <ClCompile Include="PlayerState\StateMove.cpp">
       <Filter>MainGame\PlayerState</Filter>
     </ClCompile>
-    <ClCompile Include="ResultScene.cpp" />
+    <ClCompile Include="ResultScene.cpp">
+      <Filter>Others</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Imgui\imgui_demo.cpp">
+      <Filter>01Engine\Imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Imgui\imgui_draw.cpp">
+      <Filter>01Engine\Imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Imgui\imgui_impl_dx11.cpp">
+      <Filter>01Engine\Imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Imgui\imgui_impl_win32.cpp">
+      <Filter>01Engine\Imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Imgui\imgui_widgets.cpp">
+      <Filter>01Engine\Imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Imgui\imgui_tables.cpp">
+      <Filter>01Engine\Imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="School.cpp">
+      <Filter>MapEditor\MapObject</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\BoxCollider.h">
@@ -303,28 +308,7 @@
     <ClInclude Include="TitleScene.h">
       <Filter>TitleScene</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Imgui\imconfig.h">
-      <Filter>01Engine\Imgui</Filter>
-    </ClInclude>
     <ClInclude Include="Engine\Imgui\imgui.h">
-      <Filter>01Engine\Imgui</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Imgui\imgui_impl_dx11.h">
-      <Filter>01Engine\Imgui</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Imgui\imgui_impl_win32.h">
-      <Filter>01Engine\Imgui</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Imgui\imgui_internal.h">
-      <Filter>01Engine\Imgui</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Imgui\imstb_rectpack.h">
-      <Filter>01Engine\Imgui</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Imgui\imstb_textedit.h">
-      <Filter>01Engine\Imgui</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Imgui\imstb_truetype.h">
       <Filter>01Engine\Imgui</Filter>
     </ClInclude>
     <ClInclude Include="Engine\SaveManager\SaveManager.h">
@@ -384,7 +368,33 @@
     <ClInclude Include="PlayerState\StateMove.h">
       <Filter>MainGame\PlayerState</Filter>
     </ClInclude>
-    <ClInclude Include="ResultScene.h" />
+    <ClInclude Include="ResultScene.h">
+      <Filter>Others</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Imgui\imstb_truetype.h">
+      <Filter>01Engine\Imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Imgui\imconfig.h">
+      <Filter>01Engine\Imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Imgui\imgui_impl_dx11.h">
+      <Filter>01Engine\Imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Imgui\imgui_impl_win32.h">
+      <Filter>01Engine\Imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Imgui\imstb_rectpack.h">
+      <Filter>01Engine\Imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Imgui\imstb_textedit.h">
+      <Filter>01Engine\Imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Imgui\imgui_internal.h">
+      <Filter>01Engine\Imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="School.h">
+      <Filter>MapEditor\MapObject</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Assets\Shader\Simple2D.hlsl">
@@ -401,13 +411,13 @@
     </FxCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Engine\Imgui\.editorconfig">
-      <Filter>01Engine\Imgui</Filter>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
     <ResourceCompile Include="GameBaseDx11.rc">
       <Filter>リソース ファイル</Filter>
     </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Engine\Imgui\.editorconfig">
+      <Filter>01Engine\Imgui</Filter>
+    </None>
   </ItemGroup>
 </Project>

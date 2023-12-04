@@ -82,11 +82,11 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	ImGui_ImplWin32_Init(hWnd);
 	ImGui_ImplDX11_Init(Direct3D::pDevice_, Direct3D::pContext_);
 
+	SelectScene* pSelectScene = new SelectScene(pRootObject);
+
 	//ルートオブジェクト準備
 	//すべてのゲームオブジェクトの親となるオブジェクト
 	pRootObject->Initialize();
-
-	HWND hDlg = CreateDialog(hInstance, MAKEINTRESOURCE(IDD_DIALOG1), hWnd, (DLGPROC)DialogProc);
 
 	//メッセージループ（何か起きるのを待つ）
 	MSG msg;
@@ -159,6 +159,12 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 				//ルートオブジェクトのDrawを呼んだあと、自動的に子、孫のUpdateが呼ばれる
 				pRootObject->DrawSub();
 
+				bool DlogValue = pSelectScene->GetDlog();
+				if (DlogValue) {
+					HWND hDlg = CreateDialog(hInstance, MAKEINTRESOURCE(IDD_DIALOG1), hWnd, (DLGPROC)DialogProc);
+					ShowWindow(hDlg, SW_SHOWNORMAL);
+				}
+
 //でバックの時だけ
 #ifdef _DEBUG
 				//Imguiウィンドウの表示
@@ -192,6 +198,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	Model::AllRelease();
 	Image::AllRelease();
 	pRootObject->ReleaseSub();
+	delete pSelectScene;
 	SAFE_DELETE(pRootObject);
 	Direct3D::Release();
 
@@ -276,6 +283,6 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 //本物のダイアログプロシージャ
 BOOL CALLBACK DialogProc(HWND hDlg, UINT msg, WPARAM wp, LPARAM lp)
 {
-	SelectScene* pSelect = (SelectScene*)pRootObject->FindObject("Stage");
+	SelectScene* pSelect = (SelectScene*)pRootObject->FindObject("SelectScene");
 	return pSelect->DialogProc(hDlg, msg, wp, lp);
 }
