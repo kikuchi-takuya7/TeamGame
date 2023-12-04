@@ -6,9 +6,11 @@
 
 class Video : public GameObject {
 private:
-    IGraphBuilder* pGraph;
-    IMediaControl* pControl;
-    IMediaEvent* pEvent;
+    // DirectXデバイスの作成
+    ID3D11Device* pD3DDevice;
+    ID3D11DeviceContext* pImmediateContext;
+    // スワップチェーンの作成
+    IDXGISwapChain* pSwapChain;
 
 public:
     void Initialize();
@@ -19,6 +21,7 @@ public:
   // 既定のコンストラクタ
     Video();
    ~Video();
+   void  ProcessVideoFrame(IMFSample* pSample);
 //
 //    // 新しい関数を定義
 //    bool InitializeVideo();
