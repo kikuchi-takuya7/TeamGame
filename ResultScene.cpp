@@ -44,9 +44,9 @@ void ResultScene::Draw()
     Image::Draw(hPict_);
 
     pText->SetScale(1.8f);
-    pText->Draw(210, 500,m);  
+    pText->Draw(210, 500,minuts);  
     pText->Draw(260, 500, ":");  
-    pText->Draw(330, 500,s);  
+    pText->Draw(330, 500,seconds);  
     
 }
 
