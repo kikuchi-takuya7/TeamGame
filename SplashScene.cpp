@@ -2,10 +2,12 @@
 #include "Engine/Image.h"
 #include "Engine/SceneManager.h"
 #include "Engine/Input.h"
+#include "Splash_Frame.h"
 
 
 const LPCSTR fileName = "SaveFile\\SplashSaveData";
 
+//Splash_Frame* Splashframe;
 
 namespace {
 	float startX;//移動開始X座標
@@ -61,10 +63,13 @@ void SplashScene::Initialize()
 	currentTime = 0.0f;
 	transform_.position_.x = startX;  // 初期X座標を設定
 
+	
 	heye_ = Image::Load("sos_logo_a.png");
 	assert(heye_ >= 0);
 	hframe_ = Image::Load("sos_logo_e.png");
 	assert(hframe_ >= 0);
+
+	
 	
 }
 float easeInCubic(float x) {
@@ -123,11 +128,15 @@ void SplashScene::Draw()
 	Image::SetTransform(hImage_, transform_);
 	Image::Draw(hImage_);
 
-	Image::SetTransform(heye_, transform_);
+	Image::SetTransform(heye_, heye_Trans_);
 	Image::Draw(heye_);
 
-	Image::SetTransform(hframe_, transform_);
+	Image::SetTransform(hframe_, hframe_Trans_);
 	Image::Draw(hframe_);
+
+	
+
+	
 	//Image::SetTransform(hdenshi_logo_, Denshi_Trams_);//東北電子ロゴ用のTransform変数に変える
 	//Image::Draw(hdenshi_logo_);
 
@@ -227,3 +236,6 @@ void SplashScene::Imgui_Window()
 	}
 
 }
+
+
+
