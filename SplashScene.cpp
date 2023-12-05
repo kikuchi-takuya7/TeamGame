@@ -99,13 +99,17 @@ void SplashScene::Update()
 			totalTime = tbl[seq_line + 1].time - seq_time;
 			currentTime = 0.0f;
 			break;
-		/*case A_SLIDEOUT:*/
+		case A_SLIDEOUT:
 
-			/*startX = transform_.position_.x;
+			startX = transform_.position_.x;
 			endX = tbl[seq_line].param;
 			totalTime = tbl[seq_line + 1].time - seq_time;
 			currentTime = 0.0f;
-			break;*/
+
+			//ƒƒS“§–¾‰»
+			Image::SetAlpha(heye_, 0);
+			Image::SetAlpha(hframe_, 0);
+			break;
 
 		}
 		//‚»‚Ìs‚ÌÀs‚ğ‚·‚é
