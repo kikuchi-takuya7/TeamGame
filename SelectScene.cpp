@@ -70,19 +70,16 @@ void SelectScene::Update()
 	XMFLOAT3 pos = Input::GetMousePosition();
 	if (play_->MouseInArea(pos)) {
 		playz_->SetImage("Play_zoom");
-
 		play_->Push(true);
 		return;
 	}
 	else {
 		playz_->SetImage("Play");
 		play_->Push(false);
-
 	}
 
 	if (store_->MouseInArea(pos)) {
 		storez_->SetImage("Store_zoom");
-
 		store_->Push(true);
 		return;
 	}
@@ -93,7 +90,6 @@ void SelectScene::Update()
 
 	if (exit_->MouseInArea(pos)) {
 		exitz_->SetImage("Exit_zoom");
-	
 		if (Input::IsMouseButtonDown(0))
 			Dlog_ = true;
 	}
@@ -107,9 +103,10 @@ void SelectScene::Update()
 		Audio::Play(hSound_);
 	}
 
-	if (Input::IsKeyDown(DIK_UP))
-	{
-		Audio::SetVolume(hSound_, 10.0f);
+	if (Input::IsKeyDown(DIK_UP)) {
+		// ãƒL[‚ª‰Ÿ‚³‚ê‚½‚Æ‚«A‰¹—Ê‚ğ0.1‚¸‚Âã‚°‚é
+		float currentVolume = 0.0f;
+		Audio::SetVolume(hSound_, currentVolume + 0.1f);
 	}
 }
 
