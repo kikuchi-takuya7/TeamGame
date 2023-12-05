@@ -53,7 +53,7 @@ void TeamLogoScene::Initialize()
 //更新
 void TeamLogoScene::Update()
 { 
-    switch (time)
+    switch (TmTime)
     {
     case START:
         // タイミングや条件に応じて透明度を変更する
@@ -90,7 +90,7 @@ void TeamLogoScene::Update()
             Image::SetAlpha(hNetWork_aR_, 0);
             Image::SetAlpha(hNetWork_aG_, 0);
             Image::SetAlpha(hNetWork_aB_, 0);
-            time = FLASH;
+            TmTime = FLASH;
         }
         break;
 
@@ -128,7 +128,7 @@ void TeamLogoScene::Update()
             {
                 Image::SetAlpha(hCircle2_b_, 0);
                 Image::SetAlpha(hNetWork_a1_, 0);
-                time = FINISH; 
+                TmTime = FINISH; 
             }
         }       
         break;
@@ -136,7 +136,7 @@ void TeamLogoScene::Update()
     case FINISH:
         // タイミングや条件に応じて透明度を変更する
         
-        if(flag2)
+        if(flagFin)
         {
             alphaValue += alphaIncrementFin;
             if (alphaValue <= 0 || alphaValue >= 255) {
@@ -153,10 +153,34 @@ void TeamLogoScene::Update()
         if (alphaValue >= 255 && count > 60)
         {
             Image::SetAlpha(hNetWork_b_, 255);
-            flag2 = false;
-      
+            flagFin = false;
+            ECount++;
+            if(ECount > 100)
+                TmTime = ERASE;
+        }
+        
+
+        break;
+
+    case ERASE:
+        alphaValue += alphaIncrementFin;
+
+        if (alphaValue <= 0 || alphaValue >= 255) {
+            alphaIncrementFin *= -1;
+        }
+        else
+        {
+            count++;
         }
 
+        if (alphaValue <= 0)
+        {
+            Image::SetAlpha(hNetWork_b_, 0);
+            TmTime = END;
+        }
+        break;
+
+    case END:
         break;
     }
     

@@ -21,12 +21,7 @@ private:
 	Transform netAB;
 	Transform netB;
 
-	int alpha_;
-	bool alphaFlag_;
-	bool countDown_;
-	float limitTmp_;//一年生が決める何秒とどまるかってやつ
-	int limit_;//フレームに変換する
-	int time_;
+	
 	// 描画ループ内での透明度の変更
 	float alphaValue = 255; // 最大の透明度（不透明）
 	float alphaIncrement = -10; // 透明度の変化量
@@ -34,17 +29,21 @@ private:
 
 
 	int count = 0;
-	int time = 0;
+	int ECount = 0;
+	int TmTime = 0;
 
 	bool flag;
-	bool flag2 = true;
+	bool flagFin = true;
+	bool flagEra = true;
 	
 	enum
 	{
 		START = 0,
 		MOVE,
 		FLASH,
-		FINISH
+		FINISH,
+		ERASE,
+		END
 	};
 
 public:
