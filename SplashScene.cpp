@@ -38,7 +38,7 @@ namespace {
 
 //コンストラクタ
 SplashScene::SplashScene(GameObject* parent)
-	: GameObject(parent, "SplashScene"), hdenshi_logo_(-1), hsos_logo_(-1), alpha_(0), alphaFlag_(false), countDown_(false), limitTmp_(2.0), limit_(0), time_(0)
+	: GameObject(parent, "SplashScene"), /*hdenshi_logo_(-1), hsos_logo_(-1),*/ alpha_(0), alphaFlag_(false), countDown_(false), limitTmp_(2.0), limit_(0), time_(0)
 {
 	seq_line = -1;
 	seq_time = 0.0f;
@@ -53,13 +53,18 @@ SplashScene::~SplashScene()
 //初期化
 void SplashScene::Initialize()
 {
-	hImage = Image::Load("sos_logo.png");
-	assert(hImage >= 0);
+	hImage_ = Image::Load("sos_logo_b.png");
+	assert(hImage_ >= 0);
 	startX = 5.0f;
 	endX = 0;
-	totalTime = 3.0f;
+	totalTime = 8.0f;
 	currentTime = 0.0f;
 	transform_.position_.x = startX;  // 初期X座標を設定
+
+	heye_ = Image::Load("sos_logo_a.png");
+	assert(heye_ >= 0);
+	hframe_ = Image::Load("sos_logo_e.png");
+	assert(hframe_ >= 0);
 	
 }
 float easeInCubic(float x) {
@@ -89,12 +94,13 @@ void SplashScene::Update()
 			totalTime = tbl[seq_line + 1].time - seq_time;
 			currentTime = 0.0f;
 			break;
-		case A_SLIDEOUT:
-			startX = transform_.position_.x;
+		/*case A_SLIDEOUT:*/
+
+			/*startX = transform_.position_.x;
 			endX = tbl[seq_line].param;
 			totalTime = tbl[seq_line + 1].time - seq_time;
 			currentTime = 0.0f;
-			break;
+			break;*/
 
 		}
 		//その行の実行をする
@@ -114,9 +120,14 @@ void SplashScene::Update()
 //描画
 void SplashScene::Draw()
 {
-	Image::SetTransform(hImage, transform_);
-	Image::Draw(hImage);
+	Image::SetTransform(hImage_, transform_);
+	Image::Draw(hImage_);
 
+	Image::SetTransform(heye_, transform_);
+	Image::Draw(heye_);
+
+	Image::SetTransform(hframe_, transform_);
+	Image::Draw(hframe_);
 	//Image::SetTransform(hdenshi_logo_, Denshi_Trams_);//東北電子ロゴ用のTransform変数に変える
 	//Image::Draw(hdenshi_logo_);
 

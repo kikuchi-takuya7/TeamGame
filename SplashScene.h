@@ -19,7 +19,9 @@ public:
 	
 	
 private:
-	int hImage;
+	int hImage_;//ƒƒS–{‘Ì
+	int heye_;//ƒƒS‚Ì–Ú
+	int hframe_;//ƒƒS‚Ì˜g
 	int hsos_logo_; //sosƒƒS‰æ‘œ”Ô†
 	int hdenshi_logo_; //“Œ–k“dqƒƒS‰æ‘œ”Ô†
 
