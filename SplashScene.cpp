@@ -3,7 +3,8 @@
 #include "Engine/SceneManager.h"
 #include "Engine/Input.h"
 
-//const LPCSTR fileName = "SaveFile\\SplashSaveData";
+
+const LPCSTR fileName = "SaveFile\\SplashSaveData";
 
 
 namespace {
@@ -26,9 +27,9 @@ namespace {
 	};
 	//流れを書いていく
 	Sequence tbl[] = {
-		{0.0f,A_SLIDEIN,5.0f},//スライドイン
+		{0.0f,A_SLIDEIN,-5.0f},//スライドイン
 		{3.0f,A_WAIT,0.0f},//１秒待ってから
-		{4.0f,A_SLIDEOUT,-5.0f},//スライドアウト
+		{4.0f,A_SLIDEOUT,5.0f},//スライドアウト
 		{5.0f,A_END,0.0f}//ここで消える
 	};
 	ACT currentAction;
@@ -53,6 +54,7 @@ SplashScene::~SplashScene()
 void SplashScene::Initialize()
 {
 	hImage = Image::Load("sos_logo.png");
+	assert(hImage >= 0);
 	startX = 5.0f;
 	endX = 0;
 	totalTime = 3.0f;
@@ -112,8 +114,8 @@ void SplashScene::Update()
 //描画
 void SplashScene::Draw()
 {
-	Image::SetTransform(hsos_logo_, sos_Trans_);
-	Image::Draw(hsos_logo_);
+	Image::SetTransform(hImage, transform_);
+	Image::Draw(hImage);
 
 	//Image::SetTransform(hdenshi_logo_, Denshi_Trams_);//東北電子ロゴ用のTransform変数に変える
 	//Image::Draw(hdenshi_logo_);
@@ -125,10 +127,10 @@ void SplashScene::Draw()
 bool SplashScene::Finished()
 {
 	return seq_line >= sizeof(tbl) / sizeof(tbl[0]) - 1;
-	//return canMove;
-	/*if (currentTime >= totalTime)
+	return canMove;
+	if (currentTime >= totalTime)
 		return true;
-	return false;*/
+	return false;
 }
 
 //開放
@@ -136,7 +138,7 @@ void SplashScene::Release()
 {
 }
 
-/*void SplashScene::Imgui_Window()
+void SplashScene::Imgui_Window()
 {
 	ImGui::Begin("DataWindow");
 	if (ImGui::CollapsingHeader("Splash"))
@@ -213,4 +215,4 @@ void SplashScene::Release()
 
 	}
 
-}*/
+}

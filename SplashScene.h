@@ -13,6 +13,7 @@ public:
 	void Update() override;
 	void Draw() override;
 	void Release() override;
+	void Imgui_Window();
 	//void Imgui_Window() override;
 	bool Finished();//Ready‚ªI‚í‚Á‚½‚çtrue
 	

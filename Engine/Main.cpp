@@ -168,7 +168,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 //でバックの時だけ
 #ifdef _DEBUG
 				//Imguiウィンドウの表示
-				//pRootObject->Imgui_WindowSub();
+				pRootObject->Imgui_WindowSub();
 #endif
 				ImGui::Render();
 				ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
