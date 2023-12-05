@@ -12,10 +12,14 @@ private:
 	int hNetWork_aB_;
 	int hNetWork_b_;
 
+	int hCircle2_a_;
+	int hCircle2_b_;
+
 	Transform netA1;
 	Transform netAR;
 	Transform netAG;
 	Transform netAB;
+	Transform netB;
 
 	int alpha_;
 	bool alphaFlag_;
@@ -25,7 +29,23 @@ private:
 	int time_;
 	// 描画ループ内での透明度の変更
 	float alphaValue = 255; // 最大の透明度（不透明）
-	float alphaIncrement = -5; // 透明度の変化量
+	float alphaIncrement = -10; // 透明度の変化量
+	float alphaIncrementFin = -5; // 透明度の変化量
+
+
+	int count = 0;
+	int time = 0;
+
+	bool flag;
+	bool flag2 = true;
+	
+	enum
+	{
+		START = 0,
+		MOVE,
+		FLASH,
+		FINISH
+	};
 
 public:
 	//コンストラクタ
