@@ -2,7 +2,7 @@
 #include "Engine/Image.h"
 #include "Engine/SceneManager.h"
 #include "Engine/Input.h"
-#include "Splash_Frame.h"
+#include "Engine/Audio.h"
 
 
 const LPCSTR fileName = "SaveFile\\SplashSaveData";
