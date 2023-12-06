@@ -25,6 +25,8 @@ private:
 	
 	int hsos_logo_; //sosロゴ画像番号
 	int hdenshi_logo_; //東北電子ロゴ画像番号
+	int hSound_;    //サウンド番号
+
 
 	Transform sos_Trans_; //sosロゴ画像のTransform
 	Transform Denshi_Trams_; //東北電子ロゴのTransform

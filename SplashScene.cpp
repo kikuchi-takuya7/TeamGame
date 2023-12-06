@@ -40,7 +40,7 @@ namespace {
 
 //コンストラクタ
 SplashScene::SplashScene(GameObject* parent)
-	: GameObject(parent, "SplashScene"), /*hdenshi_logo_(-1), hsos_logo_(-1),*/ alpha_(0), alphaFlag_(false), countDown_(false), limitTmp_(2.0), limit_(0), time_(0)
+	: GameObject(parent, "SplashScene"),  hSound_(-1)/*hdenshi_logo_(-1), hsos_logo_(-1),*/ ,alpha_(0), alphaFlag_(false), countDown_(false), limitTmp_(2.0), limit_(0), time_(0)
 {
 	seq_line = -1;
 	seq_time = 0.0f;
@@ -69,7 +69,9 @@ void SplashScene::Initialize()
 	hframe_ = Image::Load("sos_logo_e.png");
 	assert(hframe_ >= 0);
 
-	
+	//サウンドデータのロード
+	//hSound_ = Audio::Load("RFEF6703_1_.mp3");
+	//assert(hSound_ >= 0);
 	
 }
 float easeInCubic(float x) {
@@ -92,6 +94,7 @@ void SplashScene::Update()
 			endX = 0;
 			totalTime = tbl[seq_line + 1].time - seq_time;
 			currentTime = 0.0f;
+			
 			break;
 		case A_WAIT:
 			startX = transform_.position_.x;
@@ -105,6 +108,7 @@ void SplashScene::Update()
 			endX = tbl[seq_line].param;
 			totalTime = tbl[seq_line + 1].time - seq_time;
 			currentTime = 0.0f;
+			//Audio::Stop(hSound_);//サウンドストップ
 
 			//ロゴ透明化
 			Image::SetAlpha(heye_, 0);
@@ -138,6 +142,8 @@ void SplashScene::Draw()
 	Image::SetTransform(hframe_, hframe_Trans_);
 	Image::Draw(hframe_);
 
+
+	//Audio::Play(hSound_);
 	
 
 	
@@ -150,6 +156,7 @@ void SplashScene::Draw()
 }
 bool SplashScene::Finished()
 {
+	
 	return seq_line >= sizeof(tbl) / sizeof(tbl[0]) - 1;
 	return canMove;
 	if (currentTime >= totalTime)
