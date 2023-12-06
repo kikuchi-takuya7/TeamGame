@@ -142,13 +142,12 @@ void SplashScene::Draw()
 	Image::SetTransform(hframe_, hframe_Trans_);
 	Image::Draw(hframe_);
 
-
+	//サウンド再生
 	//Audio::Play(hSound_);
 	
 
 	
-	//Image::SetTransform(hdenshi_logo_, Denshi_Trams_);//東北電子ロゴ用のTransform変数に変える
-	//Image::Draw(hdenshi_logo_);
+	
 
 	
 
