@@ -6,7 +6,7 @@
 TeamLogoScene::TeamLogoScene(GameObject* parent)
     : GameObject(parent, "TeamLogoScene"),
     hNetWork_a1_(-1), hNetWork_aR_(-1), hNetWork_aG_(-1), hNetWork_aB_(-1), hNetWork_b_(-1),
-    hCircle2_a_(-1), hCircle2_b_(-1), hCircle1_(-1), hCircle1_2_(-1), hDot_a_(-1), hDot_b_(-1), hDot_c_(-1)
+    hCircle2_a_(-1), hCircle2_b_(-1), hCircle1_(-1), hCircle1_2_(-1), hDot_a_(-1), hDot_b_(-1), hDot_c_(-1), hBack_(-1)
 {
 }
 
@@ -50,6 +50,9 @@ void TeamLogoScene::Initialize()
     hDot_c_ = Image::Load("./tdlogo/dot_c.png");
     assert(hDot_c_ >= 0);
 
+    hBack_ = Image::Load("BackBlack.png");
+    assert(hBack_ >= 0);
+
     netA1.position_.x = 0.145f;
     netAR.position_.x = 0.145f;
     netAG.position_.x = -0.1;
@@ -57,6 +60,7 @@ void TeamLogoScene::Initialize()
 
     cir1_.scale_ = XMFLOAT3(0.8f, 0.8f, 0.8f);
     cir1_2_.scale_ = XMFLOAT3(0.2f, 0.2f, 0.2f);
+    back_.scale_ = XMFLOAT3(3.0f ,1.5f, 0.0f);
 
     Image::SetAlpha(hNetWork_a1_, 0);
     Image::SetAlpha(hNetWork_aR_, 0);
@@ -82,7 +86,7 @@ void TeamLogoScene::Update()
 
     case WAIT:
         wCount++;
-        if (wCount++ > 666)
+        if (wCount++ > 100)
         {
             TmTime = START;
             Image::SetAlpha(hCircle1_, 255);
@@ -319,6 +323,8 @@ void TeamLogoScene::Update()
         break;
 
     case END:
+        SceneManager* pSceneManager = (SceneManager*)FindObject("SceneManager");
+        pSceneManager->ChangeScene(SCENE_ID_TITLE);
         break;
     }
     
@@ -327,6 +333,9 @@ void TeamLogoScene::Update()
 //•`‰æ
 void TeamLogoScene::Draw()
 {
+    Image::SetTransform(hBack_, back_);
+    Image::Draw(hBack_);
+
     Image::SetTransform(hNetWork_a1_, netA1);
     Image::Draw(hNetWork_a1_);
    
@@ -363,6 +372,8 @@ void TeamLogoScene::Draw()
 
     Image::SetTransform(hDot_c_, dot_c_);
     Image::Draw(hDot_c_);
+
+    
 }
 
 //ŠJ•ú

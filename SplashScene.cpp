@@ -40,7 +40,7 @@ namespace {
 
 //コンストラクタ
 SplashScene::SplashScene(GameObject* parent)
-	: GameObject(parent, "SplashScene"),  hSound_(-1)/*hdenshi_logo_(-1), hsos_logo_(-1),*/ ,alpha_(0), alphaFlag_(false), countDown_(false), limitTmp_(2.0), limit_(0), time_(0)
+	: GameObject(parent, "SplashScene"),  hSound_(-1)/*hdenshi_logo_(-1), hsos_logo_(-1),*/ ,alpha_(0), alphaFlag_(false), countDown_(false), limitTmp_(2.0), limit_(0), time_(0),hBack_(-1)
 {
 	seq_line = -1;
 	seq_time = 0.0f;
@@ -69,10 +69,14 @@ void SplashScene::Initialize()
 	hframe_ = Image::Load("sos_logo_e.png");
 	assert(hframe_ >= 0);
 
+	hBack_ = Image::Load("BackBlack.png");
+	assert(hBack_ >= 0);
+
 	//サウンドデータのロード
 	//hSound_ = Audio::Load("RFEF6703_1_.mp3");
 	//assert(hSound_ >= 0);
 	
+	back_Trans_.scale_ = XMFLOAT3(2.0f, 1.0f, 0.0f);
 }
 float easeInCubic(float x) {
 	return x * x * x;
@@ -113,6 +117,8 @@ void SplashScene::Update()
 			//ロゴ透明化
 			Image::SetAlpha(heye_, 0);
 			Image::SetAlpha(hframe_, 0);
+			SceneManager* pSceneManager = (SceneManager*)FindObject("SceneManager");
+			pSceneManager->ChangeScene(SCENE_ID_TEAMLOGO);
 			break;
 
 		}
@@ -133,6 +139,9 @@ void SplashScene::Update()
 //描画
 void SplashScene::Draw()
 {
+	Image::SetTransform(hBack_, back_Trans_);
+	Image::Draw(hBack_);
+
 	Image::SetTransform(hImage_, transform_);
 	Image::Draw(hImage_);
 

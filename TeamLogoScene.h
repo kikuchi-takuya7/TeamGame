@@ -21,6 +21,8 @@ private:
 	int hDot_b_;
 	int hDot_c_;
 
+	int hBack_;
+
 
 	Transform netA1;
 	Transform netAR;
@@ -30,6 +32,7 @@ private:
 	Transform cir1_;
 	Transform cir1_2_;
 	Transform dot_c_;
+	Transform back_;
 
 	
 	// 描画ループ内での透明度の変更
