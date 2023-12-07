@@ -67,9 +67,11 @@ void TeamLogoScene::Initialize()
     Image::SetAlpha(hCircle2_a_, 0);
     Image::SetAlpha(hCircle2_b_, 0);
     Image::SetAlpha(hCircle1_2_, 0);
+    Image::SetAlpha(hCircle1_, 0);
     Image::SetAlpha(hDot_a_, 0);
     Image::SetAlpha(hDot_b_, 0);
     Image::SetAlpha(hDot_c_, 0);
+    
 }
 
 //更新
@@ -77,6 +79,17 @@ void TeamLogoScene::Update()
 { 
     switch (TmTime)
     {
+
+    case WAIT:
+        wCount++;
+        if (wCount++ > 666)
+        {
+            TmTime = START;
+            Image::SetAlpha(hCircle1_, 255);
+        }
+
+        
+        break;
     case START:  //〇出す
         // タイミングや条件に応じて透明度を変更する
         alphaValue += alphaIncrement;
@@ -149,7 +162,7 @@ void TeamLogoScene::Update()
         
         break;
 
-    case PREPARATION:
+    case PREPARATION: // マーク出現
         Image::SetAlpha(hNetWork_a1_, 100);
         Image::SetAlpha(hNetWork_aR_, 100);
         Image::SetAlpha(hNetWork_aG_, 100);
@@ -182,7 +195,7 @@ void TeamLogoScene::Update()
         
         break;
 
-    case MARK:
+    case MARK: //マーク移動
         // タイミングや条件に応じて透明度を変更する
         alphaValue += alphaIncrement;
 
@@ -281,15 +294,13 @@ void TeamLogoScene::Update()
         {
             Image::SetAlpha(hNetWork_b_, 255);
             flagFin = false;
-            ECount++;
-            if(ECount > 100)
+            eCount++;
+            if(eCount > 100)
                 TmTime = ERASE;
         }
-        
-
         break;
 
-    case ERASE:
+    case ERASE: //マークが消える
         alphaValue += alphaIncrementFin;
 
         if (alphaValue <= 0 || alphaValue >= 255) {

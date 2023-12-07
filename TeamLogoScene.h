@@ -42,12 +42,12 @@ private:
 
 	float cir1_2_xyz = 0.2f;
 
-
+	int wCount = 0;
 	int dCount = 0;
 	int dCount2 = 0;
 	int count = 0;
-	int ECount = 0;
-	int TmTime = START;
+	int eCount = 0;
+	int TmTime = WAIT;
 
 	bool flagDot;
 	bool flag;
@@ -56,7 +56,8 @@ private:
 	
 	enum
 	{
-		START = 0,
+		WAIT = 0,
+		START,
 		MARK,
 		DOT,
 		PREPARATION,
