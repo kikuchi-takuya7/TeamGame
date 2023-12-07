@@ -221,6 +221,7 @@
     <ClCompile Include="School.cpp">
       <Filter>MapEditor\MapObject</Filter>
     </ClCompile>
+    <ClCompile Include="Splash_Frame.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\BoxCollider.h">
@@ -395,6 +396,7 @@
     <ClInclude Include="School.h">
       <Filter>MapEditor\MapObject</Filter>
     </ClInclude>
+    <ClInclude Include="Splash_Frame.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Assets\Shader\Simple2D.hlsl">

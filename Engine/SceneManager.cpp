@@ -9,6 +9,7 @@
 #include "../ResultScene.h"
 #include "../DevelopSelectScene.h"
 #include "../StoreScene.h"
+#include "../Splash_Frame.h"
 #include "MapEditor/MapEditorScene.h"
 #include "../TeamLogoScene.h"
 #include "Model.h"
@@ -16,36 +17,36 @@
 #include "Audio.h"
 
 
-//ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+//ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 SceneManager::SceneManager(GameObject* parent)
 	: GameObject(parent, "SceneManager")
 {
 }
 
-//‰Šú‰»
+//åˆæœŸåŒ–
 void SceneManager::Initialize()
 {
-	//Å‰‚ÌƒV[ƒ“‚ğ€”õ
+	//æœ€åˆã®ã‚·ãƒ¼ãƒ³ã‚’æº–å‚™
 	currentSceneID_ = SCENE_ID_DEVELOP_SELECT;
 	nextSceneID_ = currentSceneID_;
 	Instantiate<TeamLogoScene>(this);
 }
 
-//XV
+//æ›´æ–°
 void SceneManager::Update()
 {
-	//Ÿ‚ÌƒV[ƒ“‚ªŒ»İ‚ÌƒV[ƒ“‚Æˆá‚¤@@ƒV[ƒ“‚ğØ‚è‘Ö‚¦‚È‚¯‚ê‚Î‚È‚ç‚È‚¢
+	//æ¬¡ã®ã‚·ãƒ¼ãƒ³ãŒç¾åœ¨ã®ã‚·ãƒ¼ãƒ³ã¨é•ã†ã€€ï¼ã€€ã‚·ãƒ¼ãƒ³ã‚’åˆ‡ã‚Šæ›¿ãˆãªã‘ã‚Œã°ãªã‚‰ãªã„
 	if (currentSceneID_ != nextSceneID_)
 	{
-		//‚»‚ÌƒV[ƒ“‚ÌƒIƒuƒWƒFƒNƒg‚ğ‘Síœ
+		//ãã®ã‚·ãƒ¼ãƒ³ã®ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’å…¨å‰Šé™¤
 		KillAllChildren();
 
-		//ƒ[ƒh‚µ‚½ƒf[ƒ^‚ğ‘Síœ
+		//ãƒ­ãƒ¼ãƒ‰ã—ãŸãƒ‡ãƒ¼ã‚¿ã‚’å…¨å‰Šé™¤
 		Audio::Release();
 		Model::AllRelease();
 		Image::AllRelease();
 
-		//Ÿ‚ÌƒV[ƒ“‚ğì¬
+		//æ¬¡ã®ã‚·ãƒ¼ãƒ³ã‚’ä½œæˆ
 		switch (nextSceneID_)
 		{
 		case SCENE_ID_SPLASH: Instantiate<SplashScene>(this); break;
@@ -59,23 +60,25 @@ void SceneManager::Update()
 		case SCENE_ID_DEVELOP_SELECT: Instantiate<DevelopSelectScene>(this); break;
 		case SCENE_ID_STORE: Instantiate<StoreScene>(this); break;
 		case SCENE_ID_TEAM: Instantiate<TeamLogoScene>(this); break;
+		case SCENE_ID_SPLASHFRAME: Instantiate<Splash_Frame>(this); break;
+
 		}
 		Audio::Initialize();
 		currentSceneID_ = nextSceneID_;
 	}
 }
 
-//•`‰æ
+//æç”»
 void SceneManager::Draw()
 {
 }
 
-//ŠJ•ú
+//é–‹æ”¾
 void SceneManager::Release()
 {
 }
 
-//ƒV[ƒ“Ø‚è‘Ö‚¦iÀÛ‚ÉØ‚è‘Ö‚í‚é‚Ì‚Í‚±‚ÌŸ‚ÌƒtƒŒ[ƒ€j
+//ã‚·ãƒ¼ãƒ³åˆ‡ã‚Šæ›¿ãˆï¼ˆå®Ÿéš›ã«åˆ‡ã‚Šæ›¿ã‚ã‚‹ã®ã¯ã“ã®æ¬¡ã®ãƒ•ãƒ¬ãƒ¼ãƒ ï¼‰
 void SceneManager::ChangeScene(SCENE_ID next)
 {
 	nextSceneID_ = next;

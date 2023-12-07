@@ -13,16 +13,26 @@ public:
 	void Update() override;
 	void Draw() override;
 	void Release() override;
-	void Imgui_Window() override;
+	void Imgui_Window();
+	//void Imgui_Window() override;
+	bool Finished();//Ready‚ªI‚í‚Á‚½‚çtrue
 	
 	
 private:
-
+	int hImage_;//ƒƒS–{‘Ì
+	int heye_;//ƒƒS‚Ì–Ú
+	int hframe_;//ƒƒS‚Ì˜g
+	
 	int hsos_logo_; //sosƒƒS‰æ‘œ”Ô†
 	int hdenshi_logo_; //“Œ–k“dqƒƒS‰æ‘œ”Ô†
+	int hSound_;    //ƒTƒEƒ“ƒh”Ô†
+
 
 	Transform sos_Trans_; //sosƒƒS‰æ‘œ‚ÌTransform
 	Transform Denshi_Trams_; //“Œ–k“dqƒƒS‚ÌTransform
+
+	Transform heye_Trans_; //sosƒƒS‰æ‘œ‚ÌTransform
+	Transform hframe_Trans_; //“Œ–k“dqƒƒS‚ÌTransform
 
 	HANDLE hFile_;        //ƒtƒ@ƒCƒ‹‚Ìƒnƒ“ƒhƒ‹
 	int alpha_;

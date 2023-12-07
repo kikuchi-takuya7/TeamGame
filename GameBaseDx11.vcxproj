@@ -181,6 +181,7 @@
     <ClCompile Include="School.cpp" />
     <ClCompile Include="SelectScene.cpp" />
     <ClCompile Include="SplashScene.cpp" />
+    <ClCompile Include="Splash_Frame.cpp" />
     <ClCompile Include="StageMap.cpp" />
     <ClCompile Include="StoreScene.cpp" />
     <ClCompile Include="TeamLogoScene.cpp" />
@@ -244,6 +245,7 @@
     <ClInclude Include="School.h" />
     <ClInclude Include="SelectScene.h" />
     <ClInclude Include="SplashScene.h" />
+    <ClInclude Include="Splash_Frame.h" />
     <ClInclude Include="StageMap.h" />
     <ClInclude Include="StoreScene.h" />
     <ClInclude Include="TeamLogoScene.h" />
