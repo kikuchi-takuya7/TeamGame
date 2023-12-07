@@ -29,7 +29,7 @@ void SceneManager::Initialize()
 	//最初のシーンを準備
 	currentSceneID_ = SCENE_ID_DEVELOP_SELECT;
 	nextSceneID_ = currentSceneID_;
-	Instantiate<TeamLogoScene>(this);
+	Instantiate<DevelopSelectScene>(this);
 }
 
 //更新
@@ -59,7 +59,7 @@ void SceneManager::Update()
 		case SCENE_ID_MAPEDITOR: Instantiate<MapEditorScene>(this); break;
 		case SCENE_ID_DEVELOP_SELECT: Instantiate<DevelopSelectScene>(this); break;
 		case SCENE_ID_STORE: Instantiate<StoreScene>(this); break;
-		case SCENE_ID_TEAM: Instantiate<TeamLogoScene>(this); break;
+		case SCENE_ID_TEAMLOGO: Instantiate<TeamLogoScene>(this); break;
 		case SCENE_ID_SPLASHFRAME: Instantiate<Splash_Frame>(this); break;
 
 		}

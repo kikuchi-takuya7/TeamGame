@@ -37,6 +37,7 @@ private:
 		GAMECLEAR,
 		GAMEOVER,
 		MAPEDITOR,
+		TEAMLOGO,
 	};
 
 	SCENESELECT scene_;

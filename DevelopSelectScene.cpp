@@ -65,6 +65,12 @@ void DevelopSelectScene::Update()
 		break;
 	}
 
+	case TEAMLOGO: {
+		SceneManager* pSceneManager = (SceneManager*)FindObject("SceneManager");
+		pSceneManager->ChangeScene(SCENE_ID_TEAMLOGO);
+		break;
+	}
+
 	default:
 		break;
 	}
@@ -107,6 +113,9 @@ void DevelopSelectScene::Imgui_Window()
 
 		if (ImGui::Button("MapEditor"))
 			scene_ = MAPEDITOR;
+
+		if (ImGui::Button("TeamLogo"))
+			scene_ = TEAMLOGO;
 
 	}
 	ImGui::End();
