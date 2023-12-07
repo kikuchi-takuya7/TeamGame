@@ -14,24 +14,42 @@ private:
 
 	int hCircle2_a_;
 	int hCircle2_b_;
+	int hCircle1_;
+	int hCircle1_2_;
+
+	int hDot_a_;
+	int hDot_b_;
+	int hDot_c_;
+
 
 	Transform netA1;
 	Transform netAR;
 	Transform netAG;
 	Transform netAB;
 	Transform netB;
+	Transform cir1_;
+	Transform cir1_2_;
+	Transform dot_c_;
 
 	
 	// 描画ループ内での透明度の変更
 	float alphaValue = 255; // 最大の透明度（不透明）
+	float alphaValueCir = 255; // 最大の透明度（不透明）
 	float alphaIncrement = -10; // 透明度の変化量
+	float alphaIncrementCir = -20; // 透明度の変化量
 	float alphaIncrementFin = -5; // 透明度の変化量
+	float alphaIncrementDot = -30; // 透明度の変化量
+
+	float cir1_2_xyz = 0.2f;
 
 
+	int dCount = 0;
+	int dCount2 = 0;
 	int count = 0;
 	int ECount = 0;
-	int TmTime = 0;
+	int TmTime = START;
 
+	bool flagDot;
 	bool flag;
 	bool flagFin = true;
 	bool flagEra = true;
@@ -39,6 +57,9 @@ private:
 	enum
 	{
 		START = 0,
+		MARK,
+		DOT,
+		PREPARATION,
 		MOVE,
 		FLASH,
 		FINISH,
