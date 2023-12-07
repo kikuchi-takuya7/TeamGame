@@ -71,3 +71,7 @@ inline XMVECTOR operator -(const XMFLOAT3& p1, const XMFLOAT3& p2) {
 	return p1v - p2v;
 }
 
+inline XMVECTOR operator -(const XMFLOAT3& p1, const XMVECTOR& p2) {
+	XMVECTOR p1v = XMLoadFloat3(&p1);
+	return p1v - p2;
+}
