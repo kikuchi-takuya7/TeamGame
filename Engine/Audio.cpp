@@ -163,16 +163,6 @@ void Audio::Play(int ID)
 			audioDatas[ID].pSourceVoice[i]->SubmitSourceBuffer(&audioDatas[ID].buf);
 			audioDatas[ID].pSourceVoice[i]->Start();
 			break;
-
-			if (Input::IsKeyDown(DIK_UP))
-			{
-				//‰¹—Ê‚ð0.1‚¸‚Âã‚°‚é
-				float currentVolume;
-				audioDatas[ID].pSourceVoice[i]->GetVolume(&currentVolume);
-				SetVolume(ID, currentVolume + 0.1f);
-			}
-
-			break;
 		}
 	}
 }

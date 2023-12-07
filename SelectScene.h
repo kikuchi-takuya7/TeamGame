@@ -13,6 +13,7 @@ private:
 	bool Dlog_;
 	int buttonId;  //ボタンのID取得
 	int hSound_;   //サウンド番号
+	float currentVolume;
 
 	Button* play_;
 	Button* store_;

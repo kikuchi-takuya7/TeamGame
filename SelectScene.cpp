@@ -25,6 +25,8 @@ void SelectScene::Initialize()
 	hSound_ = Audio::Load("A1_01001.WAV");
 	assert(hSound_ >= 0);
 
+	currentVolume = 1.0f;
+
 	//画像データのロード
 	hPict_ = Image::Load("haikei.png");
 	assert(hPict_ >= 0);
@@ -105,8 +107,8 @@ void SelectScene::Update()
 
 	if (Input::IsKeyDown(DIK_UP)) {
 		// 上キーが押されたとき、音量を0.1ずつ上げる
-		float currentVolume = 0.0f;
-		Audio::SetVolume(hSound_, currentVolume + 0.1f);
+		currentVolume += 0.1f;
+		Audio::SetVolume(hSound_, currentVolume);
 	}
 }
 
