@@ -28,6 +28,7 @@ public:
 	void SetAlphaPush(float alpha);//‰Ÿ‚³‚ê‚Ä‚¢‚éÅ’†‚É•\¦‚·‚é‰æ‘œ
 	void SetNextScene(NEXTSCENE next);
 	void SetIsFlash(bool flash);
+	int GetImageHandle() const;
 	
 	//pushed‚ğ•Ï‚¦‚é
 	void Push(bool pushed);

@@ -1,6 +1,7 @@
 #include <xaudio2.h>
 #include <vector>
 #include "Audio.h"
+#include "Input.h"
 
 #define SAFE_DELETE_ARRAY(p) if(p){delete[] p; p = nullptr;}
 
@@ -163,6 +164,14 @@ void Audio::Play(int ID)
 			audioDatas[ID].pSourceVoice[i]->Start();
 			break;
 		}
+	}
+}
+
+void Audio::SetVolume(int ID, float volume)
+{
+	for (int i = 0; i < audioDatas[ID].svNum; i++)
+	{
+		audioDatas[ID].pSourceVoice[i]->SetVolume(volume);
 	}
 }
 
