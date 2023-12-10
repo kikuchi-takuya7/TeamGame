@@ -127,7 +127,7 @@ void Player::Update()
     }
 
     
-    Move_Camera();
+    //Move_Camera();
 
 }
 
@@ -389,7 +389,7 @@ void Player::Move_Player()
 
     
     //ifでWASDを押したときだけその方向に向く処理を追加した方がいいかも
-   //カメラの方向にWで前に行くためにここにカメラの処理を書く必要があったかもしれない
+    //カメラの方向にWで前に行くためにここにカメラの処理を書く必要があったかもしれない
     XMFLOAT3 currentCamPos = Camera::GetPosition();
 
     //斜め移動でも足が速くならないように
@@ -405,12 +405,14 @@ void Player::Move_Player()
     transform_.position_.z += fMove.z;
 
 
-    //currentCamPos = fMove + currentCamPos;
+    fMove.x = -fMove.x;
+    fMove.z = -fMove.z;
+    currentCamPos = fMove + currentCamPos;
 
-    ////ベクトル型に変換
-    //XMVECTOR camPos = XMLoadFloat3(&currentCamPos);
+    //ベクトル型に変換
+    XMVECTOR camPos = XMLoadFloat3(&currentCamPos);
 
-    //Camera::SetPosition(camPos);
+    Camera::SetPosition(camPos);
 
     //短いほうの角度だけ求める向き方向
     XMVECTOR vLength = XMVector3Length(vMove);
