@@ -101,15 +101,15 @@ void SelectScene::Update()
 		Dlog_ = false;
 	}
 
-	if (Input::IsKeyDown(DIK_SPACE)) {
-		Audio::Play(hSound_);
-	}
+	//if (Input::IsKeyDown(DIK_SPACE)) {
+	//	Audio::Play(hSound_);
+	//}
 
-	if (Input::IsKeyDown(DIK_UP)) {
-		// 上キーが押されたとき、音量を0.1ずつ上げる
-		currentVolume += 0.1f;
-		Audio::SetVolume(hSound_, currentVolume);
-	}
+	//if (Input::IsKeyDown(DIK_UP)) {
+	//	// 上キーが押されたとき、音量を0.1ずつ上げる
+	//	currentVolume += 0.1f;
+	//	Audio::SetVolume(hSound_, currentVolume);
+	//}
 }
 
 //描画
