@@ -88,6 +88,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	//すべてのゲームオブジェクトの親となるオブジェクト
 	pRootObject->Initialize();
 
+	
+
 	//メッセージループ（何か起きるのを待つ）
 	MSG msg;
 	ZeroMemory(&msg, sizeof(msg));
@@ -146,6 +148,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 				//ルートオブジェクトのUpdateを呼んだあと、自動的に子、孫のUpdateが呼ばれる
 				pRootObject->UpdateSub();
 
+				pSelectScene = (SelectScene*)pRootObject->FindChildObject("SelectScene");
+
 				//カメラを更新
 				Camera::Update();
 
@@ -158,12 +162,16 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 				//全オブジェクトを描画
 				//ルートオブジェクトのDrawを呼んだあと、自動的に子、孫のUpdateが呼ばれる
 				pRootObject->DrawSub();
-
-				bool DlogValue = pSelectScene->GetDlog();
-				if (DlogValue) {
-					HWND hDlg = CreateDialog(hInstance, MAKEINTRESOURCE(IDD_DIALOG1), hWnd, (DLGPROC)DialogProc);
-					ShowWindow(hDlg, SW_SHOWNORMAL);
+				
+				if (pSelectScene != nullptr) {
+					bool DlogValue = pSelectScene->GetDlog();
+					if (DlogValue) {
+						HWND hDlg = CreateDialog(hInstance, MAKEINTRESOURCE(IDD_DIALOG1), hWnd, (DLGPROC)DialogProc);
+						ShowWindow(hDlg, SW_SHOWNORMAL);
+						pSelectScene->SetDlog(false);
+					}
 				}
+				
 
 //でバックの時だけ
 #ifdef _DEBUG
@@ -198,7 +206,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	Model::AllRelease();
 	Image::AllRelease();
 	pRootObject->ReleaseSub();
-	delete pSelectScene;
+	//delete pSelectScene;
+	//SAFE_DELETE(pSelectScene);
 	SAFE_DELETE(pRootObject);
 	Direct3D::Release();
 
