@@ -40,6 +40,9 @@ private:
         BOW,//お辞儀
         //WALK,//歩く
         DENT,//へこむ
+        WAVE_HANDS,//手を振る
+        SHAKE_HEAD,//首を振る
+        HANDUP,//手を上げる
         NUM
     };
 
@@ -67,12 +70,17 @@ private:
     //拍手が手を合わせるタイミングのフレーム
     int changeApplauseTiming_;
     int changeDentTiming_;
+    int changeWaveHandsTiming_;
+    int changeShakeHeadTiming_;
+    //int changeHandUpTiming_;
+    
 
     //ずっと拍手させるためのフラグ.falseが初期値でtrueならループするようになってる
     bool applauseLoopFlag_;
     bool dentLoopFlag_;
-
-
+    bool waveHandsFlag_;
+    bool shakeHeadFlag_;
+    //bool handUpFlag_;
 
     XMMATRIX rotY_;
     XMMATRIX rotX_;

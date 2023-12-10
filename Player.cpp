@@ -26,11 +26,18 @@ void Player::Initialize()
     emoteEndFlame_[APPLAUSE] = 100;
     emoteEndFlame_[BOW] = 50;
     emoteEndFlame_[DENT] = 100;
+    emoteEndFlame_[WAVE_HANDS] = 100;
+    emoteEndFlame_[SHAKE_HEAD] = 100;
+    emoteEndFlame_[HANDUP] = 100;
     changeApplauseTiming_ = 20;
-    applauseLoopFlag_ = false;
     changeDentTiming_ = 50;
+    changeWaveHandsTiming_ = 20;
+    changeShakeHeadTiming_ = 50;
+    applauseLoopFlag_ = false;
     dentLoopFlag_ = false;
-    //totalMoveMouse_ = 0;
+    waveHandsFlag_ = false;
+    shakeHeadFlag_ = false;
+
 
     //モデルデータのロード
     hIdleModel_ = Model::Load("PlayerFbx/stand-by.fbx");
@@ -44,7 +51,10 @@ void Player::Initialize()
         "applause",
         "bow",
         //"walk",
-        "dent"
+        "dent",
+        "wave_Hands",
+        "shake_Head",
+        "handup"
     };
 
     std::string fName_Base = "PlayerFbx/";
@@ -255,7 +265,25 @@ void Player::Emote_Update()
             Model::SetAnimFrame(hAnimeModel_[currentEmoteState_], changeDentTiming_, emoteEndFlame_[currentEmoteState_], 1);
             dentLoopFlag_ = true;
         }
+        break;
 
+    case WAVE_HANDS:
+        if (animationFlame_ >= emoteEndFlame_[currentEmoteState_]) {
+            ChangeToIdle();
+        }
+        break;
+
+    case SHAKE_HEAD:
+        if (animationFlame_ >= emoteEndFlame_[currentEmoteState_]) {
+            ChangeToIdle();
+        }
+        break;
+
+    case HANDUP:
+        if (animationFlame_ >= emoteEndFlame_[currentEmoteState_]) {
+            ChangeToIdle();
+        }
+        break;
     default:
         break;
     }
@@ -293,7 +321,7 @@ void Player::CheckMoveKey()
 
 void Player::CheckEmoteKey()
 {
-    if (Input::IsKeyDown(DIK_1))
+    /*if (Input::IsKeyDown(DIK_1))
     {
         nextPlayerState_ = EMOTE;
         nextEmoteState_ = APPLAUSE;
@@ -308,6 +336,23 @@ void Player::CheckEmoteKey()
         nextPlayerState_ = EMOTE;
         nextEmoteState_ = DENT;
     }
+    if (Input::IsKeyDown(DIK_4))
+    {
+        nextPlayerState_ = EMOTE;
+        nextEmoteState_ = WAVE_HANDS;
+    }*/
+
+    for (int i = 0x02; i < NUM + 2; i++) {
+
+        //キー入力が2だから2引けばちょうど0
+        int tmp = i - 2;
+        if (Input::IsKeyDown(i))
+        {
+            nextPlayerState_ = EMOTE;
+            nextEmoteState_ = (EMOTESTATE)tmp;
+        }
+    }
+
 
 }
 
@@ -399,8 +444,11 @@ void Player::Move_Camera()
     XMVECTOR cam = Camera::GetPositionVector();
     float camLen = Length(cam);
     cam = XMVector3Normalize(cam);
+    playerForward_ = XMVector3Normalize(playerForward_);
     XMVECTOR tmpVec = XMVector3Dot(cam, playerForward_);
     float angle = XMVectorGetX(tmpVec);
+
+    float cos = acos(angle);
 
     //Xが横方向の移動距離で、Yが縦方向の移動距離だから間違わないように
     XMFLOAT3 mouseMove = Input::GetMouseMove();
@@ -411,7 +459,7 @@ void Player::Move_Camera()
     XMMATRIX rotY = XMMatrixRotationY(XMConvertToRadians(mouseMove.x));
     XMMATRIX rotX = XMMatrixRotationX(XMConvertToRadians(mouseMove.y));
 
-    XMMATRIX rotMatrix = rotY;
+    XMMATRIX rotMatrix = rotY2 * rotY;
 
     XMFLOAT3 tmp = transform_.position_;
 
