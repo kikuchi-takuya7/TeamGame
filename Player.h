@@ -38,6 +38,11 @@ private:
     enum EMOTESTATE {
         APPLAUSE = 0,//拍手
         BOW,//お辞儀
+        //WALK,//歩く
+        DENT,//へこむ
+        WAVE_HANDS,//手を振る
+        SHAKE_HEAD,//首を振る
+        HANDUP,//手を上げる
         NUM
     };
 
@@ -51,7 +56,7 @@ private:
     int hMoveModel_;
     int hAnimeModel_[EMOTESTATE::NUM];
 
-    //ゲームが始まってからのフレーム数
+    //ゲームが始まってからのフレーム数。時間とかに使って
     int gameFlame_;
 
     //アニメーションとかが始まってからのフレーム数
@@ -60,18 +65,29 @@ private:
     //それぞれのアニメーションの終わりフレーム
     int idleEndFlame_;
     int moveEndFlame_;
-    int applauseEndFlame_;
-    int bowEndFlame_;
+    int emoteEndFlame_[NUM];
 
     //拍手が手を合わせるタイミングのフレーム
     int changeApplauseTiming_;
+    int changeDentTiming_;
+    int changeWaveHandsTiming_;
+    int changeShakeHeadTiming_;
+    //int changeHandUpTiming_;
+    
 
-    //ずっと拍手させるためのフラグ
-    bool changeApplauseFlag_;
+    //ずっと拍手させるためのフラグ.falseが初期値でtrueならループするようになってる
+    bool applauseLoopFlag_;
+    bool dentLoopFlag_;
+    bool waveHandsFlag_;
+    bool shakeHeadFlag_;
+    //bool handUpFlag_;
 
-    float totalMouseMoveX_;
-    float totalMouseMoveY_;
+    XMMATRIX rotY_;
+    XMMATRIX rotX_;
 
+    XMVECTOR playerForward_;
+
+    float totalMoveMouse_;
     
 
 private:

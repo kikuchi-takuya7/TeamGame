@@ -23,42 +23,60 @@ void Player::Initialize()
     animationFlame_ = 0;
     idleEndFlame_ = 100;
     moveEndFlame_ = 100;
-    applauseEndFlame_ = 100;
-    bowEndFlame_ = 50;
+    emoteEndFlame_[APPLAUSE] = 100;
+    emoteEndFlame_[BOW] = 50;
+    emoteEndFlame_[DENT] = 100;
+    emoteEndFlame_[WAVE_HANDS] = 100;
+    emoteEndFlame_[SHAKE_HEAD] = 100;
+    emoteEndFlame_[HANDUP] = 100;
     changeApplauseTiming_ = 20;
-    changeApplauseFlag_ = true;
-    totalMouseMoveX_ = 0;
-    totalMouseMoveY_ = 0;
+    changeDentTiming_ = 50;
+    changeWaveHandsTiming_ = 20;
+    changeShakeHeadTiming_ = 50;
+    applauseLoopFlag_ = false;
+    dentLoopFlag_ = false;
+    waveHandsFlag_ = false;
+    shakeHeadFlag_ = false;
+
 
     //モデルデータのロード
-    hIdleModel_ = Model::Load("PlayerFbx/taikianime.fbx");
+    hIdleModel_ = Model::Load("PlayerFbx/stand-by.fbx");
     assert(hIdleModel_ >= 0);
 
-    hMoveModel_ = Model::Load("PlayerFbx/runmotion.fbx");
+    hMoveModel_ = Model::Load("PlayerFbx/run.fbx");
     assert(hMoveModel_ >= 0);
 
     //アニメーションが追加されたらこことhのenumに名前を追加する
     std::string emoteModelName[] = {
-        "hakusyu.fbx",
-        "ojigi.fbx",
+        "applause",
+        "bow",
+        //"walk",
+        "dent",
+        "wave_Hands",
+        "shake_Head",
+        "handup"
     };
 
     std::string fName_Base = "PlayerFbx/";
+    std::string fName_Exten = ".fbx";
 
     //モデルデータのロード
     for (int i = 0; i < NUM; i++) {
-        hAnimeModel_[i] = Model::Load(fName_Base + emoteModelName[i]);
+        hAnimeModel_[i] = Model::Load(fName_Base + emoteModelName[i] + fName_Exten);
         assert(hAnimeModel_[i] >= 0);
     }
 
 
     Model::SetAnimFrame(hIdleModel_, 0, idleEndFlame_, 1);
     Model::SetAnimFrame(hMoveModel_, 0, moveEndFlame_, 1);
-    Model::SetAnimFrame(hAnimeModel_[APPLAUSE], 0, moveEndFlame_, 1);
-    Model::SetAnimFrame(hAnimeModel_[BOW], 0, bowEndFlame_, 1);
 
-    transform_.position_.z = -5;
-    transform_.rotate_.y = 180;
+    //それぞれのエモートの初期化
+    for (int i = 0; i < NUM; i++) {
+        Model::SetAnimFrame(hAnimeModel_[i], 0, emoteEndFlame_[i], 1);
+    }
+
+    //transform_.position_.z = -5;
+    //transform_.rotate_.y = 180;
 
     currentPlayerState_ = IDLE;
     nextPlayerState_ = IDLE;
@@ -72,7 +90,7 @@ void Player::Initialize()
 
     XMFLOAT3 camPos = transform_.position_;
     camPos.y += 3.0f;
-    camPos.z += -3.0f;
+    camPos.z += -5.0f;
     Camera::SetPosition(camPos);
 
 }
@@ -109,7 +127,7 @@ void Player::Update()
     }
 
     
-    Move_Camera();
+    //Move_Camera();
 
 }
 
@@ -177,9 +195,11 @@ void Player::ChangeEmoteState(EMOTESTATE nextState)
 void Player::OnEnterEmoteState(EMOTESTATE state)
 {
     animationFlame_ = 0;
-    changeApplauseFlag_ = true;
-    Model::SetAnimFrame(hAnimeModel_[APPLAUSE], 0, applauseEndFlame_, 1);
-    Model::SetAnimFrame(hAnimeModel_[BOW], 0, bowEndFlame_, 1);
+    applauseLoopFlag_ = false;
+    dentLoopFlag_ = false;
+    Model::SetAnimFrame(hAnimeModel_[APPLAUSE], 0, emoteEndFlame_[APPLAUSE], 1);
+    Model::SetAnimFrame(hAnimeModel_[BOW], 0, emoteEndFlame_[BOW], 1);
+    Model::SetAnimFrame(hAnimeModel_[DENT], 0, emoteEndFlame_[DENT], 1);
 }
 
 void Player::OnLeaveEmoteState(EMOTESTATE state)
@@ -228,18 +248,42 @@ void Player::Emote_Update()
     switch (currentEmoteState_)
     {
     case APPLAUSE:
-        if (animationFlame_ >= applauseEndFlame_ && changeApplauseFlag_ == true) {
-            Model::SetAnimFrame(hAnimeModel_[APPLAUSE], changeApplauseTiming_, applauseEndFlame_, 1);
-            changeApplauseFlag_ = false;
+        if (animationFlame_ >= emoteEndFlame_[currentEmoteState_] && applauseLoopFlag_ == false) {
+            Model::SetAnimFrame(hAnimeModel_[currentEmoteState_], changeApplauseTiming_, emoteEndFlame_[currentEmoteState_], 1);
+            applauseLoopFlag_ = true;
         }
         break;
 
     case BOW:
-        if (animationFlame_ >= bowEndFlame_) {
+        if (animationFlame_ >= emoteEndFlame_[currentEmoteState_]) {
             ChangeToIdle();
         }
         break;
 
+    case DENT:
+        if (animationFlame_ >= emoteEndFlame_[currentEmoteState_] && dentLoopFlag_ == false) {
+            Model::SetAnimFrame(hAnimeModel_[currentEmoteState_], changeDentTiming_, emoteEndFlame_[currentEmoteState_], 1);
+            dentLoopFlag_ = true;
+        }
+        break;
+
+    case WAVE_HANDS:
+        if (animationFlame_ >= emoteEndFlame_[currentEmoteState_]) {
+            ChangeToIdle();
+        }
+        break;
+
+    case SHAKE_HEAD:
+        if (animationFlame_ >= emoteEndFlame_[currentEmoteState_]) {
+            ChangeToIdle();
+        }
+        break;
+
+    case HANDUP:
+        if (animationFlame_ >= emoteEndFlame_[currentEmoteState_]) {
+            ChangeToIdle();
+        }
+        break;
     default:
         break;
     }
@@ -258,6 +302,9 @@ void Player::Emote_Draw()
         Model::SetTransform(hAnimeModel_[BOW], transform_);
         Model::Draw(hAnimeModel_[BOW]);
         break;
+    case DENT:
+        Model::SetTransform(hAnimeModel_[DENT], transform_);
+        Model::Draw(hAnimeModel_[DENT]);
     default:
         break;
     }
@@ -274,7 +321,7 @@ void Player::CheckMoveKey()
 
 void Player::CheckEmoteKey()
 {
-    if (Input::IsKeyDown(DIK_1))
+    /*if (Input::IsKeyDown(DIK_1))
     {
         nextPlayerState_ = EMOTE;
         nextEmoteState_ = APPLAUSE;
@@ -284,6 +331,28 @@ void Player::CheckEmoteKey()
         nextPlayerState_ = EMOTE;
         nextEmoteState_ = BOW;
     }
+    if (Input::IsKeyDown(DIK_3))
+    {
+        nextPlayerState_ = EMOTE;
+        nextEmoteState_ = DENT;
+    }
+    if (Input::IsKeyDown(DIK_4))
+    {
+        nextPlayerState_ = EMOTE;
+        nextEmoteState_ = WAVE_HANDS;
+    }*/
+
+    for (int i = 0x02; i < NUM + 2; i++) {
+
+        //キー入力が2だから2引けばちょうど0
+        int tmp = i - 2;
+        if (Input::IsKeyDown(i))
+        {
+            nextPlayerState_ = EMOTE;
+            nextEmoteState_ = (EMOTESTATE)tmp;
+        }
+    }
+
 
 }
 
@@ -297,6 +366,8 @@ void Player::ChangeToIdle()
 
 void Player::Move_Player()
 {
+   
+
     XMFLOAT3 fMove = XMFLOAT3(0, 0, 0);
 
     if (Input::IsKey(DIK_A))
@@ -316,9 +387,16 @@ void Player::Move_Player()
         fMove.z = -0.1f;
     }
 
-    //斜め移動でも足が速くならないように。なってる気がする
+    
+    //ifでWASDを押したときだけその方向に向く処理を追加した方がいいかも
+    //カメラの方向にWで前に行くためにここにカメラの処理を書く必要があったかもしれない
+    XMFLOAT3 currentCamPos = Camera::GetPosition();
+
+    //斜め移動でも足が速くならないように
     XMVECTOR vMove = XMLoadFloat3(&fMove);
+    
     vMove = XMVector3Normalize(vMove);
+    playerForward_ = vMove;
     XMStoreFloat3(&fMove, vMove);
     fMove.x /= 10;
     fMove.z /= 10;
@@ -327,13 +405,22 @@ void Player::Move_Player()
     transform_.position_.z += fMove.z;
 
 
+    fMove.x = -fMove.x;
+    fMove.z = -fMove.z;
+    currentCamPos = fMove + currentCamPos;
+
+    //ベクトル型に変換
+    XMVECTOR camPos = XMLoadFloat3(&currentCamPos);
+
+    Camera::SetPosition(camPos);
+
     //短いほうの角度だけ求める向き方向
     XMVECTOR vLength = XMVector3Length(vMove);
     float length = XMVectorGetX(vLength);
 
     if (length != 0) {
         XMVECTOR vFront = { 0,0,1,0 };
-        //vMove = XMVector3Normalize(vMove);
+        vMove = XMVector3Normalize(vMove);
 
         XMVECTOR vDot = XMVector3Dot(vFront, vMove);
         float dot = XMVectorGetX(vDot);
@@ -345,9 +432,9 @@ void Player::Move_Player()
             angle *= -1;
         }
 
-
         transform_.rotate_.y = XMConvertToDegrees(angle);
     }
+
 }
 
 void Player::Move_Camera()
@@ -356,34 +443,56 @@ void Player::Move_Camera()
 
 #if 1
 
+    XMVECTOR cam = Camera::GetPositionVector();
+    float camLen = Length(cam);
+    cam = XMVector3Normalize(cam);
+    playerForward_ = XMVector3Normalize(playerForward_);
+    XMVECTOR tmpVec = XMVector3Dot(cam, playerForward_);
+    float angle = XMVectorGetX(tmpVec);
+
+    float cos = acos(angle);
+
+    //Xが横方向の移動距離で、Yが縦方向の移動距離だから間違わないように
+    XMFLOAT3 mouseMove = Input::GetMouseMove();
+
+    //度回転させる行列を作成
+    //rotYはY軸に回転させる。横方向の移動距離を横回転に変換
+    XMMATRIX rotY2 = XMMatrixRotationY(XMConvertToRadians(angle));
+    XMMATRIX rotY = XMMatrixRotationY(XMConvertToRadians(mouseMove.x));
+    XMMATRIX rotX = XMMatrixRotationX(XMConvertToRadians(mouseMove.y));
+
+    XMMATRIX rotMatrix = rotY2 * rotY;
+
+    XMFLOAT3 tmp = transform_.position_;
+
+    XMVECTOR v = XMLoadFloat3(&tmp);
+
+    //プレイヤーからカメラに向かうベクトルを求める
+    XMVECTOR camPos = cam - v;
+
+    //ベクトルを回転させる
+    camPos = XMVector3TransformCoord(camPos, rotMatrix);
+
+    
+    //プレイヤーの位置＋上のやつがカメラの位置
+    camPos = v + camPos;
+
+    Camera::SetPosition(camPos);
+    
     XMFLOAT3 camTar = transform_.position_;
     camTar.y += 1.0f;
     Camera::SetTarget(camTar);
 
-    XMFLOAT3 currentCamPos = Camera::GetPosition();
-      
 
-    XMFLOAT3 mouseMove = Input::GetMouseMove();
+    
 
-    totalMouseMoveX_ = mouseMove.y;
-    totalMouseMoveY_ = mouseMove.x;
 
-    float mouseMoveY = mouseMove.y;
-    float mouseMoveX = mouseMove.x;
-
-    //度回転させる行列を作成
-    XMMATRIX rotY = XMMatrixRotationY(XMConvertToRadians(mouseMoveX));
-    XMMATRIX rotX = XMMatrixRotationX(XMConvertToRadians(mouseMoveX));
-
-    //ベクトル型に変換
-    XMVECTOR camPos = XMLoadFloat3(&currentCamPos);
-
-    //移動ベクトルを変形 (洗車と同じ向きに回転) させる
-    camPos = XMVector3TransformCoord(camPos, rotY);
-
-    Camera::SetPosition(camPos);
 
 #else
+
+    //パクったサイト
+    //https://qiita.com/TakayukiKiyohara/items/df6aa0501be03a4caee8
+    
     /////////////////////////////////////////////////////////////////
     // ⓵　現在のカメラの注視点と視点を使って、XZ平面上での、
     //      注視点から視点までのベクトル(toCameraPosXZ)と長さ(toCameraPosXZLen)を求める。
@@ -395,14 +504,14 @@ void Player::Move_Camera()
     float height = XMVectorGetY(toCameraPosXZ);     //視点へのY方向の高さは、後で使うのでバックアップしておく。
     toCameraPosXZ = XMVectorSetY(toCameraPosXZ, 0); //XZ平面にするので、Yは0にする。
     float toCameraPosXZLen = Length(toCameraPosXZ); //XZ平面上での視点と注視点の距離を求める。
-    XMVECTOR toCamPosNormalize = XMVector3Normalize(toCameraPosXZ);          //単位ベクトル化。
+    toCameraPosXZ = XMVector3Normalize(toCameraPosXZ);          //単位ベクトル化。
     
     /////////////////////////////////////////////////////////////////
     // ⓶　新しい注視点をアクターの座標から決める。
     /////////////////////////////////////////////////////////////////
     XMVECTOR target = XMLoadFloat3(&transform_.position_);
-    target += XMVectorSetY(target, 5.0f);
-    target += XMVectorSetX(target, -5.0f);
+    target += XMVectorSetY(target, 1.0f);
+    //target += XMVectorSetX(target, -5.0f);
     //XMFLOAT3 floatTarget = transform_.position_;
     //floatTarget.y += 2.0f;
     //floatTarget.z += -5.0f;
@@ -414,18 +523,18 @@ void Player::Move_Camera()
 
     XMVECTOR toNewCameraPos = camPos - target; //新しい注視点からカメラの始点へ向かうベクトルを求める。////////////////////////////////////////
     toNewCameraPos = XMVectorSetY(toNewCameraPos, 0.0f);              //XZ平面にするので、Yは0にする。
-    XMVECTOR toNewCamPosNormalize = XMVector3Normalize(toNewCameraPos);         //単位ベクトル化。
+    toNewCameraPos = XMVector3Normalize(toNewCameraPos);         //単位ベクトル化。
 
     /////////////////////////////////////////////////////////////////
     // ⓸　１と２と３で求めた情報を使って、新しい視点を決定する。
     /////////////////////////////////////////////////////////////////
     //ちょっとづつ追尾。
     float weight = 0.7f;  //このウェイトの値は0.0～1.0の値をとる。1.0に近づくほど追尾が強くなる。
-    toNewCamPosNormalize = toNewCamPosNormalize * weight + toCamPosNormalize * (1.0f - weight);
-    toNewCamPosNormalize = XMVector3Normalize(toNewCamPosNormalize);
-    toNewCamPosNormalize *= toCameraPosXZLen;
-    toNewCamPosNormalize = XMVectorSetY(toNewCamPosNormalize, height);              //高さを戻す。
-    XMVECTOR newCamPos = target + toNewCamPosNormalize;  //これで新しい視点が決定。
+    toNewCameraPos = toNewCameraPos * weight + toCameraPosXZ * (1.0f - weight);
+    toNewCameraPos = XMVector3Normalize(toNewCameraPos);
+    toNewCameraPos *= toCameraPosXZLen;
+    toNewCameraPos = XMVectorSetY(toNewCameraPos, height);              //高さを戻す。
+    XMVECTOR newCamPos = target + toNewCameraPos;  //これで新しい視点が決定。
 
     /////////////////////////////////////////////////////////////////
     // ⓹　視点と注視点をカメラに設定して終わり。

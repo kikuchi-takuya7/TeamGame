@@ -57,7 +57,11 @@ inline XMFLOAT3 operator + (const XMFLOAT3& v1, const XMVECTOR& v2) {
 	XMFLOAT3 out;
 	XMStoreFloat3(&out, pv);
 	return out;
-	
+}
+
+inline XMFLOAT3 operator + (const XMFLOAT3& f1, const XMFLOAT3& f2) {
+
+	return XMFLOAT3(f1.x + f2.x, f1.y + f2.y, f1.z + f2.z);
 }
 
 inline float Length(XMVECTOR v) {
