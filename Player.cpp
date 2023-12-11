@@ -25,12 +25,12 @@ void Player::Initialize()
     moveEndFlame_ = 100;
     emoteEndFlame_[APPLAUSE] = 100;
     emoteEndFlame_[BOW] = 50;
-    emoteEndFlame_[DENT] = 100;
-    emoteEndFlame_[WAVE_HANDS] = 100;
-    emoteEndFlame_[SHAKE_HEAD] = 100;
-    emoteEndFlame_[HANDUP] = 100;
+    emoteEndFlame_[DENT] = 80;
+    emoteEndFlame_[WAVE_HANDS] = 80;
+    emoteEndFlame_[SHAKE_HEAD] = 60;
+    emoteEndFlame_[HANDUP] = 60;
     changeApplauseTiming_ = 20;
-    changeDentTiming_ = 50;
+    changeDentTiming_ = 30;
     changeWaveHandsTiming_ = 20;
     changeShakeHeadTiming_ = 50;
     applauseLoopFlag_ = false;
@@ -71,9 +71,9 @@ void Player::Initialize()
     Model::SetAnimFrame(hMoveModel_, 0, moveEndFlame_, 1);
 
     //それぞれのエモートの初期化
-    for (int i = 0; i < NUM; i++) {
+    /*for (int i = 0; i < NUM; i++) {
         Model::SetAnimFrame(hAnimeModel_[i], 0, emoteEndFlame_[i], 1);
-    }
+    }*/
 
     //transform_.position_.z = -5;
     //transform_.rotate_.y = 180;
@@ -197,9 +197,14 @@ void Player::OnEnterEmoteState(EMOTESTATE state)
     animationFlame_ = 0;
     applauseLoopFlag_ = false;
     dentLoopFlag_ = false;
-    Model::SetAnimFrame(hAnimeModel_[APPLAUSE], 0, emoteEndFlame_[APPLAUSE], 1);
-    Model::SetAnimFrame(hAnimeModel_[BOW], 0, emoteEndFlame_[BOW], 1);
-    Model::SetAnimFrame(hAnimeModel_[DENT], 0, emoteEndFlame_[DENT], 1);
+    waveHandsFlag_ = false;
+    shakeHeadFlag_ = false;
+
+    for (int i = 0; i < NUM; i++) {
+        Model::SetAnimFrame(hAnimeModel_[i], 0, emoteEndFlame_[i], 1);
+    }
+    Model::SetAnimFrame(hAnimeModel_[DENT], 0, emoteEndFlame_[DENT], 0.5);
+    Model::SetAnimFrame(hAnimeModel_[HANDUP], 0, emoteEndFlame_[HANDUP], 0.8);
 }
 
 void Player::OnLeaveEmoteState(EMOTESTATE state)
@@ -262,7 +267,7 @@ void Player::Emote_Update()
 
     case DENT:
         if (animationFlame_ >= emoteEndFlame_[currentEmoteState_] && dentLoopFlag_ == false) {
-            Model::SetAnimFrame(hAnimeModel_[currentEmoteState_], changeDentTiming_, emoteEndFlame_[currentEmoteState_], 1);
+            Model::SetAnimFrame(hAnimeModel_[currentEmoteState_], changeDentTiming_, emoteEndFlame_[currentEmoteState_], 0.5);
             dentLoopFlag_ = true;
         }
         break;
@@ -295,16 +300,28 @@ void Player::Emote_Draw()
     switch (currentEmoteState_)
     {
     case APPLAUSE:
-        Model::SetTransform(hAnimeModel_[APPLAUSE], transform_);
-        Model::Draw(hAnimeModel_[APPLAUSE]);
+        Model::SetTransform(hAnimeModel_[currentEmoteState_], transform_);
+        Model::Draw(hAnimeModel_[currentEmoteState_]);
         break;
     case BOW:
-        Model::SetTransform(hAnimeModel_[BOW], transform_);
-        Model::Draw(hAnimeModel_[BOW]);
+        Model::SetTransform(hAnimeModel_[currentEmoteState_], transform_);
+        Model::Draw(hAnimeModel_[currentEmoteState_]);
         break;
     case DENT:
-        Model::SetTransform(hAnimeModel_[DENT], transform_);
-        Model::Draw(hAnimeModel_[DENT]);
+        Model::SetTransform(hAnimeModel_[currentEmoteState_], transform_);
+        Model::Draw(hAnimeModel_[currentEmoteState_]);
+    case WAVE_HANDS:
+        Model::SetTransform(hAnimeModel_[currentEmoteState_], transform_);
+        Model::Draw(hAnimeModel_[currentEmoteState_]);
+        break;
+    case SHAKE_HEAD:
+        Model::SetTransform(hAnimeModel_[currentEmoteState_], transform_);
+        Model::Draw(hAnimeModel_[currentEmoteState_]);
+        break;
+    case HANDUP:
+        Model::SetTransform(hAnimeModel_[currentEmoteState_], transform_);
+        Model::Draw(hAnimeModel_[currentEmoteState_]);
+        break;
     default:
         break;
     }
