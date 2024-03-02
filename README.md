@@ -2,7 +2,7 @@
 チーム制作内で作成したマップエディタです。
 作成者　：　東北電子専門学校　ゲームエンジニア科　2年　菊地巧椰
 
-URL : https://youtu.be/LRSVbkxs6iU
+URL : https://youtu.be/3SYRZng0WPY
 
 主にImGuiウィンドウ内でオブジェクトを操作します。
 
